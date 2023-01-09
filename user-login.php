@@ -6,9 +6,9 @@ $error = "Invalid Email or Password";
 if (isset($_POST['submit'])) {
 	$email = $_POST["email"];
 	$password = md5($_POST["password"]);
-	// echo $password;
+	// echo $passwod;
 	$res = $con->query("SELECT * FROM `tbl_login` WHERE `tbl_login`.`email` = '$email' AND `tbl_login`.`password` = '$password' AND `tbl_login`.`status` = 0;");
-	// echo $passwords;
+	// echo $passwors;
 
 	if (mysqli_num_rows($res) > 0) {
 		foreach ($res as $data) {
