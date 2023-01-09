@@ -151,7 +151,6 @@ function template(array $data)
             @media (max-width:768px) {
                 .bee-row-content {
                     display: flex
-                }
             }
     
             .bee-row-1,

@@ -27,6 +27,12 @@ if (isset($_POST["submit"]))
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/cngps.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+  <script src="main.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+   
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <title>Admin</title>
 
@@ -56,6 +62,12 @@ if (isset($_POST["submit"]))
                     <a href="addproduct.php"id="active--link">
                         <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
                         <span class="sidebar--item">Packages</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="customPackages.php">
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item"> custom Packages</span>
                     </a>
                 </li>
                 <li>
@@ -121,7 +133,7 @@ if (isset($_POST["submit"]))
 						<div class="head">
 							<h3></h3>	
 						</div>
-						<table>
+                    <table id="example" class="display">
 							<thead>
 								<tr>
                                 <th> &nbsp;&nbsp; sl no.</th>
@@ -146,7 +158,7 @@ if (isset($_POST["submit"]))
                                     <br><br><br><p><?php echo $c++;?></p></td>
 									<td><p><?php echo $res['p_name'];?></p></td>
 									<td><img src="../images/<?php echo $res['p_image'];?>" width="50px" height="50px"></td>
-									<td><p><?php echo $res['days'];?></p></td>
+									<td><p>1 day</p></td>
 									<td><p><?php echo $res['p_amount'];?></p></td>  						
 									 <td><a href="editpackages.php?edit_id=
                                     <?php echo $res['p_id']; ?>"><span  class="status completed">EDIT</span></a>  

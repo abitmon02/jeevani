@@ -75,7 +75,7 @@ if ($sessObj->isLogged() == true) {
                             ?>
                             <tr class="firstRow">
                                 <td>
-                                   No Appoinments yet</td>
+                                    No Appoinments yet</td>
 
                             </tr>
                         <?php
@@ -91,13 +91,16 @@ if ($sessObj->isLogged() == true) {
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Write prescription details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-
+                        <input type="text" value="" id="symptom_inp" name="symptom_inp" class="form-control" placeholder="Enter symptoms">
+                    </div>
+                    <div class="mb-3">
                         <textarea name="inpPres" class="form-control" placeholder="Enter details" id="inpPres" cols="30" rows="10"></textarea>
                         <input type="hidden" id="modalAppID">
                     </div>
@@ -142,10 +145,14 @@ if ($sessObj->isLogged() == true) {
         function updateAppo() {
             appo_id = $("#modalAppID").val();
             $prescription = $("#inpPres").val();
+            $symptom_inp = $("#symptom_inp").val();
+
             if ($prescription.length < 3 || $prescription > 1000) {
                 swal("error", "Prescription must be minimum 3 charatcer and mximum 1000 character", 'error');
             } else if (Number.isInteger(appo_id)) {
                 swal("error", "please select a valid appoinment", 'error');
+            } else if ($symptom_inp.length < 3 || $symptom_inp > 1000) {
+                swal("error", "please enter symptoms", 'error');
             } else {
                 $.ajax({
                     type: "POST",
@@ -153,6 +160,7 @@ if ($sessObj->isLogged() == true) {
                     data: {
                         "appo_id": appo_id,
                         "presc": $prescription,
+                        "symptom": $symptom_inp,
                         "userlog_id": <?= isset($user_data['log_id']) ? $user_data['log_id'] : '' ?>,
                         'action': 5,
                     },

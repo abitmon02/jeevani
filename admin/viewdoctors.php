@@ -15,6 +15,12 @@ if(!isset($_SESSION["email"]))
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/dashboard.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+  <script src="main.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+  
         <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Admin</title>    
@@ -44,6 +50,12 @@ if(!isset($_SESSION["email"]))
                         </a>
                     </li>
                     <li>
+                    <a href="customPackages.php">
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item"> custom Packages</span>
+                    </a>
+                </li>
+                    <li>
                     <a href="viewpatients.php" >
                             <span class="icon icon-3"><i class="ri-user-line"></i></span>
                             <span class="sidebar--item" style="white-space: nowrap;">Patients</span>
@@ -56,6 +68,12 @@ if(!isset($_SESSION["email"]))
                             <span class="sidebar--item">Doctors List</span>
                         </a>
                     </li>
+                    <li>
+                    <a href="viewtreatment.php"   >
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Treatment Bookings</span>
+                    </a>
+                </li>
                     <a href="adddoc.php">
                             <span class="icon icon-4"><i class="ri-user-add-line"></i></span>
                             <span class="sidebar--item">Add Doctor</span>
@@ -111,7 +129,7 @@ if(!isset($_SESSION["email"]))
                             </form>
                                 </div>
                         </div>
-                        <table>
+                        <table id="example" class="display">
                                     <thead>
                                         <tr>
                                                 <th>sl no.</th>
@@ -150,7 +168,13 @@ if(!isset($_SESSION["email"]))
                                                 <td><p><?php echo $emailval ?></p></td>
                                         
                                                 <td><p><?php echo $res['spec'];?></p></td>
-                                                <td><p><?php echo $res['status'];?></p></td>
+                                                <td><p><?php $t = $res['status'];
+
+if ($t == 0) {
+echo "Active";
+} else {
+echo "Inactive";
+}?></p></td>
                                         </tr>
                                         <?php
                                             }

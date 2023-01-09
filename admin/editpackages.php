@@ -14,7 +14,7 @@ $row=mysqli_fetch_array($edit);
 if (isset($_POST["submit"]))
 {
     $name=$_POST["name"];
-    $day=$_POST["day"];
+
     $amount=$_POST["amount"];
 	 
 	if($_FILES["image"]["tmp_name"]!="")
@@ -24,7 +24,7 @@ if (isset($_POST["submit"]))
 		$i=$row['p_image'];
 	move_uploaded_file($_FILES["image"]["tmp_name"],"../images/".$_FILES["image"]["name"]);
   mysqli_query($con,"UPDATE `tbl_packages` SET `p_name`='$name',
-  `p_image`='$i',`days`='$day',`p_amount`='$amount'
+  `p_image`='$i',`p_amount`='$amount'
     WHERE `p_id`='$id';");
   header("location:addproduct.php");
  }
@@ -141,8 +141,7 @@ if (isset($_POST["submit"]))
                             <img src="../images/<?php echo $row["p_image"]?>" height="100" width="100"/>
 							<input type="file" name="image" value="images/<?php echo $row["p_image"]?>" >
 							<br><br>
-   							<label>Days:</label>
-    						<input type="text" id="day" name="day" value="<?php echo $row["days"];?> ">
+   							
 							<label>Amount:</label>
 							<input type="text" id="amount" name="amount" value="<?php echo $row["p_amount"];?> ">
     						<input type="submit"name="submit" value="Submit">

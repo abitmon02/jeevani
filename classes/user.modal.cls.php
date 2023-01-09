@@ -59,9 +59,9 @@ class UserModalcls extends Dbh
     {
         return $this->connection()->query("SELECT * FROM `appoinment_tbl` WHERE `appoinment_tbl`.`l_id` ='$user_log_id' AND `appoinment_tbl`.`date` = '$date'")->fetch_all(MYSQLI_ASSOC);
     }
-    protected function insertAppoinment(string $date, int $time_id, int $user_log_id, string $token, string $symptom): bool
+    protected function insertAppoinment(string $date, int $time_id, int $user_log_id, string $token,): bool
     {
-        if ($this->connection()->query("INSERT INTO `appoinment_tbl`(`time_id`, `l_id`, `date`, `token`,`symptom`, `fee_status`,`prescription`, `status`) VALUES ('$time_id','$user_log_id','$date','$token','$symptom',0,'',0)")) {
+        if ($this->connection()->query("INSERT INTO `appoinment_tbl`(`time_id`, `l_id`, `date`, `token`, `fee_status`,`prescription`, `status`) VALUES ('$time_id','$user_log_id','$date','$token',0,'',0)")) {
             return true;
         } else {
             return false;
@@ -78,5 +78,30 @@ class UserModalcls extends Dbh
     protected function fetchLoggedUserData(int $logged_id)
     {
         return $this->connection()->query("SELECT `tbl_login`.`l_id`,`tbl_patient`.`u_name`,`tbl_patient`.`address`,`tbl_patient`.`city`,`tbl_patient`.`gender`,`tbl_patient`.`bloodgrp`,`tbl_login`.`email` FROM `tbl_login` INNER JOIN `tbl_patient` ON `tbl_login`.`l_id` = `tbl_patient`.`l_id` WHERE `tbl_login`.`l_id` = '$logged_id';")->fetch_assoc();
+    }
+    protected function customuserPackageDB($userlog_id)
+    {
+        $conn_temp_obj =  $this->connection();
+        if ($conn_temp_obj->query("INSERT INTO `tbl_custom_package`(`user_log_id`, `status`, `date`) VALUES ('$userlog_id','1',now())")) {
+            return $conn_temp_obj->insert_id;
+        } else {
+            return  0;
+        }
+    }
+    protected function addUserPackagetblDB($return_last_id, $id)
+    {
+        if ($this->connection()->query("INSERT INTO `tbl_user_packages`(`package_id`, `each_package_id`) VALUES ('$return_last_id','$id')")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function removeCustomPackageDB($remove_id, $userlog_id)
+    {
+        if ($this->connection()->query("DELETE FROM `tbl_custom_package` WHERE `tbl_custom_package`.`id` = '$remove_id' AND `tbl_custom_package`.`user_log_id` ='$userlog_id' ")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

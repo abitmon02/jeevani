@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2022 at 06:08 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.0.13
+-- Generation Time: Jan 08, 2023 at 06:18 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,49 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin_custom_pack_main_tbl`
+--
+
+CREATE TABLE `admin_custom_pack_main_tbl` (
+  `id` int(11) NOT NULL,
+  `days` int(11) NOT NULL,
+  `discount` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin_custom_pack_main_tbl`
+--
+
+INSERT INTO `admin_custom_pack_main_tbl` (`id`, `days`, `discount`, `status`) VALUES
+(2, 3, 2, 1),
+(3, 3, 2, 1),
+(4, 5, 10, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin_custom_pack_slave_tbl`
+--
+
+CREATE TABLE `admin_custom_pack_slave_tbl` (
+  `id` int(11) NOT NULL,
+  `main_tbl_id` int(11) NOT NULL,
+  `each_package_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admin_custom_pack_slave_tbl`
+--
+
+INSERT INTO `admin_custom_pack_slave_tbl` (`id`, `main_tbl_id`, `each_package_id`) VALUES
+(3, 2, 19),
+(4, 3, 19),
+(5, 4, 20);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `appoinment_tbl`
 --
 
@@ -33,7 +76,7 @@ CREATE TABLE `appoinment_tbl` (
   `l_id` int(11) NOT NULL,
   `date` datetime NOT NULL,
   `token` varchar(100) NOT NULL,
-  `symptom` varchar(250) NOT NULL,
+  `symptom` varchar(250) DEFAULT NULL,
   `fee_status` tinyint(4) DEFAULT 0,
   `prescription` text DEFAULT NULL,
   `status` int(5) NOT NULL
@@ -44,15 +87,15 @@ CREATE TABLE `appoinment_tbl` (
 --
 
 INSERT INTO `appoinment_tbl` (`appo_id`, `time_id`, `l_id`, `date`, `token`, `symptom`, `fee_status`, `prescription`, `status`) VALUES
-(27, 14, 178, '2022-10-25 00:00:00', 'Token-f8ea0cb372', 'knee pain', 1, 'Take Rest', 3),
+(27, 14, 178, '2022-10-25 00:00:00', 'Token-f8ea0cb372', 'testsetfd', 1, 'kgmdkflgkldfkg', 3),
 (28, 14, 175, '2022-10-25 00:00:00', 'Token-53bde3cbdb', 'feaver', 1, 'take rest &#10;dashamoolam &#10;', 3),
 (29, 14, 181, '2022-10-27 00:00:00', 'Token-5681e30f17', 'Body Pain', 0, 'test&#10;', 3),
 (30, 16, 180, '2022-10-26 00:00:00', 'Token-b6433c90c8', 'faver', 0, '', 0),
 (31, 15, 180, '2022-10-28 00:00:00', 'Token-f1c6ba93fa', 'pain', 0, '', 0),
 (32, 14, 182, '2022-10-29 00:00:00', 'Token-4bfc0acdf5', 'head ache', 0, 'take rest &#10;', 3),
-(33, 14, 175, '2022-10-26 00:00:00', 'Token-bc3c76e414', 'head ache', 0, '', 0),
-(34, 16, 175, '2022-11-05 00:00:00', 'Token-ce1b7f14f6', 'pain', 1, 'Take rest', 3),
-(35, 16, 175, '2022-10-27 00:00:00', 'Token-af416dedcf', 'as', 1, 'meet me', 3);
+(33, 14, 175, '2022-10-26 00:00:00', 'Token-bc3c76e414', '', 0, 'dfkg dkfgdfg', 3),
+(34, 16, 175, '2022-11-05 00:00:00', 'Token-ce1b7f14f6', 'pain', 1, 'Take rest', 1),
+(35, 16, 175, '2022-10-27 00:00:00', 'Token-af416dedcf', 'as', 1, 'meet me', 1);
 
 -- --------------------------------------------------------
 
@@ -108,6 +151,26 @@ INSERT INTO `payment_tbl` (`pay_id`, `r_pay_id`, `r_order_id`, `appo_id`, `tream
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_custom_package`
+--
+
+CREATE TABLE `tbl_custom_package` (
+  `id` int(11) NOT NULL,
+  `user_log_id` int(11) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_custom_package`
+--
+
+INSERT INTO `tbl_custom_package` (`id`, `user_log_id`, `status`, `date`) VALUES
+(6, 181, 1, '2023-01-08 12:01:17');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_c_packages`
 --
 
@@ -118,16 +181,6 @@ CREATE TABLE `tbl_c_packages` (
   `visit_date` date NOT NULL,
   `status` int(5) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tbl_c_packages`
---
-
-INSERT INTO `tbl_c_packages` (`t_id`, `p_id`, `l_id`, `visit_date`, `status`) VALUES
-(90, 16, 175, '2022-10-29', 1),
-(92, 17, 175, '2022-10-29', 1),
-(93, 16, 181, '2022-11-05', 1),
-(94, 18, 175, '2022-10-30', 1);
 
 -- --------------------------------------------------------
 
@@ -220,12 +273,12 @@ CREATE TABLE `tbl_login` (
 --
 
 INSERT INTO `tbl_login` (`l_id`, `email`, `password`, `code`, `verified`, `verify_token`, `a_id`, `status`) VALUES
-(1, 'admin@gmail.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '9b23033da15d3de425347579caf2f426', 1, '', 1, 0),
+(1, 'admin@gmail.com', '25d55ad283aa400af464c76d713c07ad', '9b23033da15d3de425347579caf2f426', 1, '', 1, 0),
 (175, 'abitmonrajancr7@gmail.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '41c51f07c5549fa9a3600a1e44491acc', 1, '', 3, 0),
 (178, 'abitmonrajan@gmail.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '6cb9ebc26976a8a31d4eedd2f10852dc', 1, '', 3, 0),
-(179, 'abitmonrajan@mca.ajce.in', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '', 1, '', 2, 0),
+(179, 'abitmonrajan@mca.ajce.in', '25d55ad283aa400af464c76d713c07ad', '', 1, '', 2, 0),
 (180, 'focosa8680@evilant.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '', 1, '', 2, 0),
-(181, 'pediv26627@corylan.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', 'fd63e2e6c2edfa100d6e8ed80c35b4e0', 1, '', 3, 0),
+(181, 'pediv26627@corylan.com', '25d55ad283aa400af464c76d713c07ad', 'fd63e2e6c2edfa100d6e8ed80c35b4e0', 1, '', 3, 0),
 (182, 'maxisot384@ilusale.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '5c98eff982cd9cd138a71e6303518423', 1, '', 3, 0);
 
 -- --------------------------------------------------------
@@ -238,7 +291,6 @@ CREATE TABLE `tbl_packages` (
   `p_id` int(100) NOT NULL,
   `p_name` varchar(30) NOT NULL,
   `p_image` varchar(300) NOT NULL,
-  `days` varchar(30) NOT NULL,
   `p_amount` varchar(30) NOT NULL,
   `p_status` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -247,10 +299,9 @@ CREATE TABLE `tbl_packages` (
 -- Dumping data for table `tbl_packages`
 --
 
-INSERT INTO `tbl_packages` (`p_id`, `p_name`, `p_image`, `days`, `p_amount`, `p_status`) VALUES
-(16, 'Foot Massage', 'foot-massage,png.jpg', '3 Days', '900', 0),
-(17, 'Karnapoornam', 'karnapooranam.png', '5 Days', '900', 0),
-(18, 'Thalam', 'Thalam.png', '5 Days', '8000', 0);
+INSERT INTO `tbl_packages` (`p_id`, `p_name`, `p_image`, `p_amount`, `p_status`) VALUES
+(19, 'test 1 ', 'test.png', '255', 0),
+(20, 'test', 'test.png', '250', 0);
 
 -- --------------------------------------------------------
 
@@ -281,9 +332,42 @@ INSERT INTO `tbl_patient` (`user_id`, `l_id`, `u_name`, `a_id`, `address`, `city
 (121, 181, 'Arun', 3, 'AJHJH', 'jhhjk', 'male', '2010-12-31', 'B+ve', 0),
 (122, 182, 'Alen', 3, 'Jhb', 'kjnh', 'male', '2004-01-31', 'O+ve', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_user_packages`
+--
+
+CREATE TABLE `tbl_user_packages` (
+  `id` int(11) NOT NULL,
+  `package_id` int(11) NOT NULL,
+  `each_package_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_user_packages`
+--
+
+INSERT INTO `tbl_user_packages` (`id`, `package_id`, `each_package_id`) VALUES
+(10, 6, 19),
+(11, 6, 20);
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin_custom_pack_main_tbl`
+--
+ALTER TABLE `admin_custom_pack_main_tbl`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `admin_custom_pack_slave_tbl`
+--
+ALTER TABLE `admin_custom_pack_slave_tbl`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `main_tbl_id_fk` (`main_tbl_id`);
 
 --
 -- Indexes for table `appoinment_tbl`
@@ -303,6 +387,13 @@ ALTER TABLE `doctor_timing_tbl`
 --
 ALTER TABLE `payment_tbl`
   ADD PRIMARY KEY (`pay_id`);
+
+--
+-- Indexes for table `tbl_custom_package`
+--
+ALTER TABLE `tbl_custom_package`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `login_user_id_fk` (`user_log_id`);
 
 --
 -- Indexes for table `tbl_c_packages`
@@ -353,8 +444,28 @@ ALTER TABLE `tbl_patient`
   ADD KEY `fk_login` (`l_id`);
 
 --
+-- Indexes for table `tbl_user_packages`
+--
+ALTER TABLE `tbl_user_packages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `custom_p_id_fk` (`package_id`),
+  ADD KEY `each_p_id_fk` (`each_package_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `admin_custom_pack_main_tbl`
+--
+ALTER TABLE `admin_custom_pack_main_tbl`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `admin_custom_pack_slave_tbl`
+--
+ALTER TABLE `admin_custom_pack_slave_tbl`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `appoinment_tbl`
@@ -373,6 +484,12 @@ ALTER TABLE `doctor_timing_tbl`
 --
 ALTER TABLE `payment_tbl`
   MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `tbl_custom_package`
+--
+ALTER TABLE `tbl_custom_package`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_c_packages`
@@ -408,7 +525,7 @@ ALTER TABLE `tbl_login`
 -- AUTO_INCREMENT for table `tbl_packages`
 --
 ALTER TABLE `tbl_packages`
-  MODIFY `p_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `p_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tbl_patient`
@@ -417,14 +534,32 @@ ALTER TABLE `tbl_patient`
   MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
+-- AUTO_INCREMENT for table `tbl_user_packages`
+--
+ALTER TABLE `tbl_user_packages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `admin_custom_pack_slave_tbl`
+--
+ALTER TABLE `admin_custom_pack_slave_tbl`
+  ADD CONSTRAINT `main_tbl_id_fk` FOREIGN KEY (`main_tbl_id`) REFERENCES `admin_custom_pack_main_tbl` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `doctor_timing_tbl`
 --
 ALTER TABLE `doctor_timing_tbl`
   ADD CONSTRAINT `time_log_id_fk` FOREIGN KEY (`l_id`) REFERENCES `tbl_login` (`l_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_custom_package`
+--
+ALTER TABLE `tbl_custom_package`
+  ADD CONSTRAINT `login_user_id_fk` FOREIGN KEY (`user_log_id`) REFERENCES `tbl_login` (`l_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_c_packages`
@@ -456,6 +591,13 @@ ALTER TABLE `tbl_leave`
 --
 ALTER TABLE `tbl_patient`
   ADD CONSTRAINT `fk_login` FOREIGN KEY (`l_id`) REFERENCES `tbl_login` (`l_id`);
+
+--
+-- Constraints for table `tbl_user_packages`
+--
+ALTER TABLE `tbl_user_packages`
+  ADD CONSTRAINT `custom_p_id_fk` FOREIGN KEY (`package_id`) REFERENCES `tbl_custom_package` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `each_p_id_fk` FOREIGN KEY (`each_package_id`) REFERENCES `tbl_packages` (`p_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

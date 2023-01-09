@@ -8,74 +8,25 @@ if ($sessObj->isLogged() == true) {
     require 'header.php';
 
 ?>
-    <!-- content-->
+    <!-- content -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <div class="overview">
         <div class="row mt-5">
             <div class="col-md-12">
-                <table id="exampl" class="table cell-border " style="width:100%">
-                    <h2 style="color: #9f8e64;">Appoinments history</h2><br>
-                    <thead class="TableHead">
-                        <tr>
-                            <th>Sl No.</th>
-                            <th>date</th>
-                            <th>time</th>
-                            <th>patient</th>
-                            <th>Symptoms</th>
-                            <th>Gender</th>
-                            <th>Fee status</th>
-                            <th>Status</th>
-                            <th>Prescription</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $timing_data = $dbObj->connFnc()->query("SELECT `appoinment_tbl`.`fee_status`,`appoinment_tbl`.`appo_id`,`appoinment_tbl`.`date`,`appoinment_tbl`.`token`,`appoinment_tbl`.`prescription`,`tbl_patient`.`u_name`,`appoinment_tbl`.`symptom`,`tbl_patient`.`city`,`tbl_patient`.`gender`,`tbl_patient`.`bloodgrp`,`doctor_timing_tbl`.`start`,`doctor_timing_tbl`.`end` FROM `appoinment_tbl` INNER JOIN `tbl_patient` ON `appoinment_tbl`.`l_id` = `tbl_patient`.`l_id` INNER JOIN `doctor_timing_tbl` on `appoinment_tbl`.`time_id` = `doctor_timing_tbl`.`time_id` LEFT JOIN `tbl_login` ON `doctor_timing_tbl`.`l_id` = `tbl_login`.`l_id` WHERE `tbl_login`.`l_id` = '" . $user_data['log_id'] . "' AND `tbl_login`.`a_id` = 2 AND `appoinment_tbl`.`status` = 3;")->fetch_all(MYSQLI_ASSOC);
-                        if (!empty($timing_data)) {
-                            $i = 1;
-                            foreach ($timing_data as $value) { ?>
-                                <tr class="firstRow">
-                                    <td><?= $i ?></td>
-                                    <td><?= date("Y-m-d", strtotime($value['date']))  ?></td>
-                                    <td><?= $value['start'] . '-' . $value['end'] ?></td>
-                                    <td><?= $value['u_name'] ?></td>
-                                    <td><?= $value['symptom']   ?></td>
-                                    <td><?= $value['gender'] . ',' . $value['bloodgrp'] ?></td>
-                                    <td>
-                                        <?= $value['fee_status'] == 1 ? 'Fee Paid' : 'Not Paid' ?>
-                                    </td>
-                                    <td>
-                                       Completed
-                                    </td>
-                                    <td>
-                                        <!-- <//?php
-                                        if ($value['status'] == 0 || $value['status'] == 2) { ?>
-                                            <button onclick="deleteappo(<//?= $value['appo_id'] ?>)" class="btn btn-sm btn-danger">X</button>
-                                            <button onclick="openModal(<//?= $value['appo_id'] ?>)" class="btn btn-sm btn-success">Complete</button>
-                                        <//?php }
-                                        ?> -->
-                                        <?= $value['prescription']   ?>
-                                    </td>
-                                </tr>
-                            <?php $i++;
-                            }
-                        } else {
-                            ?>
-                            <tr class="firstRow">
-                                <td>
-                                   No Appoinments yet..</td>
-
-                            </tr>
-                        <?php
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                <div class="row form-group">
+                    <div class="form-group col-md-3 space-between">
+                        <label style="margin-top: -500px;" for="exampleInputEmail1" class="form-label text-dark">Enter Symptoms</label>
+                        <input style="margin-top: 50px;" type="text" class="form-control" placeholder="Please enter symptoms" id="symptomInp">
+                    </div>
+                </div>
+                <div class="form-group col-md-4 space-between mb-3">
+                    <button class="btn btn-md btn-success" id="addTimingBtn">SUBMIT</button>
+                </div>
             </div>
         </div>
     </div>
-    <!-- content ends -->
+    <!-- content end -->
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

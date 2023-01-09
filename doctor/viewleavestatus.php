@@ -8,7 +8,7 @@ if ($sessObj->isLogged() == true) {
     require 'header.php';
 
 ?>
-    <!-- content -->
+    <!-- contents -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <div class="overview">
@@ -29,7 +29,7 @@ if ($sessObj->isLogged() == true) {
                     <tbody>
                         <?php
                         $timing_data = $dbObj->connFnc()->query("SELECT * FROM `tbl_leave` WHERE `tbl_leave`.`l_id` = '" . $user_data['log_id'] . "';")->fetch_all(MYSQLI_ASSOC);
-                        // print_r($timing_data);
+                        
                         if (!empty($timing_data)) {
                             $i = 1;
                             foreach ($timing_data as $value) { ?>

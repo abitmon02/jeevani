@@ -8,9 +8,39 @@ use Razorpay\Api\Errors\SignatureVerificationError;
 
 class UserCls extends UserModalcls
 {
-    public function createAppoinment($date, $time_id, $user_log_id, $symptom)
+    public function removeCustomPackage($remove_id, $userlog_id)
     {
-        if (!empty($symptom) && $this->checkLogidDB($user_log_id) && $this->checkTimeSheduleDB1($time_id) && is_numeric($time_id) && is_numeric($user_log_id)) {
+        if (is_numeric($remove_id) && is_numeric($userlog_id)) {
+            if ($this->removeCustomPackageDB($remove_id, $userlog_id)) {
+                $return_data = ['status' => 1, 'msg' => "Your custom package Removed."];
+            } else {
+                $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.1];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Value manipulation found", 'error_code' => 1];
+        }
+        echo json_encode($return_data);
+    }
+    public function createCustomPackage($p_id_list, $userlog_id)
+    {
+        if (!empty($p_id_list)) {
+            $return_last_id =  $this->customuserPackageDB($userlog_id);
+            if ($return_last_id != 0) {
+                foreach ($p_id_list as $id) {
+                    $this->addUserPackagetblDB($return_last_id, $id);
+                }
+                $return_data = ['status' => 1, 'msg' => "Your custom package created."];
+            } else {
+                $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.1];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Please choose at least one package", 'error_code' => 1];
+        }
+        echo json_encode($return_data);
+    }
+    public function createAppoinment($date, $time_id, $user_log_id)
+    {
+        if ($this->checkLogidDB($user_log_id) && $this->checkTimeSheduleDB1($time_id) && is_numeric($time_id) && is_numeric($user_log_id)) {
             $token =   'Token-' . bin2hex(random_bytes(5));
             $data = $this->checkAppoinmentExistcurrentDB($date, $user_log_id);
             if (!empty($data)) {
@@ -27,7 +57,7 @@ class UserCls extends UserModalcls
                     }
                 }
                 if (empty($temp)) {
-                    if ($this->insertAppoinment($date, $time_id, $user_log_id, $token, $symptom)) {
+                    if ($this->insertAppoinment($date, $time_id, $user_log_id, $token)) {
                         $return_data = ['status' => 1, 'msg' => "Your appoinment successfull."];
                     } else {
                         $return_data = ['status' => 0, 'msg' => "Failed to create appoinment", 'error_code' => 3];
@@ -36,7 +66,7 @@ class UserCls extends UserModalcls
                     $return_data = ['status' => 0, 'msg' => "Appoinment Exist on same date", 'error_code' => 2];
                 }
             } else {
-                if ($this->insertAppoinment($date, $time_id, $user_log_id, $token, $symptom)) {
+                if ($this->insertAppoinment($date, $time_id, $user_log_id, $token)) {
                     $return_data = ['status' => 1, 'msg' => "Your appoinment successfull."];
                 } else {
                     $return_data = ['status' => 0, 'msg' => "Failed to create appoinment", 'error_code' => 1];

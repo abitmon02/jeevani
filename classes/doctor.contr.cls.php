@@ -62,10 +62,10 @@ class DoctorCls extends DoctorModalcls
         }
         echo json_encode($return_data);
     }
-    public function updateAppoDataDB($appo_id, $userlog_id, $presc)
+    public function updateAppoDataDB($appo_id, $userlog_id, $presc,$symptom)
     {
         if (is_numeric($appo_id) && is_numeric($userlog_id) && $this->checkAppidDB($appo_id)) {
-            if ($this->updateAppoStatusDB1($appo_id, $userlog_id, $presc)) {
+            if ($this->updateAppoStatusDB1($appo_id, $userlog_id, $presc,$symptom)) {
                 $return_data = ['status' => 1, 'msg' => 'Successfully Completed the appoinment'];
             } else {
                 $return_data = ['status' => 0, 'msg' => 'Failed to Complete the appoinment. Db error.', 'code' => 1];

@@ -39,6 +39,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="prescribe.php" >
+                        <span class="icon icon-4"><i class="ri-send-plane-fill"></i></span>
+                        <span class="sidebar--item">prescription</span>
+                    </a>
+                </li>
+                <li>
                     <a href="docappoview.php" >
                         <span class="icon icon-4"><i class="ri-send-plane-fill"></i></span>
                         <span class="sidebar--item">Appoinment Manage</span>

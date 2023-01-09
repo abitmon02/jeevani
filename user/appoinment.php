@@ -43,13 +43,6 @@ if ($sessObj->isLogged() == true) {
 
                 </div>
 
-
-                <div class="row form-group">
-                    <div class="form-group col-md-3 space-between">
-                        <label for="exampleInputEmail1" class="form-label text-dark">Enter Symptoms</label>
-                        <input type="text" class="form-control" placeholder="Please enter symptoms" id="symptomInp">
-                    </div>
-                </div>
                 <div class="form-group col-md-4 space-between mb-3">
                     <button class="btn btn-md btn-success" id="addTimingBtn">SUBMIT</button>
                 </div>
@@ -154,15 +147,13 @@ if ($sessObj->isLogged() == true) {
         time_id = $("#timing").val();
         userlog_id = $("#user_id").val();
         date = $("#date").val();
-        symptom = $("#symptomInp").val();
+     
         if (doclog_id == 0) {
             swal("error", "Please select a doctor", 'error');
         } else if (time_id == 0) {
             swal("error", "Please select time slot ", 'error');
         } else if (date == null || date == '') {
             swal("error", "Please select date ", 'error');
-        } else if (symptom.length < 1 || symptom.length > 250) {
-            swal("error", "Please Enter Valid symptom", 'error');
         } else {
             $.ajax({
                 type: "POST",
@@ -171,7 +162,6 @@ if ($sessObj->isLogged() == true) {
                     'time_id': time_id,
                     "userlog_id": userlog_id,
                     'date': date,
-                    'symptom': symptom,
                     'action': 3,
                 },
                 dataType: 'JSON',

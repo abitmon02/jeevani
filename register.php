@@ -15,7 +15,7 @@ function sendMail($email, $v_code)
     //Server settings
     //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send throughs
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
     $mail->Username   = 'jeevaniayurv@gmail.com';                     //SMTP username
     $mail->Password   = 'zfdgwsfearkfnrqe';                               //SMTP password

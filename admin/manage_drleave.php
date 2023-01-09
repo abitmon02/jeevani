@@ -15,6 +15,13 @@ if(!isset($_SESSION["email"]))
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+  <script src="main.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+   
     <link rel="stylesheet" href="css/dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <title>Admin</title>
@@ -48,6 +55,12 @@ if(!isset($_SESSION["email"]))
                     </a>
                 </li>
                 <li>
+                    <a href="customPackages.php">
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item"> custom Packages</span>
+                    </a>
+                </li>
+                <li>
                 <a href="viewpatients.php">
                         <span class="icon icon-3"><i class="ri-user-line"></i></span>
                         <span class="sidebar--item" style="white-space: nowrap;">Patients</span>
@@ -61,6 +74,12 @@ if(!isset($_SESSION["email"]))
                     <a href="viewdoctors.php">
                         <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
                         <span class="sidebar--item">Doctors List</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="viewtreatment.php"   >
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Treatment Bookings</span>
                     </a>
                 </li>
                 <li>
@@ -112,7 +131,8 @@ if(!isset($_SESSION["email"]))
 						</div>
                         <input type="submit" style="float:right;" onclick="window.location.href = 'leave.php';" value="Leaves   ">
 							<span style="color: red; margin-left:55px; font-size:12px"></span>
-						<table>
+                            <br>    <br>
+                            <table id="example" class="display">
 							<thead>
 								<tr>
                                 <th> &nbsp;&nbsp; sl no.</th>
@@ -121,8 +141,8 @@ if(!isset($_SESSION["email"]))
 									<th>From Date</th>
 									<th>To Date</th>
                                     <th>Description</th>
-									<th>Manage</th>
-									<th>&nbsp; &nbsp;  &nbsp; Status</th>
+									<th>&nbsp;Manage</th>
+									<th>&nbsp; &nbsp;  &nbsp; </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -140,7 +160,7 @@ if(!isset($_SESSION["email"]))
                                                 $fdate=$res['fdate'];
                                                 $tdate=$res['tdate'];
                                                 $reson=$res['reason'];
-                                                $status=$res['status'];
+                                                // $status=$res['status'];
                                                 $query1="SELECT * FROM tbl_doctor where l_id = '$uid' ";
                                                 $data1= mysqli_query($con,$query1);
                                                 while($res1=mysqli_fetch_assoc($data1))
@@ -158,9 +178,9 @@ if(!isset($_SESSION["email"]))
                                 <td><?php echo  $fdate ; ?></td>
                                 <td><?php echo  $tdate ; ?></td>
                                 <td><?php echo  $reson ; ?></td>
-                                <td><?php echo  $type ; ?></td>
-                                <td><a href="lvaprove.php?aa=<?php echo $lid;?>"><input type="button" value="Approve">
-                                <td><a href="lvreject.php?aa=<?php echo $lid;?>"><input type="button" value="Reject">
+                                <!-- <td><//?php echo  $type ; ?></td> -->
+                                <td><a href="lvaprove.php?aa=<?php echo $lid;?>"><input type="button" style="  border: 1px solid #BBB;display: block;padding: 10px 15px;resize: vertical;width: 100%;"value="Approve"></td>
+                               <td> <a href="lvreject.php?aa=<?php echo $lid;?>"><input type="button"style="  border: 1px solid #BBB;display: block;padding: 10px 15px;resize: vertical;width: 100%;" value="Reject"></td>
                                 <!-- <td><a href="dinactive.php?aa=<//?php echo $res['l_id'];?>"><input type="button" value="Inactive"> -->
                                        
 							</tr>

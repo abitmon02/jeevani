@@ -13,6 +13,12 @@ if(!isset($_SESSION["email"]))
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+  <script src="main.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+  
     <link rel="stylesheet" href="css/dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
   <title>Admin</title>
@@ -41,9 +47,15 @@ if(!isset($_SESSION["email"]))
                     <li>
                     <a href="addproduct.php">
                             <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                            <span class="sidebar--item">Manage Packages</span>
+                            <span class="sidebar--item">Packages</span>
                         </a>
                     </li>
+                    <li>
+                    <a href="customPackages.php">
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item"> custom Packages</span>
+                    </a>
+                </li>
                     <li>
                     <a href="viewpatients.php" >
                             <span class="icon icon-3"><i class="ri-user-line"></i></span>
@@ -65,7 +77,12 @@ if(!isset($_SESSION["email"]))
                             <span class="sidebar--item">Add Doctor</span>
                         </a>
                     </li>
-             
+                    <li>
+                    <a href="viewtreatment.php"   >
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Treatment Bookings</span>
+                    </a>
+                </li>
                     <li>
                     <a href="manage_drleave.php">
                             <span class="icon icon-6"><i class="ri-map-pin-user-line"></i></span>
@@ -108,7 +125,7 @@ if(!isset($_SESSION["email"]))
 						<div class="head">
 							<h3>Feedback</h3>
 						</div>
-						<table>
+                        <table id="example" class="display">
 							<thead>
 								<tr>
                                 <th>sl no.</th>

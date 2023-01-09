@@ -134,6 +134,12 @@ $duplicate=mysqli_query($con, "SELECT * from tbl_login WHERE email='$email'");
                     </a>
                 </li>
                 <li>
+                    <a href="customPackages.php">
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item"> custom Packages</span>
+                    </a>
+                </li>
+                <li>
                 <a href="viewpatients.php" >
                         <span class="icon icon-3"><i class="ri-user-line"></i></span>
                         <span class="sidebar--item" style="white-space: nowrap;">Patients</span>
@@ -147,6 +153,12 @@ $duplicate=mysqli_query($con, "SELECT * from tbl_login WHERE email='$email'");
 				 <a href="viewdoctors.php">
                         <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
                         <span class="sidebar--item">Doctors List</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="viewtreatment.php">
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Treatment Bookings</span>
                     </a>
                 </li>
                  <li>
@@ -165,7 +177,7 @@ $duplicate=mysqli_query($con, "SELECT * from tbl_login WHERE email='$email'");
                 <li>
 				<a href="removedoctor.php">
                     <span class="icon icon-4"><i class="ri-user-line"></i></span>
-                        <span class="sidebar--item">Remove Doctor</span>
+                        <span class="sidebar--item">Manage Doctor</span>
                     </a>
                 </li>
                 <li>

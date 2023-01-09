@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
 	$password = md5($_POST["password"]);
 	// echo $password;
 	$res = $con->query("SELECT * FROM `tbl_login` WHERE `tbl_login`.`email` = '$email' AND `tbl_login`.`password` = '$password' AND `tbl_login`.`status` = 0;");
-	// echo $password;
+	// echo $passwords;
 
 	if (mysqli_num_rows($res) > 0) {
 		foreach ($res as $data) {
@@ -84,8 +84,8 @@ font-weight:bold;
 				<input type="password" placeholder="Enter Password" class='input-field' name="password" required>
 				<br>
 				
-				<center><div class="g-recaptcha" data-sitekey="6LdIVdEjAAAAAIYI1z9zk8WwkkwJK7clzhjsVu75"></div>
-				<span class="error_form" id="captcha_message"></span>
+					<center><div class="g-recaptcha" data-sitekey="6LdIVdEjAAAAAIYI1z9zk8WwkkwJK7clzhjsVu75"></div>
+					<span class="error_form" id="captcha_message"></span>
 				<p style="font-size:15px;float:right;margin-bottom:-10px;"><a href="forgot_password.php">Forgot password ?</a>
 				<p>
 					<center> <button id='submit' type='submit' class='submit-btn' style="margin-top:55px;" name="submit">Login</button></center>

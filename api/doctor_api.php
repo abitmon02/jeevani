@@ -26,7 +26,8 @@ if ($sessObj->isLogged() == true) {
             $appo_id = filter_var($_POST['appo_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $userlog_id = filter_var($_POST['userlog_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $presc = filter_var($_POST['presc'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $doctorObj->updateAppoDataDB($appo_id, $userlog_id, $presc);
+            $symptom = filter_var($_POST['symptom'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $doctorObj->updateAppoDataDB($appo_id, $userlog_id, $presc, $symptom);
         }
     }
 } else {
