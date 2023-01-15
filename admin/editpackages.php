@@ -69,6 +69,12 @@ if (isset($_POST["submit"]))
                     </a>
                 </li>
                 <li>
+                    <a href="customPackages.php">
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item"> Custom Packages</span>
+                    </a>
+                </li>
+                <li>
                 <a href="viewpatients.php">
                         <span class="icon icon-3"><i class="ri-user-line"></i></span>
                         <span class="sidebar--item" style="white-space: nowrap;">Patients</span>
@@ -82,6 +88,12 @@ if (isset($_POST["submit"]))
                     <a href="viewdoctors.php">
                         <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
                         <span class="sidebar--item">Doctors List</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="viewtreatment.php">
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Treatment Bookings</span>
                     </a>
                 </li>
                 <li>
