@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 08, 2023 at 06:18 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Jan 15, 2023 at 12:23 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,7 @@ CREATE TABLE `admin_custom_pack_main_tbl` (
   `days` int(11) NOT NULL,
   `discount` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin_custom_pack_main_tbl`
@@ -53,7 +53,7 @@ CREATE TABLE `admin_custom_pack_slave_tbl` (
   `id` int(11) NOT NULL,
   `main_tbl_id` int(11) NOT NULL,
   `each_package_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin_custom_pack_slave_tbl`
@@ -80,7 +80,7 @@ CREATE TABLE `appoinment_tbl` (
   `fee_status` tinyint(4) DEFAULT 0,
   `prescription` text DEFAULT NULL,
   `status` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `appoinment_tbl`
@@ -109,7 +109,7 @@ CREATE TABLE `doctor_timing_tbl` (
   `start` varchar(10) NOT NULL,
   `end` varchar(10) NOT NULL,
   `status` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `doctor_timing_tbl`
@@ -124,6 +124,29 @@ INSERT INTO `doctor_timing_tbl` (`time_id`, `l_id`, `start`, `end`, `status`) VA
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payment1_tbl`
+--
+
+CREATE TABLE `payment1_tbl` (
+  `pay_id` int(11) NOT NULL,
+  `r_pay_id` varchar(250) NOT NULL,
+  `r_order_id` varchar(250) NOT NULL,
+  `custom_package_id` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `amount` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment1_tbl`
+--
+
+INSERT INTO `payment1_tbl` (`pay_id`, `r_pay_id`, `r_order_id`, `custom_package_id`, `date`, `amount`) VALUES
+(1, 'pay_L4CXHzLlyeXBP0', 'order_L4CWeSmfmUe9qu', 21, '2023-01-14 18:11:33', 0),
+(2, 'pay_L4Cdr4pcJXCTsc', 'order_L4CdTewmdtUkU6', 22, '2023-01-14 18:18:00', 1484.7);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `payment_tbl`
 --
 
@@ -134,7 +157,7 @@ CREATE TABLE `payment_tbl` (
   `appo_id` int(11) NOT NULL DEFAULT 0,
   `treament_id` int(11) DEFAULT 0,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `payment_tbl`
@@ -151,22 +174,52 @@ INSERT INTO `payment_tbl` (`pay_id`, `r_pay_id`, `r_order_id`, `appo_id`, `tream
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_category`
+--
+
+CREATE TABLE `tbl_category` (
+  `cata_id` int(11) NOT NULL,
+  `cata_name` varchar(150) NOT NULL,
+  `date` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_category`
+--
+
+INSERT INTO `tbl_category` (`cata_id`, `cata_name`, `date`, `status`) VALUES
+(3, 'Eye Drops', '2022-11-05 00:26:48', 1),
+(4, 'Ointments', '2022-11-05 00:39:44', 1),
+(7, 'Capsules', '2022-11-18 14:46:10', 1),
+(0, 'test', '2023-01-14 15:12:34', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_custom_package`
 --
 
 CREATE TABLE `tbl_custom_package` (
   `id` int(11) NOT NULL,
   `user_log_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `type_status` tinyint(4) NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `num_days` int(11) NOT NULL,
+  `appo_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `admin_custom_p_id` int(11) NOT NULL DEFAULT 0,
+  `fee_status` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_custom_package`
 --
 
-INSERT INTO `tbl_custom_package` (`id`, `user_log_id`, `status`, `date`) VALUES
-(6, 181, 1, '2023-01-08 12:01:17');
+INSERT INTO `tbl_custom_package` (`id`, `user_log_id`, `type_status`, `create_date`, `num_days`, `appo_date`, `admin_custom_p_id`, `fee_status`) VALUES
+(21, 175, 1, '2023-01-14 21:12:15', 13, '2023-01-20 08:00:00', 0, 1),
+(22, 175, 0, '2023-01-14 21:18:30', 3, '2023-01-15 08:00:00', 2, 1),
+(23, 175, 1, '2023-01-14 21:28:08', 1, '2023-01-15 08:00:00', 0, 0),
+(24, 175, 0, '2023-01-14 21:31:08', 3, '0000-00-00 00:00:00', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -180,7 +233,7 @@ CREATE TABLE `tbl_c_packages` (
   `l_id` int(10) NOT NULL,
   `visit_date` date NOT NULL,
   `status` int(5) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -197,7 +250,7 @@ CREATE TABLE `tbl_doctor` (
   `d_fees` int(50) NOT NULL,
   `spec` varchar(100) NOT NULL,
   `status` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_doctor`
@@ -217,7 +270,7 @@ CREATE TABLE `tbl_feedback` (
   `f_id` int(100) NOT NULL,
   `fr_id` int(100) NOT NULL,
   `feedback` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_feedback`
@@ -241,7 +294,7 @@ CREATE TABLE `tbl_leave` (
   `tdate` varchar(30) NOT NULL,
   `reason` varchar(100) NOT NULL,
   `status` varchar(10) NOT NULL DEFAULT 'Pending'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_leave`
@@ -266,7 +319,7 @@ CREATE TABLE `tbl_login` (
   `verify_token` varchar(100) NOT NULL,
   `a_id` int(5) NOT NULL,
   `status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_login`
@@ -293,14 +346,14 @@ CREATE TABLE `tbl_packages` (
   `p_image` varchar(300) NOT NULL,
   `p_amount` varchar(30) NOT NULL,
   `p_status` int(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_packages`
 --
 
 INSERT INTO `tbl_packages` (`p_id`, `p_name`, `p_image`, `p_amount`, `p_status`) VALUES
-(19, 'test 1 ', 'test.png', '255', 0),
+(19, 'test 1 ', 'nasya.png', '255', 0),
 (20, 'test', 'test.png', '250', 0);
 
 -- --------------------------------------------------------
@@ -320,7 +373,7 @@ CREATE TABLE `tbl_patient` (
   `dob` varchar(10) NOT NULL,
   `bloodgrp` varchar(5) NOT NULL,
   `status` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_patient`
@@ -335,6 +388,32 @@ INSERT INTO `tbl_patient` (`user_id`, `l_id`, `u_name`, `a_id`, `address`, `city
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_product`
+--
+
+CREATE TABLE `tbl_product` (
+  `product_id` int(11) NOT NULL,
+  `cata_id` int(11) NOT NULL,
+  `product_name` varchar(250) NOT NULL,
+  `stock` int(11) NOT NULL,
+  `price` float NOT NULL,
+  `image` varchar(250) NOT NULL,
+  `description` text NOT NULL,
+  `date` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_product`
+--
+
+INSERT INTO `tbl_product` (`product_id`, `cata_id`, `product_name`, `stock`, `price`, `image`, `description`, `date`, `status`) VALUES
+(4, 4, 'sdfdsf', 345, 12, 'adf.png', 'sdfsdfdsfdsfdsf', '2023-01-14 14:57:59', 1),
+(6, 4, 'sdfdsf', 34, 12, 'h.png', 'dghdfgdfgdfgdfg dfgdf', '2023-01-14 15:04:59', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_user_packages`
 --
 
@@ -342,15 +421,20 @@ CREATE TABLE `tbl_user_packages` (
   `id` int(11) NOT NULL,
   `package_id` int(11) NOT NULL,
   `each_package_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_user_packages`
 --
 
 INSERT INTO `tbl_user_packages` (`id`, `package_id`, `each_package_id`) VALUES
-(10, 6, 19),
-(11, 6, 20);
+(38, 21, 19),
+(39, 21, 20),
+(40, 22, 19),
+(41, 22, 20),
+(42, 23, 19),
+(43, 23, 20),
+(44, 24, 19);
 
 --
 -- Indexes for dumped tables
@@ -381,6 +465,13 @@ ALTER TABLE `appoinment_tbl`
 ALTER TABLE `doctor_timing_tbl`
   ADD PRIMARY KEY (`time_id`),
   ADD KEY `time_log_id_fk` (`l_id`);
+
+--
+-- Indexes for table `payment1_tbl`
+--
+ALTER TABLE `payment1_tbl`
+  ADD PRIMARY KEY (`pay_id`),
+  ADD KEY `custom_pack_id_fk` (`custom_package_id`);
 
 --
 -- Indexes for table `payment_tbl`
@@ -444,12 +535,17 @@ ALTER TABLE `tbl_patient`
   ADD KEY `fk_login` (`l_id`);
 
 --
+-- Indexes for table `tbl_product`
+--
+ALTER TABLE `tbl_product`
+  ADD PRIMARY KEY (`product_id`);
+
+--
 -- Indexes for table `tbl_user_packages`
 --
 ALTER TABLE `tbl_user_packages`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `custom_p_id_fk` (`package_id`),
-  ADD KEY `each_p_id_fk` (`each_package_id`);
+  ADD KEY `custom_p_id_fk` (`package_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -480,6 +576,12 @@ ALTER TABLE `doctor_timing_tbl`
   MODIFY `time_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT for table `payment1_tbl`
+--
+ALTER TABLE `payment1_tbl`
+  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `payment_tbl`
 --
 ALTER TABLE `payment_tbl`
@@ -489,7 +591,7 @@ ALTER TABLE `payment_tbl`
 -- AUTO_INCREMENT for table `tbl_custom_package`
 --
 ALTER TABLE `tbl_custom_package`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tbl_c_packages`
@@ -534,10 +636,16 @@ ALTER TABLE `tbl_patient`
   MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
+-- AUTO_INCREMENT for table `tbl_product`
+--
+ALTER TABLE `tbl_product`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `tbl_user_packages`
 --
 ALTER TABLE `tbl_user_packages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- Constraints for dumped tables
@@ -554,6 +662,12 @@ ALTER TABLE `admin_custom_pack_slave_tbl`
 --
 ALTER TABLE `doctor_timing_tbl`
   ADD CONSTRAINT `time_log_id_fk` FOREIGN KEY (`l_id`) REFERENCES `tbl_login` (`l_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `payment1_tbl`
+--
+ALTER TABLE `payment1_tbl`
+  ADD CONSTRAINT `custom_pack_id_fk` FOREIGN KEY (`custom_package_id`) REFERENCES `tbl_custom_package` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_custom_package`

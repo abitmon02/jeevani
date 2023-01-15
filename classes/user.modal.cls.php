@@ -79,10 +79,10 @@ class UserModalcls extends Dbh
     {
         return $this->connection()->query("SELECT `tbl_login`.`l_id`,`tbl_patient`.`u_name`,`tbl_patient`.`address`,`tbl_patient`.`city`,`tbl_patient`.`gender`,`tbl_patient`.`bloodgrp`,`tbl_login`.`email` FROM `tbl_login` INNER JOIN `tbl_patient` ON `tbl_login`.`l_id` = `tbl_patient`.`l_id` WHERE `tbl_login`.`l_id` = '$logged_id';")->fetch_assoc();
     }
-    protected function customuserPackageDB($userlog_id)
+    protected function customuserPackageDB($userlog_id, $inp_num_days, $status, $appo_date, $main_p_id)
     {
         $conn_temp_obj =  $this->connection();
-        if ($conn_temp_obj->query("INSERT INTO `tbl_custom_package`(`user_log_id`, `status`, `date`) VALUES ('$userlog_id','1',now())")) {
+        if ($conn_temp_obj->query("INSERT INTO `tbl_custom_package`(`user_log_id`, `type_status`, `create_date`,`num_days`,`appo_date`,`admin_custom_p_id`) VALUES ('$userlog_id','$status',now(),'$inp_num_days','$appo_date','$main_p_id')")) {
             return $conn_temp_obj->insert_id;
         } else {
             return  0;
@@ -103,5 +103,13 @@ class UserModalcls extends Dbh
         } else {
             return false;
         }
+    }
+    protected function fetchCustomPackageTotalAmt($user_pack_id)
+    {
+        return $this->connection()->query("SELECT sum(`tbl_packages`.`p_amount` * (SELECT `tbl_custom_package`.`num_days` FROM `tbl_custom_package` WHERE `tbl_custom_package`.`id` = `tbl_user_packages`.`package_id`)) as total FROM `tbl_user_packages` INNER JOIN `tbl_packages` ON `tbl_user_packages`.`each_package_id` = `tbl_packages`.`p_id` WHERE `tbl_user_packages`.`package_id` = '$user_pack_id';")->fetch_assoc();
+    }
+    protected function fetchCustomPackageData($userlog_id, $user_pack_id)
+    {
+        return $this->connection()->query("SELECT `tbl_custom_package`.`id`,`tbl_custom_package`.`user_log_id`,`tbl_custom_package`.`type_status`,`tbl_custom_package`.`create_date`,`tbl_custom_package`.`num_days`,`tbl_custom_package`.`appo_date`,`tbl_custom_package`.`admin_custom_p_id`,`admin_custom_pack_main_tbl`.`days`,`admin_custom_pack_main_tbl`.`discount` FROM `tbl_custom_package` LEFT JOIN `admin_custom_pack_main_tbl` ON `tbl_custom_package`.`admin_custom_p_id` = `admin_custom_pack_main_tbl`.`id` WHERE `tbl_custom_package`.`id` = '$user_pack_id' AND `tbl_custom_package`.`user_log_id` = '$userlog_id';")->fetch_assoc();
     }
 }

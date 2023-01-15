@@ -21,22 +21,59 @@ class UserCls extends UserModalcls
         }
         echo json_encode($return_data);
     }
-    public function createCustomPackage($p_id_list, $userlog_id)
+    public function __call($name_of_function, $arguments)
     {
-        if (!empty($p_id_list)) {
-            $return_last_id =  $this->customuserPackageDB($userlog_id);
-            if ($return_last_id != 0) {
-                foreach ($p_id_list as $id) {
-                    $this->addUserPackagetblDB($return_last_id, $id);
-                }
-                $return_data = ['status' => 1, 'msg' => "Your custom package created."];
-            } else {
-                $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.1];
+        // It will match the function name
+        if ($name_of_function == 'createCustomPackage') {
+            switch (count($arguments)) {
+                case 5:
+                    // If there is only 5 argument
+                    // invoke function overriding and insert  custom user packages to db
+                    if (!empty($arguments[0])) {
+                        if (is_numeric($arguments[2]) && $arguments[2] > 0) {
+                            $return_last_id =  $this->customuserPackageDB($arguments[1], $arguments[2], $arguments[3], $arguments[4], 0);
+                            if ($return_last_id != 0) {
+                                foreach ($arguments[0] as $id) {
+                                    $this->addUserPackagetblDB($return_last_id, $id);
+                                }
+                                $return_data = ['status' => 1, 'msg' => "Your custom package created."];
+                            } else {
+                                $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.1];
+                            }
+                        } else {
+                            $return_data = ['status' => 0, 'msg' => "Minimum statying day is 1.", 'error_code' => 1];
+                        }
+                    } else {
+                        $return_data = ['status' => 0, 'msg' => "Please choose at least one package", 'error_code' => 1];
+                    }
+                    echo json_encode($return_data);
+                    break;
+                case 6:
+                    if (!empty($arguments[0])) {
+                        if (is_numeric($arguments[2]) && $arguments[2] > 0) {
+                            $return_last_id =  $this->customuserPackageDB($arguments[1], $arguments[2], $arguments[3], $arguments[4], $arguments[5]);
+                            if ($return_last_id != 0) {
+                                foreach ($arguments[0] as $id) {
+                                    $this->addUserPackagetblDB($return_last_id, $id);
+                                }
+                                $return_data = ['status' => 1, 'msg' => "Your custom package created."];
+                            } else {
+                                $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.1];
+                            }
+                        } else {
+                            $return_data = ['status' => 0, 'msg' => "Minimum starting day is 1.", 'error_code' => 1];
+                        }
+                    } else {
+                        $return_data = ['status' => 0, 'msg' => "Please choose at least one package", 'error_code' => 1];
+                    }
+                    echo json_encode($return_data);
+                    break;
+                default:
+                    $return_data = ['status' => 0, 'msg' => "unauthorized request", 'error_code' => 1];
+                    echo json_encode($return_data);
+                    break;
             }
-        } else {
-            $return_data = ['status' => 0, 'msg' => "Please choose at least one package", 'error_code' => 1];
         }
-        echo json_encode($return_data);
     }
     public function createAppoinment($date, $time_id, $user_log_id)
     {
@@ -226,6 +263,74 @@ class UserCls extends UserModalcls
                 $sessObj = new SessionManageCls();
                 $sessObj->setRazorPayOrderId($sessdata);
                 $return_data = ['status' => 1, 'data' => $data];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => 'Request denied.', 'code' => 0];
+        }
+        echo json_encode($return_data);
+    }
+    public function payCustomPackageFnc($userlog_id, $user_pack_id)
+    {
+        if (is_numeric($user_pack_id) && is_numeric($userlog_id) && $this->checkLogidDB($userlog_id)) {
+            $main_pack_data = $this->fetchCustomPackageData($userlog_id, $user_pack_id);
+            if (!empty($main_pack_data)) {
+                $total_amount = $this->fetchCustomPackageTotalAmt($user_pack_id)['total'];
+                if ($main_pack_data['type_status'] == 0) {
+                    $total_amount = $total_amount - (($total_amount * $main_pack_data['discount']) / 100);
+                }
+                $patient_data = $this->fetchLoggedUserData($userlog_id);
+
+                $api = new Api(key_id, key_secret);
+                $orderData = [
+                    'receipt' => $userlog_id,
+                    'amount' => (int)($total_amount * 100), // 2000 rupees in paise
+                    'currency' => 'INR',
+                    'payment_capture' => 1, // auto capture
+                ];
+                $razorpayOrder = $api->order->create($orderData);
+                $razorpayOrderId = $razorpayOrder['id'];
+                $amount = $orderData['amount'];
+                $data = [
+                    "user_code" => $userlog_id,
+                    "key" => key_id,
+                    "amount" => $amount,
+                    "name" => $patient_data['u_name'],
+                    "package_id" => $user_pack_id,
+                    "description" => "Please Choose payment option",
+                    "image" => 'https://s29.postimg.org/r6dj1g85z/daft_punk.jpg',
+                    "prefill" => [
+                        "name" => $patient_data['u_name'],
+                        "email" => $patient_data['email'],
+                        "contact" => 1234567890,
+                    ],
+                    "notes" => [
+                        "user_id" => $patient_data,
+                        'appoinment' => $user_pack_id
+                    ],
+                    "theme" => [
+                        "color" => "#F37254",
+                    ],
+                    "order_id" => $razorpayOrderId,
+                    "display_currency" => "INR",
+                    "display_amount" => $amount / 100
+                ];
+                // for session store
+                $sessdata = [
+                    'date' => date("Y-m-d h:i:sa"),
+                    "user_id" => $userlog_id,
+                    "package_id" => $user_pack_id,
+                    "final_amount" => $total_amount,
+                    "order_id" => $razorpayOrderId,
+                    "display_currency" => "INR",
+                    'order_mode' => 1,
+                    "user_note" => "Payment"
+                ];
+
+                $sessObj = new SessionManageCls();
+                $sessObj->setRazorPayOrderId($sessdata);
+                $return_data = ['status' => 1, 'data' => $data];
+            } else {
+                $return_data = ['status' => 0, 'msg' => 'Request denied.', 'code' => 1];
             }
         } else {
             $return_data = ['status' => 0, 'msg' => 'Request denied.', 'code' => 0];

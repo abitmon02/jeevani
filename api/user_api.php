@@ -33,19 +33,26 @@ if ($sessObj->isLogged() == true) {
         } else if ($_POST['action'] == 6) {
             $p_id_list = $_POST['p_id_list'];
             $userlog_id = filter_var($_POST['userlog_id'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $userObj->createCustomPackage($p_id_list, $userlog_id);
+            $inp_num_days = filter_var($_POST['inp_num_days'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $inp_appo_date = filter_var($_POST['inp_appo_date'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $status = 1;
+            $userObj->createCustomPackage($p_id_list, $userlog_id, $inp_num_days, $status, $inp_appo_date);
         } else if ($_POST['action'] == 7) {
             $remove_id = filter_var($_POST['remove_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $userlog_id = filter_var($_POST['userlog_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $userObj->removeCustomPackage($remove_id, $userlog_id);
         } else if ($_POST['action'] == 8) {
-            print_r($_POST);
             $p_id_list = $_POST['p_id_list'];
             $days = filter_var($_POST['days'], FILTER_SANITIZE_SPECIAL_CHARS);
             $main_package_id = filter_var($_POST['main_package_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $appo_date = filter_var($_POST['appo_date'], FILTER_SANITIZE_SPECIAL_CHARS);
             $userlog_id = filter_var($_POST['userlog_id'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $userObj->removeCustomPackage($remove_id, $userlog_id);
+            $status = 0;
+            $userObj->createCustomPackage($p_id_list, $userlog_id, $days, $status, $appo_date, $main_package_id);
+        } else if ($_POST['action'] == 9) {
+            $userlog_id = filter_var($_POST['userlog_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $user_pack_id = filter_var($_POST['user_pack_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $userObj->payCustomPackageFnc($userlog_id, $user_pack_id);
         }
     }
 } else {

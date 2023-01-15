@@ -21,12 +21,13 @@ if ($sessObj->isLogged() == true) {
                     <thead class="TableHead">
                         <tr>
                             <th>Sl.No</th>
-                            <th></th>
-                            <th>Treatment</th>
-                            <th>Fee Paid</th>
+                            <th>Package type</th>
+                            <th>Discount status</th>
                             <th>Hospital visit</th>
+                            <th>No of days staying</th>
                             <th>Purchase date</th>
                             <th>payment id</th>
+                            <th>Fee Paid</th>
                             <th>Status</th>
                             <!-- <th>Action</th> -->
                         </tr>
@@ -34,19 +35,33 @@ if ($sessObj->isLogged() == true) {
                     <tbody>
                         <?php
                         // $timing_data = $dbObj->connFnc()->query("SELECT `appoinment_tbl`.`fee_status`,`appoinment_tbl`.`symptom`,`appoinment_tbl`.`appo_id`,`tbl_doctor`.`d_name`,`tbl_doctor`.`spec`,`tbl_doctor`.`d_fees`,`appoinment_tbl`.`date`,`appoinment_tbl`.`token`,`appoinment_tbl`.`status`,`doctor_timing_tbl`.`start`,`doctor_timing_tbl`.`end` FROM `appoinment_tbl` INNER JOIN `doctor_timing_tbl` ON `appoinment_tbl`.`time_id` = `doctor_timing_tbl`.`time_id` INNER JOIN `tbl_doctor` on `doctor_timing_tbl`.`l_id` = `tbl_doctor`.`l_id` WHERE `appoinment_tbl`.`l_id` = '" . $user_data['log_id'] . "' AND `appoinment_tbl`.`fee_status` = 1;")->fetch_all(MYSQLI_ASSOC);
-                        $timing_data = $dbObj->connFnc()->query("SELECT * FROM `tbl_c_packages` LEFT JOIN `payment_tbl` ON `tbl_c_packages`.`t_id` = `payment_tbl`.`treament_id` LEFT JOIN `tbl_packages` ON `tbl_c_packages`.`p_id` = `tbl_packages`.`p_id` WHERE `tbl_c_packages`.`l_id` = '" . $user_data['log_id'] . "';")->fetch_all(MYSQLI_ASSOC);
-                        // print_r($timing_data);
-                        if (!empty($timing_data)) {
+                        $result = $dbObj->connFnc()->query("SELECT `tbl_custom_package`.`fee_status`,`tbl_custom_package`.`id`,`tbl_custom_package`.`user_log_id`,`tbl_custom_package`.`type_status`,`tbl_custom_package`.`create_date`,`tbl_custom_package`.`num_days`,`tbl_custom_package`.`appo_date`,`tbl_custom_package`.`admin_custom_p_id`,`admin_custom_pack_main_tbl`.`days`,`admin_custom_pack_main_tbl`.`discount`,`payment1_tbl`.`r_pay_id`,`payment1_tbl`.`r_order_id`,`payment1_tbl`.`date` as paid_date,`payment1_tbl`.`amount` FROM `tbl_custom_package` LEFT JOIN `admin_custom_pack_main_tbl` ON `tbl_custom_package`.`admin_custom_p_id` = `admin_custom_pack_main_tbl`.`id` LEFT JOIN `payment1_tbl` on `payment1_tbl`.`custom_package_id` = `tbl_custom_package`.`id` WHERE `tbl_custom_package`.`user_log_id` = '" . $user_data['log_id'] . "' AND `tbl_custom_package`.`fee_status` = 1;")->fetch_all(MYSQLI_ASSOC);
+                        if (!empty($result)) {
                             $i = 1;
-                            foreach ($timing_data as $value) { ?>
+                            foreach ($result as $value) { ?>
                                 <tr class="firstRow">
                                     <td><?= $i ?></td>
-                                    <td><img style="width: 50px;height: 50px;position: inherit;" src="../images/<?= $value['p_image'] ?>" alt="<?= $value['p_image'] ?>"></td>
-                                    <td><?= $value['p_name'] ?></td>
-                                    <td><?= $value['p_amount'] ?></td>
-                                    <td><?= date("Y-m-d", strtotime($value['visit_date'])) ?></td>
-                                    <td><?= date("Y-m-d", strtotime($value['date'])) ?></td>
+                                    <td><?php if ($value['type_status'] == 0) { ?>
+                                            <span class="badge badge-success">User customized</span>
+
+                                        <?php } else { ?>
+                                            <span class="badge badge-primary">User Created</span>
+
+                                        <?php } ?>
+                                    </td>
+                                    <td><?php if ($value['type_status'] == 0) { ?>
+
+                                            <span class="badge badge-info"> discount applied <?= $value['discount'] . '%' ?></span>
+                                        <?php } else { ?>
+
+                                            <span class="badge badge-danger">No discounts applied</span>
+                                        <?php } ?>
+                                    </td>
+                                    <td><?= date("Y-m-d", strtotime($value['appo_date'])) ?></td>
+                                    <td><?= $value['num_days'] ?></td>
+                                    <td><?= date("Y-m-d", strtotime($value['paid_date'])) ?></td>
                                     <td><?= $value['r_pay_id'] ?> </td>
+                                    <td><?= $value['amount'] ?></td>
                                     <td><span class="label text-light bg-success" style="padding: 10px 10px;border-radius: 10px">Paid</span></td>
                                 </tr>
                             <?php $i++;

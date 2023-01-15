@@ -48,7 +48,7 @@ if ($sessObj->isLogged() == true) {
                 if ($dbObj->connFnc()->query("INSERT INTO `payment_tbl`( `r_pay_id`, `r_order_id`, `appo_id`,`treament_id`, `date`) VALUES ('$razorpay_payment_id','$razorpay_order_id','" . $orderData['appo_id'] . "',0,'" . $orderData['date'] . "')")) {
                     if ($dbObj->connFnc()->query("UPDATE `appoinment_tbl` SET `fee_status`= 1 WHERE `appoinment_tbl`.`appo_id` = '" . $orderData['appo_id'] . "'")) {
                         echo $html;
-                        header("refresh:5;url=appoinment.php");
+                        header("refresh:5;url=appoinmenthistory.php");
                     } else {
                         $html = "<p>Your payment was successful.But something wrong happen from our side.</p>
                     <p>Payment ID: {$_POST['razorpay_payment_id']}</p>";
@@ -62,6 +62,20 @@ if ($sessObj->isLogged() == true) {
                 if ($dbObj->query("INSERT INTO `tbl_c_packages`(`p_id`, `l_id`,`visit_date`, `status`) VALUES ('" . $orderData['package_id'] . "','" . $orderData['user_id'] . "','" . $orderData['visitDate'] . "',1)")) {
                     $treatment_book_id = $dbObj->insert_id;
                     if ($dbObj->query("INSERT INTO `payment_tbl`( `r_pay_id`, `r_order_id`, `appo_id`,`treament_id`, `date`) VALUES ('$razorpay_payment_id','$razorpay_order_id',0,'$treatment_book_id','" . $orderData['date'] . "')")) {
+                        echo $html;
+                        header("refresh:5;url=appoinmenthistory.php");
+                    } else {
+                        $html = "<p>Your payment was successful.But something wrong happen from our side.</p>
+                    <p>Payment ID: {$_POST['razorpay_payment_id']}</p>";
+                    }
+                } else {
+                    $html = "<p>Your payment was successful.But something wrong happen from our side.</p>
+                <p>Payment ID: {$_POST['razorpay_payment_id']}</p>";
+                }
+            } else  if (isset($_POST['status']) && $_POST['status'] == 3) {
+                $dbObj = $dbObj->connFnc();
+                if ($dbObj->query("UPDATE `tbl_custom_package` SET `fee_status`='1' WHERE `tbl_custom_package`.`id` = '" . $orderData['package_id'] . "' AND `tbl_custom_package`.`user_log_id` = '" . $orderData['user_id'] . "'")) {
+                    if ($dbObj->query("INSERT INTO `payment1_tbl`( `r_pay_id`, `r_order_id`, `custom_package_id`, `date`,`amount`) VALUES ('$razorpay_payment_id','$razorpay_order_id','" . $orderData['package_id'] . "','" . $orderData['date'] . "','" . $orderData['final_amount'] . "')")) {
                         echo $html;
                         header("refresh:5;url=treatmenthistory.php");
                     } else {

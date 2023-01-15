@@ -104,6 +104,14 @@ if ($sessObj->isLogged() == true) {
                     </div>
 
                 </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Number of days staying</label>
+                    <input type="number" class="form-control" id="inp_num_days" value="1" placeholder="Enter number of days">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Appoinment Date</label>
+                    <input type="date" class="form-control" id="inp_appo_date" placeholder="">
+                </div>
                 <button onclick="invokePackageAdd()" class="btn btn-success mt-3" style="background-color: green; border:none;">Create</button>
             </div>
 
@@ -157,6 +165,9 @@ if ($sessObj->isLogged() == true) {
                     align-items: center;
                     margin-bottom: 1rem;
                     font-family: "Moon Dance", cursive;
+                    background-color: #ffffff;
+                    border: 1px solid black;
+                    opacity: 0.6;
                 }
 
                 .card-header h2 {
@@ -194,6 +205,9 @@ if ($sessObj->isLogged() == true) {
                     padding: 0 4rem;
                     list-style-type: disc;
                     margin-bottom: 1rem;
+                    background-color: #ffffff;
+                    border: 1px solid black;
+                    opacity: 0.6;
                 }
 
                 .list .item {
@@ -252,59 +266,79 @@ if ($sessObj->isLogged() == true) {
                 }
             </style>
             <?php
-            $result = $con->query("SELECT * FROM `tbl_custom_package` WHERE `tbl_custom_package`.`user_log_id` = '" . $user_data['log_id'] . "';")->fetch_all(MYSQLI_ASSOC);
+            $result = $con->query("SELECT `tbl_custom_package`.`id`,`tbl_custom_package`.`user_log_id`,`tbl_custom_package`.`type_status`,`tbl_custom_package`.`create_date`,`tbl_custom_package`.`num_days`,`tbl_custom_package`.`appo_date`,`tbl_custom_package`.`admin_custom_p_id`,`admin_custom_pack_main_tbl`.`days`,`admin_custom_pack_main_tbl`.`discount` FROM `tbl_custom_package` LEFT JOIN `admin_custom_pack_main_tbl` ON `tbl_custom_package`.`admin_custom_p_id` = `admin_custom_pack_main_tbl`.`id` WHERE `tbl_custom_package`.`user_log_id` = '" . $user_data['log_id'] . "' AND `tbl_custom_package`.`fee_status` = 0;")->fetch_all(MYSQLI_ASSOC);
+
             if (!empty($result)) {
                 $i = 1;
                 foreach ($result as $key) {
                     $total_amt = 0;
                     $temp_data = $con->query("SELECT * FROM `tbl_user_packages` INNER JOIN `tbl_packages` on `tbl_user_packages`.`each_package_id` = `tbl_packages`.`p_id` WHERE `tbl_user_packages`.`package_id` = '" . $key['id'] . "';")->fetch_all(MYSQLI_ASSOC);
+
+                    $image_array = [];
                     foreach ($temp_data as $key1) {
-                        $total_amt += $key1['p_amount'];
+                        array_push($image_array, '../images/' . $key1['p_image']);
+                        $total_amt += $key1['p_amount'] * $key['num_days'];
                     }
-
+                    if ($key['type_status'] == 1) {
+                        $total_amt = $total_amt - (($total_amt * $key['discount']) / 100);
+                    }
             ?>
-
                     <section class="cards flex-column">
-                        <div class="card card-one">
+                        <div class="card card-one" style="background-image: url('<?= $image_array[rand(0, count($image_array) - 1)] ?>');">
+
                             <div class="card-header">
+
                                 <h2>
                                     <span id="green">#</span>
                                     Pack - <?= $key['id'] ?> &nbsp &nbsp&nbsp&nbsp
                                 </h2>
                                 <strong>RS<?= $total_amt ?></strong>
+
                             </div>
+
                             <ul class="list">
+
+                                <?php if ($key['type_status'] == 0) { ?>
+                                    <li> Package type : <span class="badge badge-success">User customized</span> </li>
+                                    <li>Discount : <span class="badge badge-info"><?= $key['discount'].'%' ?> discount applied</span> </li>
+                                <?php } else { ?>
+                                    <li> Package type : <span class="badge badge-primary">User Created</span> </li>
+                                    <li> Discount : <span class="badge badge-danger">No discounts applied</span> </li>
+                                <?php } ?>
+                                <li class="item"><?= 'staying days : ' . $key['num_days']  ?></li>
                                 <li class="item"><?= count($temp_data) ?> items on this package</li>
                                 <ul class="list1">
                                     <?php
                                     $j = 1;
                                     foreach ($temp_data as $key1) {
-
                                     ?>
-
-                                        <li class="item1"><?= $j . '.' . $key1['p_name'] . ' - RS' . $key1['p_amount'] ?></li>
+                                        <li class="item1"><?= $j . '.' . $key1['p_name'] . ' - RS' . $key1['p_amount'] . ' per/day' ?></li>
                                         <?php
                                         ?>
-
                                     <?php
                                         $j++;
                                     }
                                     ?>
                                 </ul>
-                                <li class="item"><?= 'Created on : ' . $key['date']  ?></li>
+                                <li class="item"><?= 'Created on : ' . $key['create_date']  ?></li>
                             </ul>
-                            <button class="cta-btn btn-green">Book & pay</button>
+                            <button onclick="paytreatment(<?= $key['id'] ?>)" class="cta-btn btn-green">Book & pay</button>
                             <button onclick="removeCustomPackage(<?= $key['id'] ?>)" class="cta-btn btn-blue mt-2">Remove</button>
 
                         </div>
 
                     </section>
-            <?php
+                <?php
                 }
                 $i++;
-            }
+            } else { ?>
+                <div class="col-md-12">
+                    <h6>please add / customize packages first.</h6>
+                </div>
+            <?php }
             ?>
         </div>
+        <br>
         <h4>OUR TREATMENTS</h4>
         <div class="row">
 
@@ -313,11 +347,11 @@ if ($sessObj->isLogged() == true) {
             if (!empty($result)) {
                 $i = 1;
                 foreach ($result as $key) {
-
                     $total_amt = 0;
                     $temp_data = $con->query("SELECT * FROM `admin_custom_pack_slave_tbl` INNER JOIN `tbl_packages` on `admin_custom_pack_slave_tbl`.`each_package_id` = `tbl_packages`.`p_id` WHERE `admin_custom_pack_slave_tbl`.`main_tbl_id` = '" . $key['id'] . "';")->fetch_all(MYSQLI_ASSOC);
-
+                    $image_array = [];
                     foreach ($temp_data as $key1) {
+                        array_push($image_array, '../images/' . $key1['p_image']);
                         $total_amt += $key1['p_amount'] * $key['days'];
                         $final_amt = $total_amt - (($total_amt * $key['discount']) / 100);
                     }
@@ -325,7 +359,7 @@ if ($sessObj->isLogged() == true) {
             ?>
 
                     <section class="cards flex-column">
-                        <div class="card card-one">
+                        <div class="card card-one" style="background-image: url('<?= $image_array[rand(0, count($image_array) - 1)] ?>');">
                             <div class="card-header">
                                 <h2>
                                     <span id="green">#</span>
@@ -378,27 +412,7 @@ if ($sessObj->isLogged() == true) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Hospital visiting date</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
 
-                        <input name="inpDate" min="<?php echo date('Y-m-d'); ?>" class="form-control" id="inpDate" type="date"></textarea>
-                        <input type="hidden" id="modalAppID">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" onclick="paytreatment()" class="btn btn-primary">Pay & book</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- content end -->
 <?php
@@ -440,19 +454,16 @@ if ($sessObj->isLogged() == true) {
         $("#exampleModal").modal('show');
     }
 
-    function paytreatment() {
-        visitDate = $("#inpDate").val();
+    function paytreatment(user_pack_id) {
         userlog_id = $("#user_id").val();
-        package_id = $("#modalAppID").val();
-        if (visitDate != '' && visitDate != null) {
+        if (user_pack_id != '' && user_pack_id != null) {
             $.ajax({
                 type: "POST",
                 url: "../api/user_api.php",
                 data: {
                     "userlog_id": userlog_id,
-                    "visitDate": visitDate,
-                    "package_id": package_id,
-                    'action': 5,
+                    "user_pack_id": user_pack_id,
+                    'action': 9,
                 },
                 dataType: 'JSON',
                 cache: false,
@@ -460,7 +471,7 @@ if ($sessObj->isLogged() == true) {
                     if (response.status == 1) {
                         swal("Payment Link Generated", "You will be redirected to the payment page. please pay the fee.", 'success');
                         setTimeout(() => {
-                            window.location.href = "payment.php?status=2&amount=" + response.data.amount + "&package_id=" + response.data.package_id + "&description=" + response.data.description + "&display_amount=" + response.data.display_amount + "&display_currency=" + response.data.display_currency + "&image=" + response.data.image + "&key=" + response.data.key + "&order_id=" + response.data.order_id + "&contact=" + response.data.prefill.contact + "&email=" + response.data.prefill.email + "&name=" + response.data.prefill.name + "&color=" + response.data.theme.color + "&user_code=" + response.data.user_code;
+                            window.location.href = "payment.php?status=3&amount=" + response.data.amount + "&package_id=" + response.data.package_id + "&description=" + response.data.description + "&display_amount=" + response.data.display_amount + "&display_currency=" + response.data.display_currency + "&image=" + response.data.image + "&key=" + response.data.key + "&order_id=" + response.data.order_id + "&contact=" + response.data.prefill.contact + "&email=" + response.data.prefill.email + "&name=" + response.data.prefill.name + "&color=" + response.data.theme.color + "&user_code=" + response.data.user_code;
                         }, 2000);
                     } else {
                         swal("error", response.msg, 'error');
@@ -578,6 +589,8 @@ if ($sessObj->isLogged() == true) {
 
     function invokePackageAdd() {
         userlog_id = $("#user_id").val();
+        inp_num_days = $("#inp_num_days").val();
+        inp_appo_date = $("#inp_appo_date").val();
         var values = [].filter.call(document.getElementsByName('dropdown-group'), function(c) {
             return c.checked;
         }).map(function(c) {
@@ -590,13 +603,18 @@ if ($sessObj->isLogged() == true) {
                 data: {
                     "userlog_id": userlog_id,
                     "p_id_list": values,
+                    "inp_num_days": inp_num_days,
+                    'inp_appo_date': inp_appo_date,
                     'action': 6,
                 },
                 dataType: 'JSON',
                 cache: false,
                 success: function(response) {
                     if (response.status == 1) {
-                        swal("error", response.msg, 'error');
+                        swal("success", response.msg, 'error');
+                        setTimeout(() => {
+                            location.href = "packages.php";
+                        }, 1000);
                     } else {
                         swal("error", response.msg, 'error');
                     }
