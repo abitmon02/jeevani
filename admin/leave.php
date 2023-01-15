@@ -58,7 +58,7 @@ if(!isset($_SESSION["email"]))
                 <li>
                     <a href="customPackages.php">
                         <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                        <span class="sidebar--item"> custom Packages</span>
+                        <span class="sidebar--item"> Custom Packages</span>
                     </a>
                 </li>
                 <li>
