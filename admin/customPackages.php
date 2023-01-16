@@ -111,7 +111,7 @@ if (!isset($_SESSION["email"])) {
         <div class="sidebar">
             <ul class="sidebar--items">
             <li>
-                    <a href="#" id="active--link">
+                    <a href="index.php" >
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
@@ -123,7 +123,7 @@ if (!isset($_SESSION["email"])) {
                     </a>
                 </li>
                   <li>
-                    <a href="customPackages.php">
+                    <a href="#" id="active--link">
                         <span class="icon icon-5"><i class="ri-command-line"></i></span>
                         <span class="sidebar--item"> Custom Packages</span>
                     </a>

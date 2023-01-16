@@ -128,7 +128,7 @@ $duplicate=mysqli_query($con, "SELECT * from tbl_login WHERE email='$email'");
         <div class="sidebar">
             <ul class="sidebar--items">
             <li>
-                    <a href="#" id="active--link">
+                    <a href="index.php" >
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
@@ -153,7 +153,7 @@ $duplicate=mysqli_query($con, "SELECT * from tbl_login WHERE email='$email'");
                     </a>
                 </li>
                 <li>
-                    <a href="adddoc.php">
+                    <a href="#" id="active--link">
                         <span class="icon icon-4"><i class="ri-user-add-line"></i></span>
                         <span class="sidebar--item">Add Doctor</span>
                     </a>
@@ -220,7 +220,7 @@ $duplicate=mysqli_query($con, "SELECT * from tbl_login WHERE email='$email'");
         <div class="row mt-5">
             <div class="col-md-12">
            
-                    <h2 style="color: #9f8e64;">ADD DOCTOR</h2><br>
+                    <h2 style="color: #9f8e64;">ADD DOCTOR</h2>
                     <form method="POST" action="#"  onsubmit="return validate();">
                     <div class="form-group col-12 mt-2">
                        <label class="form-label text-dark">Email:</label>

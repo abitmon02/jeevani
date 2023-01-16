@@ -25,8 +25,8 @@
     <section class="main">
         <div class="sidebar">
             <ul class="sidebar--items">
-                <li>
-                    <a href="index.php"  id="active--link">
+            <li>
+                    <a href="index.php" id="active--link">
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
@@ -34,29 +34,20 @@
                 <li>
                     <a href="addproduct.php">
                         <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                        <span class="sidebar--item">Packages</span>
+                        <span class="sidebar--item">Treatments</span>
                     </a>
                 </li>
-                <li>
+                  <li>
                     <a href="customPackages.php">
-                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="icon icon-5"><i class="ri-command-line"></i></span>
                         <span class="sidebar--item"> Custom Packages</span>
                     </a>
                 </li>
                 <li>
-                <a href="viewpatients.php">
+                    <a href="viewpatients.php">
                         <span class="icon icon-3"><i class="ri-user-line"></i></span>
                         <span class="sidebar--item" style="white-space: nowrap;">Patients</span>
 
-                    </a>
-                </li>
-
-
-
-                 <li>
-                    <a href="viewdoctors.php">
-                        <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
-                        <span class="sidebar--item">Doctors List</span>
                     </a>
                 </li>
                 <li>
@@ -65,7 +56,20 @@
                         <span class="sidebar--item">Add Doctor</span>
                     </a>
                 </li>
-            
+
+                <li>
+                    <a href="viewdoctors.php">
+                        <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
+                        <span class="sidebar--item">Doctors List</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="viewtreatment.php">
+                    <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                     <span class="sidebar--item">Packages Bookings</span>
+                   </a>
+                </li>
+
                 <li>
                     <a href="manage_drleave.php">
                         <span class="icon icon-6"><i class="ri-map-pin-user-line"></i></span>
@@ -74,8 +78,20 @@
                 </li>
                 <li>
                     <a href="removedoctor.php">
-                    <span class="icon icon-4"><i class="ri-user-line"></i></span>
+                        <span class="icon icon-2"><i class="ri-user-settings-fill"></i></span>
                         <span class="sidebar--item">Manage Doctor</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="category.php">
+                        <span class="icon icon-4"><i class="ri-shopping-bag-2-fill"></i></span>
+                        <span class="sidebar--item">Manage Product Category</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="products.php">
+                        <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
+                        <span class="sidebar--item">Manage Products</span>
                     </a>
                 </li>
                 <li>

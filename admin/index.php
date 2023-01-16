@@ -14,12 +14,12 @@ if (!isset($_SESSION["email"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/adminstyle.css">
-<link rel="stylesheet" href="speech-recognition/style.css">
+
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <title>Admin</title>
 
 
-
+    <link rel="stylesheet" href="speech-recognition/style.css">
 </head>
 
 <body>

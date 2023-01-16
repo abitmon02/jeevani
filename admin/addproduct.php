@@ -58,13 +58,13 @@ if (isset($_POST["submit"])) {
         <div class="sidebar">
             <ul class="sidebar--items">
             <li>
-                    <a href="#" id="active--link">
+                    <a href="index.php" >
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="addproduct.php">
+                    <a href="#" id="active--link">
                         <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
                         <span class="sidebar--item">Treatments</span>
                     </a>

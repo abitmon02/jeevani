@@ -40,7 +40,7 @@ if (!isset($_SESSION["email"])) {
         <div class="sidebar">
             <ul class="sidebar--items">
             <li>
-                    <a href="#" id="active--link">
+                    <a href="index.php" >
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
@@ -97,7 +97,7 @@ if (!isset($_SESSION["email"])) {
                     </a>
                 </li>
                 <li>
-                    <a href="category.php">
+                    <a href="#" id="active--link">
                         <span class="icon icon-4"><i class="ri-shopping-bag-2-fill"></i></span>
                         <span class="sidebar--item">Manage Product Category</span>
                     </a>
