@@ -23,17 +23,19 @@ if (isset($_POST["submit"]))
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/cngps.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css"> 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
-  <script src="main.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
-   
+    <script src="main.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="css/dashboard.css">
+
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Admin</title>
 
   
@@ -52,38 +54,29 @@ if (isset($_POST["submit"]))
     <section class="main">
         <div class="sidebar">
             <ul class="sidebar--items">
-                <li>
-                    <a href="index.php"  >
+            <li>
+                    <a href="#" id="active--link">
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="addproduct.php"id="active--link">
+                    <a href="addproduct.php">
                         <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                        <span class="sidebar--item">Packages</span>
+                        <span class="sidebar--item">Treatments</span>
                     </a>
                 </li>
-                <li>
+                  <li>
                     <a href="customPackages.php">
-                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="icon icon-5"><i class="ri-command-line"></i></span>
                         <span class="sidebar--item"> Custom Packages</span>
                     </a>
                 </li>
                 <li>
-                <a href="viewpatients.php">
+                    <a href="viewpatients.php">
                         <span class="icon icon-3"><i class="ri-user-line"></i></span>
                         <span class="sidebar--item" style="white-space: nowrap;">Patients</span>
 
-                    </a>
-                </li>
-
-
-
-                 <li>
-                    <a href="viewdoctors.php">
-                        <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
-                        <span class="sidebar--item">Doctors List</span>
                     </a>
                 </li>
                 <li>
@@ -92,7 +85,20 @@ if (isset($_POST["submit"]))
                         <span class="sidebar--item">Add Doctor</span>
                     </a>
                 </li>
-            
+
+                <li>
+                    <a href="viewdoctors.php">
+                        <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
+                        <span class="sidebar--item">Doctors List</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="viewtreatment.php">
+                    <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                     <span class="sidebar--item">Packages Bookings</span>
+                   </a>
+                </li>
+
                 <li>
                     <a href="manage_drleave.php">
                         <span class="icon icon-6"><i class="ri-map-pin-user-line"></i></span>
@@ -101,8 +107,20 @@ if (isset($_POST["submit"]))
                 </li>
                 <li>
                     <a href="removedoctor.php">
-                    <span class="icon icon-4"><i class="ri-user-line"></i></span>
+                        <span class="icon icon-2"><i class="ri-user-settings-fill"></i></span>
                         <span class="sidebar--item">Manage Doctor</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="category.php">
+                        <span class="icon icon-4"><i class="ri-shopping-bag-2-fill"></i></span>
+                        <span class="sidebar--item">Manage Product Category</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="products.php">
+                        <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
+                        <span class="sidebar--item">Manage Products</span>
                     </a>
                 </li>
                 <li>
@@ -161,11 +179,11 @@ if (isset($_POST["submit"]))
 									<td><p>1 day</p></td>
 									<td><p><?php echo $res['p_amount'];?></p></td>  						
 									 <td><a href="editpackages.php?edit_id=
-                                    <?php echo $res['p_id']; ?>"><span  class="status completed">EDIT</span></a>  
+                                    <?php echo $res['p_id']; ?>"><span class="btn btn-md btn-success">EDIT</span></a>  
 									     <td> <?php if($res['p_status']==0){
-                                        echo '<p><a input type="text"   class="status completed"href="pinactive.php?p_id='.$res['p_id'].'&status=1">DEACTIVATE</a></p>';
+                                        echo '<p><a input type="text"   class="btn btn-md btn-success" href="pinactive.php?p_id='.$res['p_id'].'&status=1">DEACTIVATE</a></p>';
                                         }if($res['p_status']==1){
-                                        echo '<p><a input type="text" class="status completed" href="pactive.php?p_id='.$res['p_id'].'&status=0">ACTIVATE</a></p>';
+                                        echo '<p><a input type="text" class="btn btn-md btn-success" href="pactive.php?p_id='.$res['p_id'].'&status=0">ACTIVATE</a></p>';
                                         } ?></td>
 
                                      </tr>

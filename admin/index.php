@@ -4,6 +4,7 @@ session_start();
 if (!isset($_SESSION["email"])) {
     header("Location:../user-login.php");
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,12 +64,12 @@ if (!isset($_SESSION["email"])) {
                 <li>
                     <a href="addproduct.php">
                         <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                        <span class="sidebar--item">Packages</span>
+                        <span class="sidebar--item">Treatments</span>
                     </a>
                 </li>
                   <li>
                     <a href="customPackages.php">
-                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="icon icon-5"><i class="ri-command-line"></i></span>
                         <span class="sidebar--item"> Custom Packages</span>
                     </a>
                 </li>
@@ -95,7 +96,7 @@ if (!isset($_SESSION["email"])) {
                 <li>
                     <a href="viewtreatment.php">
                     <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                     <span class="sidebar--item">Treatment Bookings</span>
+                     <span class="sidebar--item">Packages Bookings</span>
                    </a>
                 </li>
 
@@ -107,8 +108,20 @@ if (!isset($_SESSION["email"])) {
                 </li>
                 <li>
                     <a href="removedoctor.php">
-                        <span class="icon icon-4"><i class="ri-user-line"></i></span>
+                        <span class="icon icon-2"><i class="ri-user-settings-fill"></i></span>
                         <span class="sidebar--item">Manage Doctor</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="category.php">
+                        <span class="icon icon-4"><i class="ri-shopping-bag-2-fill"></i></span>
+                        <span class="sidebar--item">Manage Product Category</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="products.php">
+                        <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
+                        <span class="sidebar--item">Manage Products</span>
                     </a>
                 </li>
                 <li>

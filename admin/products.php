@@ -58,6 +58,12 @@ if (!isset($_SESSION["email"])) {
                     </a>
                 </li>
                 <li>
+                    <a href="viewtreatment.php">
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Treatment Bookings</span>
+                    </a>
+                </li>
+                <li>
                     <a href="viewpatients.php">
                         <span class="icon icon-3"><i class="ri-user-line"></i></span>
                         <span class="sidebar--item" style="white-space: nowrap;">Patients</span>
@@ -68,36 +74,31 @@ if (!isset($_SESSION["email"])) {
 
 
                 <li>
-                    <a href="viewdoctors.php">
-                        <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
-                        <span class="sidebar--item">Doctors List</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="viewtreatment.php">
-                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                        <span class="sidebar--item">Treatment Bookings</span>
-                    </a>
-                </li>
-                <li>
                     <a href="adddoc.php">
                         <span class="icon icon-4"><i class="ri-user-add-line"></i></span>
                         <span class="sidebar--item">Add Doctor</span>
                     </a>
                 </li>
-
                 <li>
-                    <a href="manage_drleave.php">
-                        <span class="icon icon-6"><i class="ri-map-pin-user-line"></i></span>
-                        <span class="sidebar--item">Manage Doctor's Leave</span>
+                    <a href="viewdoctors.php">
+                        <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
+                        <span class="sidebar--item">Doctors List</span>
                     </a>
                 </li>
+
                 <li>
                     <a href="#" id="active--link">
                         <span class="icon icon-4"><i class="ri-user-line"></i></span>
                         <span class="sidebar--item">Manage Doctor</span>
                     </a>
                 </li>
+                <li>
+                    <a href="manage_drleave.php">
+                        <span class="icon icon-6"><i class="ri-map-pin-user-line"></i></span>
+                        <span class="sidebar--item">Manage Doctor's Leave</span>
+                    </a>
+                </li>
+        
                 <li>
                     <a href="vw_fdbck.php">
                         <span class="icon icon-6"><i class="ri-feedback-fill"></i></span>

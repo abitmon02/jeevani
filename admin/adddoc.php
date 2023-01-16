@@ -96,14 +96,20 @@ $duplicate=mysqli_query($con, "SELECT * from tbl_login WHERE email='$email'");
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="addoc.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <script src="main.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="css/removedr.css">
+
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.5/dist/bootstrap-validate.js" ></script>
-    <script src="https://cdn.rawgit.com/PascaleBeier/bootstrap-validate/v2.2.5/dist/bootstrap-validate.js" ></script>
- 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
     <title>Admin</title>
 
   
@@ -121,63 +127,73 @@ $duplicate=mysqli_query($con, "SELECT * from tbl_login WHERE email='$email'");
     <section class="main">
         <div class="sidebar">
             <ul class="sidebar--items">
-                <li>
-                    <a  href="admin.php" id="#">
+            <li>
+                    <a href="#" id="active--link">
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
                 </li>
                 <li>
-				<a href="addproduct.php">
+                    <a href="addproduct.php">
                         <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                        <span class="sidebar--item">Packages</span>
+                        <span class="sidebar--item">Treatments</span>
                     </a>
                 </li>
-                <li>
+                  <li>
                     <a href="customPackages.php">
-                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="icon icon-5"><i class="ri-command-line"></i></span>
                         <span class="sidebar--item"> Custom Packages</span>
                     </a>
                 </li>
                 <li>
-                <a href="viewpatients.php" >
+                    <a href="viewpatients.php">
                         <span class="icon icon-3"><i class="ri-user-line"></i></span>
                         <span class="sidebar--item" style="white-space: nowrap;">Patients</span>
 
                     </a>
                 </li>
-
-
-
-                 <li>
-				 <a href="viewdoctors.php">
-                        <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
-                        <span class="sidebar--item">Doctors List</span>
-                    </a>
-                </li>
                 <li>
-                    <a href="viewtreatment.php">
-                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                        <span class="sidebar--item">Treatment Bookings</span>
-                    </a>
-                </li>
-                 <li>
-                    <a href="adddoc.php" id="active--link">
+                    <a href="adddoc.php">
                         <span class="icon icon-4"><i class="ri-user-add-line"></i></span>
                         <span class="sidebar--item">Add Doctor</span>
                     </a>
                 </li>
 
                 <li>
-				<a href="manage_drleave.php">
+                    <a href="viewdoctors.php">
+                        <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
+                        <span class="sidebar--item">Doctors List</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="viewtreatment.php">
+                    <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                     <span class="sidebar--item">Packages Bookings</span>
+                   </a>
+                </li>
+
+                <li>
+                    <a href="manage_drleave.php">
                         <span class="icon icon-6"><i class="ri-map-pin-user-line"></i></span>
                         <span class="sidebar--item">Manage Doctor's Leave</span>
                     </a>
                 </li>
                 <li>
-				<a href="removedoctor.php">
-                    <span class="icon icon-4"><i class="ri-user-line"></i></span>
+                    <a href="removedoctor.php">
+                        <span class="icon icon-2"><i class="ri-user-settings-fill"></i></span>
                         <span class="sidebar--item">Manage Doctor</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="category.php">
+                        <span class="icon icon-4"><i class="ri-shopping-bag-2-fill"></i></span>
+                        <span class="sidebar--item">Manage Product Category</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="products.php">
+                        <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
+                        <span class="sidebar--item">Manage Products</span>
                     </a>
                 </li>
                 <li>
@@ -198,26 +214,27 @@ $duplicate=mysqli_query($con, "SELECT * from tbl_login WHERE email='$email'");
             </ul>
         </div>
 
-    </section>
-
-    
-    <!-- CONTENT -->
-    <section id="content">
+        <div class="main--content">
 			<!-- MAIN -->
-			<main>
-			
-                <div class="container">
+            <div class="overview">
+        <div class="row mt-5">
+            <div class="col-md-12">
+           
                     <h2 style="color: #9f8e64;">ADD DOCTOR</h2><br>
                     <form method="POST" action="#"  onsubmit="return validate();">
-                       <label>Email:</label>
-                        <input type="email" id="email" name="email" placeholder="Email" required>
+                    <div class="form-group col-12 mt-2">
+                       <label class="form-label text-dark">Email:</label>
+                        <input type="email" id="email"  class="form-control" name="email" placeholder="Email" required>
                         <span style="color: red; margin-left:50px; font-size:12px"></span><br>
-                        <label>Name:</label>
-                        <input type="text" id="name" name="name" placeholder="Enter Name" >
+                    
+                
+                            <label class="form-label text-dark">Name:</label>
+                        <input type="text" id="name" class="form-control"  name="name" placeholder="Enter Name" >
                      
                         <span style="color: red; margin-left:250px; font-size:12px"></span><br>
-                       
-                        <input type="submit" name="submit" id="mysubmit" value="Submit">              
+                        
+                    
+                        <input type="submit"class="btn btn-md btn-success"  name="submit" id="mysubmit" value="Submit">              
                     </form>
                 </div>
            
