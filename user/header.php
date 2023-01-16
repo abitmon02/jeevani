@@ -33,45 +33,50 @@
                 </li>
                 <li>
                     <a href="appoinment.php">
-                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="icon icon-2"><i class="ri-folder-add-fill"></i></span>
                         <span class="sidebar--item">Book Appointment</span>
                     </a>
                 </li>
                 <li>
                     <a href="appoinmenthistory.php">
-                        <span class="icon icon-3"><i class="ri-user-line"></i></span>
+                        <span class="icon icon-2"><i class="ri-health-book-line"></i></span>
                         <span class="sidebar--item" style="white-space: nowrap;">Appointent History</span>
                     </a>
                 </li>
                 <li>
                     <a href="packages.php">
-                        <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
+                        <span class="icon icon-2"><i class="ri-stethoscope-fill"></i></span>
                         <span class="sidebar--item"> Treatment</span>
                     </a>
                 </li>
                 <li>
                     <a href="treatmenthistory.php">
-                        <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
+                        <span class="icon icon-2"><i class="ri-folder-history-line"></i></span>
                         <span class="sidebar--item"> Treatment Booking history</span>
                     </a>
                 </li>
-
+                <li>
+                    <a href="products.php">
+                        <span class="icon icon-2"><i class="ri-shopping-basket-2-line"></i></span>
+                        <span class="sidebar--item"> Products</span>
+                    </a>
+                </li>
 
                 <li>
                     <a href="feedback.php">
-                        <span class="icon icon-6"><i class="ri-customer-service-line"></i></span>
+                        <span class="icon icon-2"><i class="ri-discuss-fill "></i></span>
                         <span class="sidebar--item">Feedbacks</span>
                     </a>
                 </li>
                 <li>
                     <a href="edituserpro.php">
-                        <span class="icon icon-4"><i class="ri-user-line"></i></span>
+                        <span class="icon icon-4"><i class="ri-profile-line"></i></span>
                         <span class="sidebar--item">Update Profile</span>
                     </a>
                 </li>
                 <li>
                     <a href="updatepass.php">
-                        <span class="icon icon-6"><i class="ri-feedback-fill"></i></span>
+                        <span class="icon icon-2"><i class="ri-lock-password-fill"></i></span>
                         <span class="sidebar--item">Update Password</span>
                     </a>
                 </li>

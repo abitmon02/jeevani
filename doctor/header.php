@@ -34,26 +34,26 @@
                 </li>
                 <li>
                     <a href="docsheduler.php" >
-                        <span class="icon icon-2"><i class="ri-send-plane-fill"></i></span>
+                        <span class="icon icon-2"><i class="ri-time-line"></i></span>
                         <span class="sidebar--item">Manage Time shedule</span>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="prescribe.php" >
                         <span class="icon icon-4"><i class="ri-send-plane-fill"></i></span>
                         <span class="sidebar--item">prescription</span>
                     </a>
-                </li>
+                </li> -->
                 <li>
                     <a href="docappoview.php" >
-                        <span class="icon icon-4"><i class="ri-send-plane-fill"></i></span>
-                        <span class="sidebar--item">Appoinment Manage</span>
+                        <span class="icon icon-2"><i class="ri-health-book-fill"></i></span>
+                        <span class="sidebar--item">Manage Appoinment </span>
                     </a>
                 </li>
                 
                 <li>
                     <a href="appohistory.php" >
-                        <span class="icon icon-4"><i class="ri-send-plane-fill"></i></span>
+                        <span class="icon icon-2"><i class="ri-health-book-line"></i></span>
                         <span class="sidebar--item">Appoinment History</span>
                     </a>
                 </li>
