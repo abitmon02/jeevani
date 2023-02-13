@@ -59,6 +59,7 @@ if (isset($_POST['submit'])) {
 	<link rel="stylesheet" href="css/login.css">
 	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
+
 <style>.error_form
 {
 top: 12px;
@@ -69,6 +70,14 @@ font-weight:bold;
 }</style>
 
 <body>
+<div id="google_element">
+<script src="http://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+                            <script >
+                                function loadGoogleTranslate(){
+                                   new google.translate.TranslateElement("google_element");
+                                }
+                            </script>
+  </div>
 	<form action="#" method="post">
 		
 		<div id='login-form' class='login-page'>

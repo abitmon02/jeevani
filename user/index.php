@@ -6,6 +6,8 @@ $sessObj = new SessionManageCls();
 if ($sessObj->isLogged() == true) {
     $user_data = $sessObj->getSessionData();
     require 'header.php';
+
+    
    
 ?>
     <!-- content -->

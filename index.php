@@ -79,6 +79,14 @@ include('config.php');
       <!---->
       <div class="nav-links" id="navLinks">
         <i class="fa fa-times" onclick="hideMenu()"></i>
+        <div id="google_element">
+<script src="http://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+                            <script >
+                                function loadGoogleTranslate(){
+                                   new google.translate.TranslateElement("google_element");
+                                }
+                            </script>
+  </div>
         <ul>
           <li><a href="">HOME</a></li>
           <li><a class="navv-link" href="#about">ABOUT</a></li>
