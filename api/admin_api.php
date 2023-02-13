@@ -15,6 +15,15 @@ if ($sessObj->isLogged() == true) {
         } else if ($_POST['action'] == 2) {
             $remove_id = filter_var($_POST['remove_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $adminObj->removeAdminCustomPackage($remove_id);
+        } else if ($_POST['action'] == 3) {
+            $pay_id = filter_var($_POST['pay_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $adminObj->cancelUserPurchase($pay_id);
+        } else if ($_POST['action'] == 4) {
+            $pay_id = filter_var($_POST['pay_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $adminObj->processPurchaseFnc($pay_id);
+        } else if ($_POST['action'] == 5) {
+            $type = filter_var($_POST['type'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $adminObj->getChartData($type);
         }
     }
 } else {

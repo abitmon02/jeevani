@@ -110,7 +110,7 @@ if ($sessObj->isLogged() == true) {
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Appoinment Date</label>
-                    <input type="date" class="form-control" id="inp_appo_date" placeholder="">
+                    <input type="date" class="form-control" id="inp_appo_date"  min="<?php echo date("Y-m-d"); ?>"placeholder="">
                 </div>
                 <button onclick="invokePackageAdd()" class="btn btn-success mt-3" style="background-color: green; border:none;">Create</button>
             </div>

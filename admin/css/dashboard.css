@@ -139,6 +139,7 @@ img {
     justify-content: space-between;
     border-right: 2px solid #f1f1f1;
     transition: .3s;
+    overflow-y: scroll;
 }
 
 .sidebar.active {

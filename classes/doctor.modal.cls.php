@@ -1,6 +1,10 @@
     <?php
     class DoctorModalcls extends Dbh
     {
+        protected function getCorrespondUserDB($appo_id)
+        {
+            return $this->connection()->query("SELECT `appoinment_tbl`.`appo_id`,`tbl_login`.`email`,`tbl_patient`.`u_name` FROM `appoinment_tbl` INNER JOIN `tbl_login` ON `appoinment_tbl`.`l_id` = `tbl_login`.`l_id` LEFT JOIN `tbl_patient` ON `tbl_login`.`l_id` = `tbl_patient`.`l_id` WHERE `appoinment_tbl`.`appo_id` = '$appo_id';")->fetch_assoc();
+        }
         protected function checkLogidDB(int $log_id)
         {
             if (!empty($this->connection()->query("SELECT * FROM `tbl_login` WHERE `tbl_login`.`l_id` = '$log_id';")->fetch_assoc())) {

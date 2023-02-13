@@ -1,6 +1,46 @@
 <?php
 class AdminContrlCls extends AdminModalCls
 {
+    public function getChartData($type)
+    {
+        if (is_numeric($type)) {
+            $data = $this->getChartDataDB($type);
+            if (!empty($data)) {
+                $return_data = ['status' => 1, 'data' => $data, 'type' => $type];
+            } else {
+                $return_data = ['status' => 0, 'msg' => "Empty Data", 'error_code' => 3.1];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Invalid request", 'error_code' => 3.0];
+        }
+        echo json_encode($return_data);
+    }
+    public function processPurchaseFnc($pay_id)
+    {
+        if (is_numeric($pay_id) && $pay_id != NULL) {
+            if ($this->processPurchaseDB($pay_id)) {
+                $return_data = ['status' => 1, 'msg' => "Success, Product shipping completed."];
+            } else {
+                $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.3];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Value manipulation found", 'error_code' => 2.4];
+        }
+        echo json_encode($return_data);
+    }
+    public function cancelUserPurchase($pay_id)
+    {
+        if (is_numeric($pay_id) && $pay_id != NULL) {
+            if ($this->cancelUserPurchaseDB($pay_id)) {
+                $return_data = ['status' => 1, 'msg' => "Success Purchase cancelled"];
+            } else {
+                $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.3];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Value manipulation found", 'error_code' => 2.4];
+        }
+        echo json_encode($return_data);
+    }
     public function removeAdminCustomPackage($remove_id)
     {
         if (is_numeric($remove_id) && $remove_id != 0) {

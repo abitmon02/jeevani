@@ -238,7 +238,7 @@ a {
     right: 0;
     height: 100%;
     width: calc(100% - 300px);
-    padding: 0 40px;
+    padding: 0 10px;
     overflow-y: scroll;
     transition: .3s;
 }

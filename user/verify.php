@@ -86,6 +86,33 @@ if ($sessObj->isLogged() == true) {
                     $html = "<p>Your payment was successful.But something wrong happen from our side.</p>
                 <p>Payment ID: {$_POST['razorpay_payment_id']}</p>";
                 }
+            } else  if (isset($_POST['status']) && $_POST['status'] == 4 && $orderData['order_mode'] == 4) {
+                $dbObj = $dbObj->connFnc();
+                $cart_data = $dbObj->query("SELECT * FROM `tbl_cart` WHERE `tbl_cart`.`user_log_id` = '" . $orderData['user_id'] . "';")->fetch_all(MYSQLI_ASSOC);
+                if (!empty($cart_data)) {
+                    if ($dbObj->query("INSERT INTO `tbl_p_purchase`(`log_id`,`bill_id`,`r_pay_id`, `r_order_id`, `total_amount`, `date`,`status`) VALUES ('" . $orderData['user_id'] . "','" . $orderData['address_id'] . "','$razorpay_payment_id','$razorpay_order_id','" . $orderData['final_amount'] . "','" . $orderData['date'] . "',0)")) {
+                        $insert_id = $dbObj->insert_id;
+                        foreach ($cart_data as $item) {
+                            $dbObj->query("INSERT INTO `tbl_p1_purchase`( `pay_id`, `qty`, `product_id`) VALUES ('$insert_id','" . $item['qty'] . "','" . $item['product_id'] . "')");
+                            $total_stock = $dbObj->query("SELECT  `stock` FROM `tbl_product` WHERE `tbl_product`.`product_id` = '" . $item['product_id'] . "';")->fetch_assoc();
+                            $stock = $total_stock['stock'] - $item['qty'];
+                            $dbObj->query("UPDATE `tbl_product` SET `stock`='" . $stock . "' WHERE `tbl_product`.`product_id` = '" . $item['product_id'] . "';");
+                        }
+                        if ($dbObj->query("DELETE FROM `tbl_cart` WHERE `tbl_cart`.`user_log_id` = '" . $orderData['user_id'] . "';")) {
+                            echo $html;
+                            header("refresh:5;url=orderHistory.php");
+                        } else {
+                            $html = "<p>Your payment was successful.But something wrong happen from our side.</p>
+                            <p>Payment ID: {$_POST['razorpay_payment_id']}</p>";
+                        }
+                    } else {
+                        $html = "<p>Your payment was successful.But something wrong happen from our side.</p>
+                        <p>Payment ID: {$_POST['razorpay_payment_id']}</p>";
+                    }
+                } else {
+                    $html = "<p>Your payment was successful.But something wrong happen from our side.</p>
+                    <p>Payment ID: {$_POST['razorpay_payment_id']}</p>";
+                }
             }
         }
     } else {

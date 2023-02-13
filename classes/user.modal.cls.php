@@ -1,6 +1,14 @@
 <?php
 class UserModalcls extends Dbh
 {
+    protected function cancelUserPurchaseDB($pay_id)
+    {
+        if ($this->connection()->query("UPDATE `tbl_p_purchase` SET `status` = 4 WHERE `tbl_p_purchase`.`pay_id` = '$pay_id';")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     protected function checkLogidDB(int $log_id): bool
     {
         if (!empty($this->connection()->query("SELECT * FROM `tbl_login` WHERE `tbl_login`.`l_id` = '$log_id';")->fetch_assoc())) {
@@ -111,5 +119,53 @@ class UserModalcls extends Dbh
     protected function fetchCustomPackageData($userlog_id, $user_pack_id)
     {
         return $this->connection()->query("SELECT `tbl_custom_package`.`id`,`tbl_custom_package`.`user_log_id`,`tbl_custom_package`.`type_status`,`tbl_custom_package`.`create_date`,`tbl_custom_package`.`num_days`,`tbl_custom_package`.`appo_date`,`tbl_custom_package`.`admin_custom_p_id`,`admin_custom_pack_main_tbl`.`days`,`admin_custom_pack_main_tbl`.`discount` FROM `tbl_custom_package` LEFT JOIN `admin_custom_pack_main_tbl` ON `tbl_custom_package`.`admin_custom_p_id` = `admin_custom_pack_main_tbl`.`id` WHERE `tbl_custom_package`.`id` = '$user_pack_id' AND `tbl_custom_package`.`user_log_id` = '$userlog_id';")->fetch_assoc();
+    }
+    protected function addToCartDB($userlog_id, $productId, $qty)
+    {
+        if ($this->connection()->query("INSERT INTO `tbl_cart`( `product_id`,`user_log_id`, `qty`, `date`) VALUES ('$productId','$userlog_id','$qty',now())")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function checkProductExitDB($userlog_id, $productId)
+    {
+        if (empty($this->connection()->query("SELECT * FROM `tbl_cart` WHERE `tbl_cart`.`user_log_id` = '$userlog_id' AND `tbl_cart`.`product_id` = '$productId'")->fetch_assoc())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function removeFromCartDB($cart_id)
+    {
+        if ($this->connection()->query("DELETE FROM `tbl_cart` WHERE `tbl_cart`.`cart_id` = '$cart_id'")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function FetchCartTotal($user_id)
+    {
+        return $this->connection()->query("SELECT sum(IF(`tbl_cart`.`qty` > 0,`tbl_cart`.`qty` * `tbl_product`.`price`,0)) as total_amount FROM `tbl_cart` INNER JOIN `tbl_product` ON `tbl_cart`.`product_id` = `tbl_product`.`product_id` WHERE `tbl_cart`.`user_log_id` = '$user_id';")->fetch_assoc();
+    }
+    protected function fetchBillAddress($address_id)
+    {
+        return $this->connection()->query("SELECT * FROM `tbl_bill_address` INNER JOIN `tbl_login` ON `tbl_bill_address`.`user_log_id` = `tbl_login`.`l_id` INNER JOIN `tbl_patient` ON `tbl_bill_address`.`user_log_id` = `tbl_bill_address`.`user_log_id` WHERE `tbl_bill_address`.`address_id` = '$address_id';")->fetch_assoc();
+    }
+    protected function addNewUserAddressDB($user_id, $contact_number, $address, $pincode)
+    {
+        if ($this->connection()->query("INSERT INTO `tbl_bill_address`( `user_log_id`, `contact_no`, `address`, `pincode`, `date`) VALUES ('$user_id','$contact_number','$address','$pincode',now())")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function checkStock($user_id)
+    {
+        return $this->connection()->query("SELECT * FROM `tbl_cart` INNER JOIN `tbl_product` ON `tbl_cart`.`product_id` = `tbl_product`.`product_id` WHERE `tbl_cart`.`user_log_id` = '$user_id';")->fetch_all(MYSQLI_ASSOC);
+    }
+    protected function getStockData($productId)
+    {
+        return $this->connection()->query("SELECT `tbl_product`.`stock` FROM `tbl_product` WHERE `tbl_product`.`product_id` = '$productId'")->fetch_assoc();
     }
 }

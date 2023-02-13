@@ -28,6 +28,9 @@ if ($sessObj->isLogged() == true) {
             $presc = filter_var($_POST['presc'], FILTER_SANITIZE_SPECIAL_CHARS);
             $symptom = filter_var($_POST['symptom'], FILTER_SANITIZE_SPECIAL_CHARS);
             $doctorObj->updateAppoDataDB($appo_id, $userlog_id, $presc, $symptom);
+        } else if ($_POST['action'] == 6) {
+            $appo_id = filter_var($_POST['appo_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $doctorObj->zoomMeetLinkGen($appo_id);
         }
     }
 } else {

@@ -53,6 +53,27 @@ if ($sessObj->isLogged() == true) {
             $userlog_id = filter_var($_POST['userlog_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $user_pack_id = filter_var($_POST['user_pack_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $userObj->payCustomPackageFnc($userlog_id, $user_pack_id);
+        } else if ($_POST['action'] == 10) {
+            $userlog_id = filter_var($_POST['userlog_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $productId = filter_var($_POST['productId'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $qty = filter_var($_POST['qty'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $userObj->addToCart($userlog_id, $productId, $qty);
+        } else if ($_POST['action'] == 11) {
+            $cart_id = filter_var($_POST['cart_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $userObj->removeFromCart($cart_id);
+        } else if ($_POST['action'] == 12) {
+            $user_id = filter_var($_POST['user_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $contact_number = filter_var($_POST['contact_number'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $address = filter_var($_POST['address'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $pincode = filter_var($_POST['pincode'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $userObj->addNewUserAddress($user_id, $contact_number, $address, $pincode);
+        } else if ($_POST['action'] == 13) {
+            $user_id = filter_var($_POST['user_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $address_id = filter_var($_POST['address_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $userObj->payProductFnc($user_id, $address_id);
+        } else if ($_POST['action'] == 14) {
+            $pay_id = filter_var($_POST['pay_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $userObj->cancelUserPurchase($pay_id);
         }
     }
 } else {

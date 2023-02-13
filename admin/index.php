@@ -18,7 +18,9 @@ if (!isset($_SESSION["email"])) {
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <title>Admin</title>
 
-
+    <!-- chart js cdn -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <link rel="stylesheet" href="speech-recognition/style.css">
 </head>
 
@@ -37,12 +39,12 @@ if (!isset($_SESSION["email"])) {
                                 <form action="search.php" method="POST">
                                     <div class="input-group mb-3">
                                         <input style="float:right;width: 300px;padding:20px;height:10px;margin-bottom:-10px;background-color:0001" type="text" name="search" required value="<?php if (isset($_GET['search'])) {
-                                                                                                                                                                                                 echo $_GET['search'];
+                                                                                                                                                                                                    echo $_GET['search'];
                                                                                                                                                                                                 } ?>" class="form-control" placeholder="Search Users">
                                         <!-- <button type="submit" class="btn btn-primary" style="border-radius:12px;padding:8px; background-color: #d0e0c1;">Search</button> -->
-                                        
- <button type="submit" style="float:right;margin-top :-20px;margin-right:10px;"><i class="ri-search-2-line"></i></button>
-<button type="button" id="toggle">start speaking</button>   
+
+                                        <button type="submit" style="float:right;margin-top :-20px;margin-right:10px;"><i class="ri-search-2-line"></i></button>
+                                        <button type="button" id="toggle">start speaking</button>
                                     </div>
                                 </form>
                             </div>
@@ -67,12 +69,13 @@ if (!isset($_SESSION["email"])) {
                         <span class="sidebar--item">Treatments</span>
                     </a>
                 </li>
-                  <li>
+                <li>
                     <a href="customPackages.php">
                         <span class="icon icon-5"><i class="ri-command-line"></i></span>
                         <span class="sidebar--item"> Custom Packages</span>
                     </a>
                 </li>
+
                 <li>
                     <a href="viewpatients.php">
                         <span class="icon icon-3"><i class="ri-user-line"></i></span>
@@ -95,9 +98,9 @@ if (!isset($_SESSION["email"])) {
                 </li>
                 <li>
                     <a href="viewtreatment.php">
-                    <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                     <span class="sidebar--item">Packages Bookings</span>
-                   </a>
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Packages Bookings</span>
+                    </a>
                 </li>
 
                 <li>
@@ -122,6 +125,12 @@ if (!isset($_SESSION["email"])) {
                     <a href="products.php">
                         <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
                         <span class="sidebar--item">Manage Products</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="orderHistory.php">
+                        <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
+                        <span class="sidebar--item">Mange orders and History</span>
                     </a>
                 </li>
                 <li>
@@ -152,26 +161,7 @@ if (!isset($_SESSION["email"])) {
                         <span>
                             <h2 class="section--title"> <b>Overview </b></h2>
                         </span>
-                        <!-- <span>  
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-7" style=" display: flex; justify-content: flex-start; padding-left:20px;" >
-                            <div class="search--notification--profile">
-                                     <div class="search"style="margin-left: 230px;"  >
-                                <form action="search.php" method="POST" >
-                                    <div  class="input-group mb-3">
-                                        <input style="float:right;width: 300px;padding:20px;height:10px;margin-bottom:-10px;background-color:0001"type="text" name="search" required value="<//?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search Users">
-                                        <button type="submit" class="btn btn-primary" style="border-radius:12px;padding:8px; background-color: #d0e0c1;">Search</button>
-                                        <button type="submit" style="float:right;margin-top :-20px;margin-right:10px;" ><i class="ri-search-2-line"></i></button>
-               
-                                    </div>
-                                </form>
-                            </div> 
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-               </span> -->
+
                     </div>
                 </div>
 
@@ -247,7 +237,22 @@ if (!isset($_SESSION["email"])) {
                     </div>
                 </div>
             </div>
+            <div class="recent--patients">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="barChart" style="width:100%; height:400px"></div>
+                    </div>
 
+                </div>
+            </div>
+            <div class="row recent--patients">
+                <div class="col-md-6">
+                    <div id="piChart" style="width:100%; height:400px"></div>
+                </div>
+                <!-- <div class="col-md-6">
+                    <div id="lineGraph" style="width:100%; height:400px"></div>
+                </div> -->
+            </div>
             <div class="recent--patients">
                 <div class="title">
                     <h2 class="section--title"><b>Active Patients</b></h2>
@@ -345,9 +350,122 @@ if (!isset($_SESSION["email"])) {
     </section>
 
 
-<script  src="speech-recognition/script.js"></script>
+    <script src="speech-recognition/script.js"></script>
     <script src="assets/js/main.js"></script>
+    <script>
+        google.charts.load('current', {
+            packages: ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawChart);
 
+        function drawChart() {
+            $.ajax({
+                type: "POST",
+                url: "../api/admin_api.php",
+                data: {
+                    'action': 5,
+                    'type': 1
+                },
+
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 1) {
+                        if (response.type == 1) {
+                            payload = response.data;
+                            temp = [];
+                            temp.push(['Products', 'Highest Sale'])
+                            payload.forEach(element => {
+                                temp.push([element.product_name, Number(element.total)])
+                            });
+                            var data = google.visualization.arrayToDataTable(temp);
+
+                            var options = {
+                                title: 'Product Sales Report'
+                            };
+                            var chart = new google.visualization.BarChart(document.getElementById('barChart'));
+                            chart.draw(data, options);
+                        }
+                    } else {
+                        console.log(response)
+                    }
+                }
+            });
+        }
+        // google.charts.setOnLoadCallback(drawChart1);
+
+        function drawChart1() {
+
+            // Set Data
+            var data = google.visualization.arrayToDataTable([
+                ['Price', 'Size'],
+                [50, 7],
+                [60, 8],
+                [70, 8],
+                [80, 9],
+                [90, 9],
+                [100, 9],
+                [110, 10],
+                [120, 11],
+                [130, 14],
+                [140, 14],
+                [150, 15]
+            ]);
+            // Set Options
+            var options = {
+                title: 'House Prices vs. Size',
+                hAxis: {
+                    title: 'Square Meters'
+                },
+                vAxis: {
+                    title: 'Price in Millions'
+                },
+                legend: 'none'
+            };
+            // Draw
+            var chart = new google.visualization.LineChart(document.getElementById('lineGraph'));
+            chart.draw(data, options);
+        }
+
+        google.charts.setOnLoadCallback(drawChart2);
+
+        function drawChart2() {
+            $.ajax({
+                type: "POST",
+                url: "../api/admin_api.php",
+                data: {
+                    'action': 5,
+                    'type': 2
+                },
+
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 1) {
+                        if (response.type == 2) {
+                            payload = response.data;
+                            temp = [];
+                            temp.push(['Doctor', 'Highest Appoinment'])
+                            payload.forEach(element => {
+                                temp.push([element.d_name, Number(element.total)])
+                            });
+                            var data = google.visualization.arrayToDataTable(temp);
+
+                            var options = {
+                                title: 'Doctors Appoinment Report',
+                                is3D: true
+                            };
+                            var chart = new google.visualization.PieChart(document.getElementById('piChart'));
+                            chart.draw(data, options);
+                        }
+                    } else {
+                        console.log(response)
+                    }
+                }
+            });
+
+
+          
+        }
+    </script>
 
 
 </body>

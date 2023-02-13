@@ -64,6 +64,7 @@ if ($sessObj->isLogged() == true) {
                                         <?php
                                         if ($value['status'] == 0 || $value['status'] == 2) { ?>
                                             <button onclick="deleteappo(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-danger">X</button>
+                                            <button onclick="zoomLinkGen(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-warning">Zoom Link</button>
                                             <button onclick="openModal(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-success">Complete</button>
                                         <?php }
                                         ?>
@@ -113,6 +114,26 @@ if ($sessObj->isLogged() == true) {
         </div>
     </div>
     <script type="text/javascript">
+        function zoomLinkGen(appo_id) {
+            $.ajax({
+                type: "POST",
+                url: "../api/doctor_api.php",
+                data: {
+                    "appo_id": appo_id,
+                    'action': 6,
+                },
+                dataType: 'JSON',
+                cache: false,
+                success: function(response) {
+                    if (response.status == 1) {
+                        swal("success", response.msg, 'success');
+                    } else {
+                        swal("error", response.msg, 'error');
+                    }
+                }
+            });
+        }
+
         function deleteappo(appo_id) {
             $.ajax({
                 type: "POST",
@@ -180,8 +201,12 @@ if ($sessObj->isLogged() == true) {
             }
         }
 
-        function swal(msg1, msg2, msg3) {
-            alert(msg2);
+        function swal(tittle, text, icon) {
+            Swal.fire({
+                title: tittle,
+                text: text,
+                icon: icon,
+            });
         }
     </script>
 <?php

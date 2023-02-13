@@ -248,7 +248,7 @@ a {
     height: 100%;
     width: calc(100% - 300px);
     padding: 0 40px;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     transition: .3s;
 }
 

@@ -8,6 +8,68 @@ use Razorpay\Api\Errors\SignatureVerificationError;
 
 class UserCls extends UserModalcls
 {
+
+    public function cancelUserPurchase($pay_id)
+    {
+        if (is_numeric($pay_id) && $pay_id != NULL) {
+            if ($this->cancelUserPurchaseDB($pay_id)) {
+                $return_data = ['status' => 1, 'msg' => "Success Purchase cancelled"];
+            } else {
+                $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.3];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Value manipulation found", 'error_code' => 2.4];
+        }
+        echo json_encode($return_data);
+    }
+    public function addNewUserAddress($user_id, $contact_number, $address, $pincode)
+    {
+        if (is_numeric($user_id)) {
+            if ($this->addNewUserAddressDB($user_id, $contact_number, $address, $pincode)) {
+                $return_data = ['status' => 1, 'msg' => "New address added."];
+            } else {
+                $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.1];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Value manipulation found", 'error_code' => 1];
+        }
+        echo json_encode($return_data);
+    }
+    public function removeFromCart($cart_id)
+    {
+        if (is_numeric($cart_id)) {
+            if ($this->removeFromCartDB($cart_id)) {
+                $return_data = ['status' => 1, 'msg' => "Product removed from cart"];
+            } else {
+                $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.1];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Value manipulation found", 'error_code' => 1];
+        }
+        echo json_encode($return_data);
+    }
+    public function addToCart($userlog_id, $productId, $qty)
+    {
+        if (is_numeric($userlog_id) && is_numeric($productId) && is_numeric($qty) && $qty > 0 && $qty <= 9) {
+            if ($this->checkProductExitDB($userlog_id, $productId)) {
+                $stockResult = $this->getStockData($productId);
+                if ($stockResult['stock'] < $qty) {
+                    $return_data = ['status' => 0, 'msg' => "Entered quantiy not able to process. Out of stock!", 'error_code' => 1];
+                } else {
+                    if ($this->addToCartDB($userlog_id, $productId, $qty)) {
+                        $return_data = ['status' => 1, 'msg' => "Product added to cart"];
+                    } else {
+                        $return_data = ['status' => 0, 'msg' => "Something happen from our end. please contact admin.", 'error_code' => 2.1];
+                    }
+                }
+            } else {
+                $return_data = ['status' => 0, 'msg' => "Product already exist in cart.", 'error_code' => 1];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Value manipulation found", 'error_code' => 1];
+        }
+        echo json_encode($return_data);
+    }
     public function removeCustomPackage($remove_id, $userlog_id)
     {
         if (is_numeric($remove_id) && is_numeric($userlog_id)) {
@@ -331,6 +393,88 @@ class UserCls extends UserModalcls
                 $return_data = ['status' => 1, 'data' => $data];
             } else {
                 $return_data = ['status' => 0, 'msg' => 'Request denied.', 'code' => 1];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => 'Request denied.', 'code' => 0];
+        }
+        echo json_encode($return_data);
+    }
+    public function payProductFnc($user_id, $address_id)
+    {
+        if (is_numeric($address_id) && is_numeric($user_id) && $this->checkLogidDB($user_id)) {
+            $flag = 1;
+            $temp_error = "";
+            $stockData = $this->checkStock($user_id);
+            if (!empty($stockData)) {
+                foreach ($stockData as $item) {
+                    if ($item['qty'] > $item['stock'] || $item['stock'] <= 0) {
+                        $flag = 0;
+                        $temp_error = "Out of stock. Cant proccess Entered quantiy. Product Name :" . $item['product_name'];
+                    }
+                }
+                if ($flag != 0) {
+                    $total_amount = $this->FetchCartTotal($user_id);
+                    $bill_address = $this->fetchBillAddress($address_id);
+                    if (!empty($total_amount) && $total_amount['total_amount'] > 0 && !empty($bill_address)) {
+                        $total_amount = $total_amount['total_amount'];
+
+                        $api = new Api(key_id, key_secret);
+                        $orderData = [
+                            'receipt' => $user_id,
+                            'amount' => (int)($total_amount * 100), // 2000 rupees in paise
+                            'currency' => 'INR',
+                            'payment_capture' => 1, // auto capture
+                        ];
+                        $razorpayOrder = $api->order->create($orderData);
+                        $razorpayOrderId = $razorpayOrder['id'];
+                        $amount = $orderData['amount'];
+                        $data = [
+                            "user_code" => $user_id,
+                            "key" => key_id,
+                            "amount" => $amount,
+                            "name" => $bill_address['u_name'],
+                            "package_id" => $address_id,
+                            "description" => "Please Choose payment option",
+                            "image" => 'https://s29.postimg.org/r6dj1g85z/daft_punk.jpg',
+                            "prefill" => [
+                                "name" => $bill_address['u_name'],
+                                "email" => $bill_address['email'],
+                                "contact" => 1234567890,
+                            ],
+                            "notes" => [
+                                "user_id" => $bill_address,
+                                'appoinment' => $address_id
+                            ],
+                            "theme" => [
+                                "color" => "#F37254",
+                            ],
+                            "order_id" => $razorpayOrderId,
+                            "display_currency" => "INR",
+                            "display_amount" => $amount / 100
+                        ];
+                        // for session store
+                        $sessdata = [
+                            'date' => date("Y-m-d h:i:sa"),
+                            "user_id" => $user_id,
+                            "address_id" => $address_id,
+                            "final_amount" => $total_amount,
+                            "order_id" => $razorpayOrderId,
+                            "display_currency" => "INR",
+                            'order_mode' => 4,
+                            "user_note" => "Payment"
+                        ];
+
+                        $sessObj = new SessionManageCls();
+                        $sessObj->setRazorPayOrderId($sessdata);
+                        $return_data = ['status' => 1, 'data' => $data];
+                    } else {
+                        $return_data = ['status' => 0, 'msg' => 'Request denied.', 'code' => 1];
+                    }
+                } else {
+                    $return_data = ['status' => 0, 'msg' => $temp_error, 'code' => 0];
+                }
+            } else {
+                $return_data = ['status' => 0, 'msg' => 'Cart is Empty', 'code' => 0];
             }
         } else {
             $return_data = ['status' => 0, 'msg' => 'Request denied.', 'code' => 0];

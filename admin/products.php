@@ -39,8 +39,8 @@ if (!isset($_SESSION["email"])) {
     <section class="main">
         <div class="sidebar">
             <ul class="sidebar--items">
-            <li>
-                    <a href="index.php" >
+                <li>
+                    <a href="index.php">
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
@@ -51,7 +51,7 @@ if (!isset($_SESSION["email"])) {
                         <span class="sidebar--item">Treatments</span>
                     </a>
                 </li>
-                  <li>
+                <li>
                     <a href="customPackages.php">
                         <span class="icon icon-5"><i class="ri-command-line"></i></span>
                         <span class="sidebar--item"> Custom Packages</span>
@@ -79,9 +79,9 @@ if (!isset($_SESSION["email"])) {
                 </li>
                 <li>
                     <a href="viewtreatment.php">
-                    <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                     <span class="sidebar--item">Packages Bookings</span>
-                   </a>
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Packages Bookings</span>
+                    </a>
                 </li>
 
                 <li>
@@ -159,7 +159,7 @@ if (!isset($_SESSION["email"])) {
                                     <label for="exampleFormControlInput1">Stock </label>
                                     <input type="number" class="form-control" id="stock" placeholder="Please enter stock qty">
                                 </div>
-                                
+
                                 <div class="form-group col-md-12">
                                     <label for="exampleFormControlInput1">Price/unit</label>
                                     <input type="text" class="form-control" id="price_inp" placeholder="Please enter price">
@@ -278,6 +278,7 @@ if (!isset($_SESSION["email"])) {
                             $user_data = $con->query("SELECT `tbl_product`.`product_id`,`tbl_product`.`product_name`,`tbl_product`.`stock`,`tbl_product`.`price`,`tbl_product`.`image`,`tbl_product`.`description`,`tbl_product`.`date`,`tbl_product`.`status`,`tbl_category`.`cata_name` FROM `tbl_product` INNER JOIN `tbl_category` ON `tbl_product`.`cata_id` = `tbl_category`.`cata_id`;")->fetch_all(MYSQLI_ASSOC);
                             $i = 1;
                             if (!empty($user_data)) {
+                                // print_r($user_data);
                                 foreach ($user_data as $value) { ?>
                                     <tr class="firstRow">
                                         <td><?= $i ?></td>
@@ -285,7 +286,7 @@ if (!isset($_SESSION["email"])) {
                                         <td><img src="../images/products/<?= $value['image'] ?>" width="50px" height="50px" alt="<?= $value['image'] ?>"><br><?= $value['product_name'] ?></td>
                                         <td><?= $value['cata_name'] ?></td>
 
-                                        <td><?= $value['stock'] ?></td>
+                                        <td><input type="number" value="<?= $value['stock'] ?>" onchange="updateStock(this.value,<?= $value['product_id'] ?>)"></td>
                                         <td><?= $value['price'] ?></td>
                                         <td><?= $value['description'] ?></td>
 
@@ -315,6 +316,32 @@ if (!isset($_SESSION["email"])) {
 
     <script src="assets/js/main.js"></script>
     <script>
+        updateStock = (newStock, product_id) => {
+            if (!isNaN(newStock) && !isNaN(product_id))
+                $.ajax({
+                    type: "POST",
+                    url: "../api/manageprodcuts.php",
+                    data: {
+                        'newStock': newStock,
+                        'product_id': product_id,
+                        'action': 5,
+                    },
+                    dataType: 'JSON',
+                    cache: false,
+                    success: function(response) {
+                        if (response.status == 1) {
+                            swal('Success', response.msg, 'success');
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            swal('error', response.msg, 'error');
+                        }
+                    }
+                });
+
+        }
+
         function deleteProduct(product_id) {
             $.ajax({
                 type: "POST",
