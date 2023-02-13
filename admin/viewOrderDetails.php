@@ -356,11 +356,12 @@ $result = $con->query("SELECT `tbl_p_purchase`.`pay_id`,`tbl_p_purchase`.`log_id
                                 <td><?= $temp['qty'] ?></td>
                                 <td><?= $temp['price'] ?></td>
                                 <td><?= $temp['qty'] * $temp['price'] ?></td>
-                        <?php
+                            </tr>
+                    <?php
                             }
                         }
                         ?>
-                    </tr>
+                    
                 </tbody>
                 <tfoot></tfoot>
             </table>
