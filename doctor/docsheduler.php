@@ -32,11 +32,21 @@ if ($sessObj->isLogged() == true) {
                             <input class="text-dark" type="time" name="end_time" id="end_time">
                             <input type="hidden" class="form-control" id='log_id' value="<?= $user_data['log_id'] ?>">
                         </div>
-                        
+
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-2 form-group">
+                            <label for="start_time" class="form-label text-dark">Slot Max Count</label>
+                        </div>
+                        <div class="col-6 form-group">
+                            <input class="text-dark" class="form-control" type="number" name="slot_count" id="slot_count">
+                        </div>
                     </div>
                 </div>
                 <div class="form-group col-md-4 space-between">
-                    <input class="btn btn-primary" name="addTimingBtn" style= "background-color:#82e433;;" id="addTimingBtn" value="Submit">
+                    <input class="btn btn-primary" name="addTimingBtn" style="background-color:#82e433;;" id="addTimingBtn" value="Submit">
                 </div>
             </div>
         </div>
@@ -73,8 +83,9 @@ if ($sessObj->isLogged() == true) {
                                     </td>
                                     <td><button onclick="deleteTime(<?= $value['time_id'] ?>)" class="btn btn-sm btn-danger">X</button></td>
                                 </tr>
-                                
-                            <?php $i++;  }
+
+                            <?php $i++;
+                            }
                         } else {
                             ?>
                             <tr class="firstRow">
@@ -87,17 +98,83 @@ if ($sessObj->isLogged() == true) {
                         ?>
                     </tbody>
                 </table>
+                <!-- <button onclick="disableDoctor(<//?= $user_data['log_id'] ?>)" class="btn btn-sm btn-danger">Disable All</button>
+                <button onclick="enableDoctor(<//?= $user_data['log_id'] ?>)" class="btn btn-sm btn-warning">Enable All</button>
+            -->
+                <div class="toggle">
+                    <h6>For Enable/Disable All</h6>
+                    <?php
+                    if ($value['status'] == 1) { ?>
+                        <!-- <button onclick="disableDoctor(<//?= $user_data['log_id'] ?>)" class="btn btn-sm btn-danger">Disable All</button>  -->
+                        <input type="checkbox" onchange="disableDoctor(<?= $user_data['log_id']  ?>)" <?= $value['status'] == 1 ? 'checked' : '' ?>>
+                        <label for="" class="onbtn">On</label>
+                    <?php } else { ?>
+                        <!-- <button onclick="enableDoctor(<//?= $user_data['log_id'] ?>)" class="btn btn-sm btn-warning">Enable All</button> -->
+                        <input type="checkbox" onchange="enableDoctor(<?= $user_data['log_id']  ?>)" <?= $value['status'] == 1 ? 'checked' : '' ?>>
+                        <label for="" class="ofbtn">Off</label>
+                    <?php
+                    }
+                    ?>
+                </div>
+
             </div>
         </div>
     </div>
     <!-- content end -->
     <script type="text/javascript">
+        function enableDoctor(doctor_id) {
+            $.ajax({
+                type: "POST",
+                url: "../api/doctor_api.php",
+                data: {
+                    "doctor_id": doctor_id,
+                    "type": 1,
+                    'action': 7,
+                },
+                dataType: 'JSON',
+                cache: false,
+                success: function(response) {
+                    if (response.status == 1) {
+                        swal("success", response.msg, 'success');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        swal("error", response.msg, 'error');
+                    }
+                }
+            });
+        }
+
+        function disableDoctor(doctor_id) {
+            $.ajax({
+                type: "POST",
+                url: "../api/doctor_api.php",
+                data: {
+                    "doctor_id": doctor_id,
+                    "type": 0,
+                    'action': 7,
+                },
+                dataType: 'JSON',
+                cache: false,
+                success: function(response) {
+                    if (response.status == 1) {
+                        swal("success", response.msg, 'success');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        swal("error", response.msg, 'error');
+                    }
+                }
+            });
+        }
         $("#addTimingBtn").click(() => {
             log_id = $("#log_id").val();
             $start = $("#start_time").val();
-
             $end = $("#end_time").val();
-            console.log($start, $end);
+            slot_count = $("#slot_count").val();
+           
             if ($start == null || $start == '') {
                 swal("error", "Please select start time", 'error');
             } else if ($end == null || $end == "") {
@@ -108,6 +185,8 @@ if ($sessObj->isLogged() == true) {
                 swal("error", "start time oonly betwee 7am to 8pm allowed", 'error');
             } else if ($end > '20:00') {
                 swal("error", "end time only between 7am to 8pm allowed", 'error');
+            } else if (isNaN(slot_count) || slot_count <= 0) {
+                swal("error", "Please enter allowed slot count", 'error');
             } else {
                 $.ajax({
                     type: "POST",
@@ -116,6 +195,7 @@ if ($sessObj->isLogged() == true) {
                         'start': $start,
                         'end': $end,
                         "log_id": log_id,
+                        'slot_count': slot_count,
                         'action': 1,
                     },
                     dataType: 'JSON',
@@ -190,5 +270,3 @@ if ($sessObj->isLogged() == true) {
     header("Location:../user-login.php");
 }
 ?>
-
-

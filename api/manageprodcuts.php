@@ -107,14 +107,32 @@ if (isset($_POST)) {
         $newStock = filter_var($_POST['newStock'], FILTER_DEFAULT);
         $product_id = filter_var($_POST['product_id'], FILTER_DEFAULT);
         $product_data = $con->query("SELECT * FROM `tbl_product` WHERE `tbl_product`.`product_id` = '$product_id'")->fetch_assoc();
-        if (!empty($product_data) && $product_data['stock'] >= $newStock) {
+        if (!empty($product_data) && $product_data['stock'] < $newStock) {
             if ($con->query("UPDATE `tbl_product` SET `stock`='$newStock' WHERE `tbl_product`.`product_id` = '$product_id';")) {
                 $return_data = ['status' => 1, 'msg' => "Product stock updated successfully"];
             } else {
                 $return_data = ['status' => 0, 'msg' => "Sql Error", 'error_code' => 2];
             }
         } else {
-            $return_data = ['status' => 0, 'msg' => "Out of stock. Entered quantity not able to process!", 'error_code' => 2];
+            $return_data = ['status' => 0, 'msg' => "Stock not updated. no changes!", 'error_code' => 2];
+        }
+        echo json_encode($return_data);
+    } else if ($_POST['action'] == 6) {
+        $cata_id = filter_var($_POST['cata_id'], FILTER_DEFAULT);
+        $status = $con->query("SELECT  `status` FROM `tbl_category` WHERE `tbl_category`.`cata_id` = '$cata_id'")->fetch_assoc()['status']  == 0 ? 1 : 0;
+        if ($con->query("UPDATE `tbl_category` SET `tbl_category`.`status` = '$status' WHERE `tbl_category`.`cata_id` = '$cata_id';")) {
+            $return_data = ['status' => 1, 'msg' => "Category status updated"];
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Sql Error", 'error_code' => 2];
+        }
+        echo json_encode($return_data);
+    } else if ($_POST['action'] == 7) {
+        $product_id = filter_var($_POST['product_id'], FILTER_DEFAULT);
+        $status = $con->query("SELECT `status` FROM `tbl_product` WHERE `tbl_product`.`product_id` = '$product_id'")->fetch_assoc()['status']  == 0 ? 1 : 0;
+        if ($con->query("UPDATE `tbl_product` SET `tbl_product`.`status` = '$status' WHERE `tbl_product`.`product_id` = '$product_id';")) {
+            $return_data = ['status' => 1, 'msg' => "Category status updated"];
+        } else {
+            $return_data = ['status' => 0, 'msg' => "Sql Error", 'error_code' => 2];
         }
         echo json_encode($return_data);
     }

@@ -453,6 +453,27 @@ if (!isset($_SESSION["email"])) {
                 icon: icon,
             });
         }
+        changeStatus = (product_id) => {
+            if (!isNaN(product_id)) {
+                $.ajax({
+                    type: "POST",
+                    url: "../api/manageprodcuts.php",
+                    data: {
+                        'product_id': product_id,
+                        'action': 7,
+                    },
+                    dataType: 'JSON',
+                    cache: false,
+                    success: function(response) {
+                        if (response.status == 1) {
+                            Swal.fire('success', response.msg, 'success');
+                        } else {
+                            Swal.fire('error', response.msg, 'error');
+                        }
+                    }
+                });
+            }
+        }
     </script>
 
 

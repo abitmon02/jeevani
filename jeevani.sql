@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2023 at 09:26 PM
+-- Generation Time: Mar 08, 2023 at 08:35 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -39,9 +39,9 @@ CREATE TABLE `admin_custom_pack_main_tbl` (
 --
 
 INSERT INTO `admin_custom_pack_main_tbl` (`id`, `days`, `discount`, `status`) VALUES
-(2, 3, 2, 1),
-(3, 3, 2, 1),
-(4, 5, 10, 1);
+(1, 4, 30, 1),
+(3, 4, 37, 1),
+(6, 5, 50, 1);
 
 -- --------------------------------------------------------
 
@@ -60,9 +60,13 @@ CREATE TABLE `admin_custom_pack_slave_tbl` (
 --
 
 INSERT INTO `admin_custom_pack_slave_tbl` (`id`, `main_tbl_id`, `each_package_id`) VALUES
-(3, 2, 19),
-(4, 3, 19),
-(5, 4, 20);
+(1, 1, 1),
+(2, 1, 3),
+(6, 3, 1),
+(7, 3, 2),
+(8, 3, 3),
+(12, 6, 1),
+(13, 6, 4);
 
 -- --------------------------------------------------------
 
@@ -87,16 +91,18 @@ CREATE TABLE `appoinment_tbl` (
 --
 
 INSERT INTO `appoinment_tbl` (`appo_id`, `time_id`, `l_id`, `date`, `token`, `symptom`, `fee_status`, `prescription`, `status`) VALUES
-(27, 14, 179, '2022-10-25 00:00:00', 'Token-f8ea0cb372', 'testsetfd', 1, 'kgmdkflgkldfkg', 3),
-(28, 14, 180, '2022-10-25 00:00:00', 'Token-53bde3cbdb', 'feaver', 1, 'take rest &#10;dashamoolam &#10;', 3),
-(29, 14, 179, '2022-10-27 00:00:00', 'Token-5681e30f17', 'Body Pain', 0, 'test&#10;', 3),
-(30, 16, 180, '2022-10-26 00:00:00', 'Token-b6433c90c8', 'faver', 0, '', 0),
-(31, 15, 180, '2022-10-28 00:00:00', 'Token-f1c6ba93fa', 'pain', 0, '', 0),
-(32, 14, 180, '2022-10-29 00:00:00', 'Token-4bfc0acdf5', 'head ache', 0, 'take rest &#10;', 3),
-(33, 14, 180, '2022-10-26 00:00:00', 'Token-bc3c76e414', '', 0, 'dfkg dkfgdfg', 3),
-(34, 16, 179, '2022-11-05 00:00:00', 'Token-ce1b7f14f6', 'pain', 1, 'Take rest', 1),
-(35, 16, 179, '2022-10-27 00:00:00', 'Token-af416dedcf', 'as', 1, 'meet me', 1),
-(36, 16, 175, '2023-02-14 00:00:00', 'Token-e67a2c6557', 'test', 1, 'jhfkjds jfdshf dhskfh', 0);
+(2, 1, 3, '2023-02-15 00:00:00', 'Token-72a567d885', 'paim', 1, 'rest', 3),
+(3, 1, 3, '2023-02-17 00:00:00', 'Token-34969846ac', 'body pain', 1, 'jhgf', 3),
+(5, 3, 7, '2023-02-15 00:00:00', 'Token-5861bc7889', 'pain', 1, 'Lehyam', 3),
+(6, 3, 7, '2023-02-22 00:00:00', 'Token-e9b09b165c', 'kda', 1, 'jjgh', 3),
+(7, 1, 7, '2023-02-23 00:00:00', 'Token-1eb21c6dd0', 'adadvfv', 1, 'faqdfadf', 3),
+(8, 1, 3, '2023-02-19 00:00:00', 'Token-71ec4f9cef', NULL, 1, 'zfdasf', 3),
+(9, 3, 3, '2023-02-24 00:00:00', 'Token-7db9f85f38', 'jhg', 1, 'oiughcfv', 3),
+(11, 3, 7, '2023-02-22 00:00:00', 'Token-e9b09b165c', 'kda', 1, 'jjgh', 3),
+(12, 1, 7, '2023-02-23 00:00:00', 'Token-1eb21c6dd0', 'adadvfv', 1, 'faqdfadf', 3),
+(13, 3, 7, '2023-03-01 00:00:00', 'Token-6db8a8865e', NULL, 0, '', 0),
+(14, 6, 6, '2023-03-09 00:00:00', 'Token-f725391c20', NULL, 0, '', 0),
+(15, 6, 7, '2023-03-09 00:00:00', 'Token-74ef17679c', NULL, 0, '', 0);
 
 -- --------------------------------------------------------
 
@@ -109,6 +115,7 @@ CREATE TABLE `doctor_timing_tbl` (
   `l_id` int(11) NOT NULL,
   `start` varchar(10) NOT NULL,
   `end` varchar(10) NOT NULL,
+  `slot_count` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -116,11 +123,13 @@ CREATE TABLE `doctor_timing_tbl` (
 -- Dumping data for table `doctor_timing_tbl`
 --
 
-INSERT INTO `doctor_timing_tbl` (`time_id`, `l_id`, `start`, `end`, `status`) VALUES
-(14, 179, '08:59', '09:58', 1),
-(15, 179, '10:04', '12:04', 1),
-(16, 180, '11:07', '12:09', 1),
-(17, 180, '12:48', '15:48', 1);
+INSERT INTO `doctor_timing_tbl` (`time_id`, `l_id`, `start`, `end`, `slot_count`, `status`) VALUES
+(1, 2, '16:00', '17:00', 1, 1),
+(2, 2, '08:00', '10:00', 1, 1),
+(3, 4, '09:00', '11:00', 1, 1),
+(4, 5, '11:45', '16:00', 1, 1),
+(5, 5, '12:00', '14:00', 1, 1),
+(6, 4, '12:58', '13:58', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -142,8 +151,7 @@ CREATE TABLE `payment1_tbl` (
 --
 
 INSERT INTO `payment1_tbl` (`pay_id`, `r_pay_id`, `r_order_id`, `custom_package_id`, `date`, `amount`) VALUES
-(1, 'pay_L4CXHzLlyeXBP0', 'order_L4CWeSmfmUe9qu', 21, '2023-01-14 18:11:33', 0),
-(2, 'pay_L4Cdr4pcJXCTsc', 'order_L4CdTewmdtUkU6', 22, '2023-01-14 18:18:00', 1484.7);
+(1, 'pay_LGHziW8eDCl8IQ', 'order_LGHzFTEFDFUKcS', 3, '2023-02-14 05:50:06', 25000);
 
 -- --------------------------------------------------------
 
@@ -165,13 +173,38 @@ CREATE TABLE `payment_tbl` (
 --
 
 INSERT INTO `payment_tbl` (`pay_id`, `r_pay_id`, `r_order_id`, `appo_id`, `treament_id`, `date`) VALUES
-(25, 'pay_KYT6kxh3TVZ6Y6', 'order_KYT6VIjD1bK9Ty', 0, 90, '2022-10-26 01:06:30'),
-(26, 'pay_KYTpPYFCta7jiX', 'order_KYTpDfJfsAG9EV', 35, 0, '2022-10-26 01:48:51'),
-(27, 'pay_KYTryTqh7cL6Wk', 'order_KYTrkXbbtVjUsd', 0, 91, '2022-10-26 01:51:14'),
-(28, 'pay_KYTsvdDaCruaaq', 'order_KYTsl2O9N8AQaF', 0, 92, '2022-10-26 01:52:11'),
-(29, 'pay_KYc3e5yBDzJ2tV', 'order_KYc3IezIF3TzBa', 0, 93, '2022-10-26 21:51:43'),
-(30, 'pay_KYjLInQsNfUKuo', 'order_KYjFksJuqHlpwt', 0, 94, '2022-10-27 04:54:22'),
-(31, 'pay_LFbT3lWrd8iXP2', 'order_LFbSi1lIjCG7cB', 36, 0, '2023-02-12 13:44:10');
+(1, 'pay_LGMUxajaTZbUNZ', 'order_LGMUgFN4sug7kc', 1, 0, '2023-02-13 22:14:37'),
+(2, 'pay_LGoFa2nDketbjN', 'order_LGoEznJz0HnL5J', 4, 0, '2023-02-15 01:23:13'),
+(3, 'pay_LGoK3iOktAVzkJ', 'order_LGoJl0fwA2p90a', 5, 0, '2023-02-15 01:27:42');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `preditction_anys1_tbl`
+--
+
+CREATE TABLE `preditction_anys1_tbl` (
+  `anyls_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `query_1` varchar(25) NOT NULL,
+  `query_2` varchar(25) NOT NULL,
+  `query_3` varchar(25) NOT NULL,
+  `query_4` varchar(25) NOT NULL,
+  `query_5` varchar(25) NOT NULL,
+  `result_out` varchar(25) NOT NULL,
+  `predict_type` varchar(25) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `preditction_anys1_tbl`
+--
+
+INSERT INTO `preditction_anys1_tbl` (`anyls_id`, `user_id`, `query_1`, `query_2`, `query_3`, `query_4`, `query_5`, `result_out`, `predict_type`, `date`) VALUES
+(1, 6, 'back_pain', 'back_pain', 'constipation', 'back_pain', 'congestion', 'Common Cold', '1', '2023-03-08 17:20:28'),
+(2, 6, 'swelled_lymph_nodes', 'swelled_lymph_nodes', 'blurred_and_distorted_vis', 'redness_of_eyes', 'phlegm', 'Common Cold', '2', '2023-03-08 18:11:08'),
+(3, 6, 'acute_liver_failure', 'runny_nose', 'constipation', 'blackheads', 'inflammatory_nails', 'Common Cold', '1', '2023-03-08 18:11:27'),
+(4, 6, 'mild_fever', 'yellowing_of_eyes', '0', '0', '0', 'hepatitis A', '3', '2023-03-08 18:12:31');
 
 -- --------------------------------------------------------
 
@@ -193,11 +226,8 @@ CREATE TABLE `tbl_bill_address` (
 --
 
 INSERT INTO `tbl_bill_address` (`address_id`, `user_log_id`, `contact_no`, `address`, `pincode`, `date`) VALUES
-(1, 181, '1234567890', 'sjdfhjksdhfj sdjfjshdjkf', '683511', '2023-01-19 08:34:21'),
-(2, 181, '1234567890', 'sdfdsjflkj sdkfjksdjlfj ', '683511', '2023-01-19 08:48:37'),
-(3, 181, '1234567890', 'sdfhsldjf ksdklfjlksdj', '683563', '2023-01-21 20:58:32'),
-(4, 181, '1234567890', 'xac inifoksdflkds sdflk', '321542', '2023-01-21 20:59:01'),
-(5, 175, '9090909090', 'KARIMUTTAM HOUSE&#10;COMBARA&#10;ADIVARAM NAD P.O', '683563', '2023-02-12 16:19:49');
+(1, 6, '9095909890', 'abhhjgjg bhgkj', '989889', '2023-02-14 10:21:55'),
+(2, 7, '8918212834', ';lKjoiugy', '686518', '2023-02-14 15:21:20');
 
 -- --------------------------------------------------------
 
@@ -212,13 +242,6 @@ CREATE TABLE `tbl_cart` (
   `qty` int(20) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tbl_cart`
---
-
-INSERT INTO `tbl_cart` (`cart_id`, `product_id`, `user_log_id`, `qty`, `date`) VALUES
-(10, 4, 181, 5, '2023-01-21 21:07:50');
 
 -- --------------------------------------------------------
 
@@ -238,10 +261,10 @@ CREATE TABLE `tbl_category` (
 --
 
 INSERT INTO `tbl_category` (`cata_id`, `cata_name`, `date`, `status`) VALUES
-(3, 'Eye Drops', '2022-11-05 00:26:48', 1),
-(4, 'Ointments', '2022-11-05 00:39:44', 1),
-(7, 'Capsules', '2022-11-18 14:46:10', 1),
-(0, 'test', '2023-01-14 15:12:34', 1);
+(1, 'Hair oil', '2023-02-14 15:08:36', 0),
+(2, 'Lehyam', '2023-02-14 15:10:05', 1),
+(3, 'capsules', '2023-02-14 15:10:17', 1),
+(4, 'Eye Drop', '2023-02-14 15:19:35', 1);
 
 -- --------------------------------------------------------
 
@@ -265,24 +288,9 @@ CREATE TABLE `tbl_custom_package` (
 --
 
 INSERT INTO `tbl_custom_package` (`id`, `user_log_id`, `type_status`, `create_date`, `num_days`, `appo_date`, `admin_custom_p_id`, `fee_status`) VALUES
-(21, 175, 1, '2023-01-14 21:12:15', 13, '2023-01-20 08:00:00', 0, 1),
-(22, 175, 0, '2023-01-14 21:18:30', 3, '2023-01-15 08:00:00', 2, 1),
-(23, 175, 1, '2023-01-14 21:28:08', 1, '2023-01-15 08:00:00', 0, 0),
-(24, 175, 0, '2023-01-14 21:31:08', 3, '0000-00-00 00:00:00', 2, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_c_packages`
---
-
-CREATE TABLE `tbl_c_packages` (
-  `t_id` int(10) NOT NULL,
-  `p_id` int(100) NOT NULL,
-  `l_id` int(10) NOT NULL,
-  `visit_date` date NOT NULL,
-  `status` int(5) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+(1, 6, 1, '2023-02-14 10:17:53', 1, '2023-02-14 18:30:00', 0, 0),
+(2, 6, 0, '2023-02-14 10:19:01', 4, '2023-02-16 18:30:00', 1, 0),
+(3, 6, 0, '2023-02-14 10:20:44', 5, '2023-02-17 18:30:00', 6, 1);
 
 -- --------------------------------------------------------
 
@@ -306,8 +314,9 @@ CREATE TABLE `tbl_doctor` (
 --
 
 INSERT INTO `tbl_doctor` (`d_id`, `a_id`, `l_id`, `d_name`, `d_address`, `d_fees`, `spec`, `status`) VALUES
-(0, 0, 180, 'Foco   ', '   ', 1000, 'Baala Chikitsa', 0),
-(40, 2, 179, 'Dr France  ', ' Thottathil ', 1000, 'Baala Chikitsa ', 0);
+(1, 2, 2, 'Dr Abcd', 'CHARIVUKALAYIL H', 350, 'Baala Chikitsa', 0),
+(2, 2, 4, 'dr rog', 'CHARIVUKALAYIL H', 400, 'Baala Chikitsa', 0),
+(3, 2, 5, 'Dr saki ', ' sdfswfsdf', 700, 'Kayachikits', 0);
 
 -- --------------------------------------------------------
 
@@ -326,8 +335,7 @@ CREATE TABLE `tbl_feedback` (
 --
 
 INSERT INTO `tbl_feedback` (`f_id`, `fr_id`, `feedback`) VALUES
-(78, 119, 'test okay'),
-(79, 121, 'Its all Good\r\n\r\n');
+(1, 1, 'Good ');
 
 -- --------------------------------------------------------
 
@@ -350,8 +358,7 @@ CREATE TABLE `tbl_leave` (
 --
 
 INSERT INTO `tbl_leave` (`lv_id`, `l_id`, `type`, `fdate`, `tdate`, `reason`, `status`) VALUES
-(21, 179, 'Sick', '2022-10-26', '2022-10-29', 'Feaver', 'Approved'),
-(22, 179, 'Climatic Disaster ', '2022-10-28', '2022-10-30', 'kj', 'Pending');
+(1, 2, ' Casual', '2023-02-24', '', 'casual', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -375,13 +382,13 @@ CREATE TABLE `tbl_login` (
 --
 
 INSERT INTO `tbl_login` (`l_id`, `email`, `password`, `code`, `verified`, `verify_token`, `a_id`, `status`) VALUES
-(1, 'admin@gmail.com', '25d55ad283aa400af464c76d713c07ad', '9b23033da15d3de425347579caf2f426', 1, '', 1, 0),
-(175, 'savioalwd@gmail.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '41c51f07c5549fa9a3600a1e44491acc', 1, '', 3, 0),
-(178, 'abitmonrajan@gmail.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '6cb9ebc26976a8a31d4eedd2f10852dc', 1, '', 3, 0),
-(179, 'abitmonrajancr7@gmail.com', '25d55ad283aa400af464c76d713c07ad', '', 1, '', 2, 0),
-(180, 'focosa8680@evilant.com', '25d55ad283aa400af464c76d713c07ad', '', 1, '', 2, 0),
-(181, 'pediv26627@corylan.com', '25d55ad283aa400af464c76d713c07ad', 'fd63e2e6c2edfa100d6e8ed80c35b4e0', 1, '', 3, 0),
-(182, 'maxisot384@ilusale.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '5c98eff982cd9cd138a71e6303518423', 1, '', 3, 0);
+(1, 'admin@gmail.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '', 1, '', 1, 0),
+(2, 'abitmonrajancr7@gmail.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '', 1, '', 2, 0),
+(3, 'abitmonrajan@mca.ajce.in', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '002d7ecc034d12cd0c9e0197642db40d', 1, '', 3, 0),
+(4, 'rogexed287@ngopy.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '', 1, '', 2, 0),
+(5, 'sakig93805@mirtox.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '', 1, '', 2, 0),
+(6, 'yasiwej866@mirtox.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', 'ce850b47e0b45c0a05932f8344e3e10b', 1, '', 3, 0),
+(7, 'gifev93946@mirtox.com', '2bbc429b4ea1efbc2c78ff8a9c5403b8', '17682704662adbf59d01bc38ebd0e590', 1, '', 3, 0);
 
 -- --------------------------------------------------------
 
@@ -401,12 +408,12 @@ CREATE TABLE `tbl_p1_purchase` (
 --
 
 INSERT INTO `tbl_p1_purchase` (`item_id`, `pay_id`, `qty`, `product_id`) VALUES
-(3, 2, 3, 4),
-(6, 4, 5, 4),
-(7, 4, 1, 7),
-(8, 4, 3, 8),
-(9, 5, 2, 8),
-(10, 6, 2, 4);
+(1, 1, 5, 3),
+(2, 2, 5, 3),
+(3, 3, 7, 2),
+(4, 3, 7, 4),
+(5, 3, 3, 5),
+(6, 3, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -427,8 +434,10 @@ CREATE TABLE `tbl_packages` (
 --
 
 INSERT INTO `tbl_packages` (`p_id`, `p_name`, `p_image`, `p_amount`, `p_status`) VALUES
-(19, 'test 1 ', 'nasya.png', '255', 0),
-(20, 'test', 'test.png', '250', 0);
+(1, 'Foot Massag', 'foot-massage,png.jpg', '2000  ', 0),
+(2, 'Thalam', 'Thalam.png', '3000', 0),
+(3, 'Nasya', 'nasya.png', '1500', 0),
+(4, 'Applying Medicated Paste', 'Applying Medicated Paste.jpg', '5000', 0);
 
 -- --------------------------------------------------------
 
@@ -454,10 +463,9 @@ CREATE TABLE `tbl_patient` (
 --
 
 INSERT INTO `tbl_patient` (`user_id`, `l_id`, `u_name`, `a_id`, `address`, `city`, `gender`, `dob`, `bloodgrp`, `status`) VALUES
-(119, 175, 'amal', 3, 'mbn', 'km', 'male', '2002-12-31', 'A+ve', 1),
-(120, 178, 'abit', 3, 'nbv', 'jbhgv', 'female', '2021-12-29', 'A+ve', 0),
-(121, 181, 'Arun', 3, 'AJHJH', 'jhhjk', 'male', '2010-12-31', 'B+ve', 0),
-(122, 182, 'Alen', 3, 'Jhb', 'kjnh', 'male', '2004-01-31', 'O+ve', 0);
+(1, 3, 'patient', 3, 'patient h ', 'Ranny', 'male', '2010-02-11', 'A+ve', 0),
+(2, 6, 'Amla', 3, 'aksdjk da', 'sdvasd', 'female', '2007-03-15', 'B+ve', 0),
+(3, 7, 'hari', 3, 'qerwr', 'twesfdz', 'male', '2010-10-12', 'AB+ve', 0);
 
 -- --------------------------------------------------------
 
@@ -482,9 +490,11 @@ CREATE TABLE `tbl_product` (
 --
 
 INSERT INTO `tbl_product` (`product_id`, `cata_id`, `product_name`, `stock`, `price`, `image`, `description`, `date`, `status`) VALUES
-(4, 4, 'sdfdsf', 0, 12, 'adf.png', 'sdfsdfdsfdsfdsf', '2023-01-14 14:57:59', 1),
-(7, 4, 'OILMENR', 60, 12, 'adf.png', 'sdfsdfdsfdsfdsf', '2023-01-14 14:57:59', 1),
-(8, 7, 'testser', 45, 250, 'adf.png', 'jkshfjskdh jkfhsdjfk hsdjkfhkjsdfh', '2023-01-21 12:49:12', 1);
+(2, 2, 'Chyavanprash', 80, 350, 'Chyavanprash.jpeg', 'Boosts Immunity, Strength & Longevity', '2023-02-14 15:13:46', 1),
+(3, 3, 'glymin-plus-tablet', 40, 230, 'glymin-plus-tablet-1.jpeg', 'For Blood Sugar Control', '2023-02-14 15:14:48', 1),
+(4, 1, 'kesini-oil', 33, 800, 'kesini-oil-1.jpeg', 'Promotes Hair Growth, Increases Hair Volume', '2023-02-14 15:15:37', 1),
+(5, 4, 'Eyeconic', 10, 400, '10-1110222-dr-willmar-schwabe-india-original-imagd9skhprbns99.jpeg', 'Good for eye', '2023-02-14 15:30:11', 1),
+(6, 2, 'Vyoshadi Vatakam', 4, 590, 'Vyoshadi Vatakam.png', 'For Cough & Throat Irritation', '2023-02-14 15:31:48', 1);
 
 -- --------------------------------------------------------
 
@@ -508,10 +518,9 @@ CREATE TABLE `tbl_p_purchase` (
 --
 
 INSERT INTO `tbl_p_purchase` (`pay_id`, `log_id`, `bill_id`, `r_pay_id`, `r_order_id`, `total_amount`, `date`, `status`) VALUES
-(2, 181, 2, 'pay_L6BjG5UQfUkBuk', 'order_L6BinD3rc89Wj2', 36, '2023-01-21 19:11:04', 1),
-(4, 181, 4, 'pay_L79pMW1wcUx0EN', 'order_L79p5rBrFiihew', 822, '2023-01-21 21:10:57', 1),
-(5, 175, 5, 'pay_LFb3YqHiyG5te4', 'order_LFb39NFg5xH46c', 500, '2023-02-12 13:19:58', 0),
-(6, 175, 5, 'pay_LFdejXMe9NlaXZ', 'order_LFdeNOotrjRSQo', 24, '2023-02-12 15:52:36', 0);
+(1, 6, 1, 'pay_LGI9nMD6Ld3JKO', 'order_LGI9Vu9Ro7rd2L', 1150, '2023-02-14 15:16:07', 1),
+(2, 7, 2, 'pay_LGN8ucJXiRmd6w', 'order_LGN7eU7NCRGnyw', 1150, '2023-02-16 13:29:20', 1),
+(3, 7, 2, 'pay_LHBZMT0VaZt6Ct', 'order_LHBY7ZZ0QRWgYt', 9840, '2023-02-16 00:11:16', 0);
 
 -- --------------------------------------------------------
 
@@ -530,13 +539,13 @@ CREATE TABLE `tbl_user_packages` (
 --
 
 INSERT INTO `tbl_user_packages` (`id`, `package_id`, `each_package_id`) VALUES
-(38, 21, 19),
-(39, 21, 20),
-(40, 22, 19),
-(41, 22, 20),
-(42, 23, 19),
-(43, 23, 20),
-(44, 24, 19);
+(1, 1, 1),
+(2, 1, 2),
+(3, 2, 1),
+(4, 2, 3),
+(5, 3, 1),
+(6, 3, 4),
+(7, 3, 2);
 
 --
 -- Indexes for dumped tables
@@ -582,6 +591,12 @@ ALTER TABLE `payment_tbl`
   ADD PRIMARY KEY (`pay_id`);
 
 --
+-- Indexes for table `preditction_anys1_tbl`
+--
+ALTER TABLE `preditction_anys1_tbl`
+  ADD PRIMARY KEY (`anyls_id`);
+
+--
 -- Indexes for table `tbl_bill_address`
 --
 ALTER TABLE `tbl_bill_address`
@@ -597,19 +612,17 @@ ALTER TABLE `tbl_cart`
   ADD KEY `cart_log_id_fk` (`user_log_id`);
 
 --
+-- Indexes for table `tbl_category`
+--
+ALTER TABLE `tbl_category`
+  ADD PRIMARY KEY (`cata_id`);
+
+--
 -- Indexes for table `tbl_custom_package`
 --
 ALTER TABLE `tbl_custom_package`
   ADD PRIMARY KEY (`id`),
   ADD KEY `login_user_id_fk` (`user_log_id`);
-
---
--- Indexes for table `tbl_c_packages`
---
-ALTER TABLE `tbl_c_packages`
-  ADD PRIMARY KEY (`t_id`),
-  ADD KEY `p_id` (`p_id`),
-  ADD KEY `l_id` (`l_id`);
 
 --
 -- Indexes for table `tbl_doctor`
@@ -689,121 +702,127 @@ ALTER TABLE `tbl_user_packages`
 -- AUTO_INCREMENT for table `admin_custom_pack_main_tbl`
 --
 ALTER TABLE `admin_custom_pack_main_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `admin_custom_pack_slave_tbl`
 --
 ALTER TABLE `admin_custom_pack_slave_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `appoinment_tbl`
 --
 ALTER TABLE `appoinment_tbl`
-  MODIFY `appo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `appo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `doctor_timing_tbl`
 --
 ALTER TABLE `doctor_timing_tbl`
-  MODIFY `time_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `time_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `payment1_tbl`
 --
 ALTER TABLE `payment1_tbl`
-  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `payment_tbl`
 --
 ALTER TABLE `payment_tbl`
-  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `preditction_anys1_tbl`
+--
+ALTER TABLE `preditction_anys1_tbl`
+  MODIFY `anyls_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_bill_address`
 --
 ALTER TABLE `tbl_bill_address`
-  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `tbl_category`
+--
+ALTER TABLE `tbl_category`
+  MODIFY `cata_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_custom_package`
 --
 ALTER TABLE `tbl_custom_package`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `tbl_c_packages`
---
-ALTER TABLE `tbl_c_packages`
-  MODIFY `t_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_doctor`
 --
 ALTER TABLE `tbl_doctor`
-  MODIFY `d_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `d_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_feedback`
 --
 ALTER TABLE `tbl_feedback`
-  MODIFY `f_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `f_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_leave`
 --
 ALTER TABLE `tbl_leave`
-  MODIFY `lv_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `lv_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_login`
 --
 ALTER TABLE `tbl_login`
-  MODIFY `l_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
+  MODIFY `l_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_p1_purchase`
 --
 ALTER TABLE `tbl_p1_purchase`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_packages`
 --
 ALTER TABLE `tbl_packages`
-  MODIFY `p_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `p_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_patient`
 --
 ALTER TABLE `tbl_patient`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_product`
 --
 ALTER TABLE `tbl_product`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_p_purchase`
 --
 ALTER TABLE `tbl_p_purchase`
-  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_user_packages`
 --
 ALTER TABLE `tbl_user_packages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -845,13 +864,6 @@ ALTER TABLE `tbl_cart`
 --
 ALTER TABLE `tbl_custom_package`
   ADD CONSTRAINT `login_user_id_fk` FOREIGN KEY (`user_log_id`) REFERENCES `tbl_login` (`l_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tbl_c_packages`
---
-ALTER TABLE `tbl_c_packages`
-  ADD CONSTRAINT `l_id` FOREIGN KEY (`l_id`) REFERENCES `tbl_login` (`l_id`),
-  ADD CONSTRAINT `p_id` FOREIGN KEY (`p_id`) REFERENCES `tbl_packages` (`p_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_doctor`

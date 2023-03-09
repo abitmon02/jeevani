@@ -249,9 +249,11 @@ if (!isset($_SESSION["email"])) {
                 <div class="col-md-6">
                     <div id="piChart" style="width:100%; height:400px"></div>
                 </div>
-                <!-- <div class="col-md-6">
-                    <div id="lineGraph" style="width:100%; height:400px"></div>
-                </div> -->
+            </div>
+            <div class="row recent--patients">
+                <div class="col-md-6">
+                    <div id="histoGram" style="width:100%; height:400px"></div>
+                </div>
             </div>
             <div class="recent--patients">
                 <div class="title">
@@ -461,9 +463,47 @@ if (!isset($_SESSION["email"])) {
                     }
                 }
             });
+        }
+        google.charts.setOnLoadCallback(drawChart3);
 
+        function drawChart3() {
+            $.ajax({
+                type: "POST",
+                url: "../api/admin_api.php",
+                data: {
+                    'action': 5,
+                    'type': 3
+                },
 
-          
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 1) {
+                        if (response.type == 3) {
+                            payload = response.data;
+                            temp = [];
+                            temp.push(['Dicease', 'Highest Search'])
+                            payload.forEach(element => {
+                                temp.push([element.result_out, Number(element.tot_count)])
+                            });
+                            var data = google.visualization.arrayToDataTable(temp);
+
+                            var options = {
+                                title: 'Count of prediction search hit',
+                                legend: {
+                                    position: 'none'
+                                },
+                                colors: ['orange'],
+                            };
+
+                            var chart = new google.visualization.Histogram(document.getElementById('histoGram'));
+                            chart.draw(data, options);
+                        }
+                        console.log(response)
+                    } else {
+                        console.log(response)
+                    }
+                }
+            });
         }
     </script>
 

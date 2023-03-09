@@ -148,7 +148,7 @@ if ($sessObj->isLogged() == true) {
 
                             <form id="downloadFrm" action="download2.php?pay_id=<?php echo $_GET['pay_id'] ?>" method="post">
                                 <div class="bee-download">
-                                    <button id="downloadPresBtn" name="downloadPresBtn" class="btn btn-primary" type="submit">Download Invoice</button>
+                                    <button id="downloadPresBtn" name="downloadPresBtn" class="btn btn-success" type="submit">Download Invoice</button>
                                 </div>
                             </form>
                             <h4 style="margin-top: 5px; margin-bottom: 5px">

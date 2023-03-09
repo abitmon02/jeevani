@@ -242,6 +242,7 @@ a {
     padding: 0 40px;
     overflow-y: scroll;
     transition: .3s;
+    
 }
 
 
@@ -479,6 +480,7 @@ a {
 	color: var(--dark);
     height: 625px;
     overflow-x: scroll;
+    overflow-y: scroll;
     
 }
 #content main .table-data > div {

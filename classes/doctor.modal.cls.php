@@ -1,6 +1,14 @@
     <?php
     class DoctorModalcls extends Dbh
     {
+        protected function updateTimingStatusBulk($doctor_id, $status)
+        {
+            if ($this->connection()->query("UPDATE `doctor_timing_tbl` SET `status`='$status' WHERE `doctor_timing_tbl`.`l_id` = '$doctor_id'")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
         protected function getCorrespondUserDB($appo_id)
         {
             return $this->connection()->query("SELECT `appoinment_tbl`.`appo_id`,`tbl_login`.`email`,`tbl_patient`.`u_name` FROM `appoinment_tbl` INNER JOIN `tbl_login` ON `appoinment_tbl`.`l_id` = `tbl_login`.`l_id` LEFT JOIN `tbl_patient` ON `tbl_login`.`l_id` = `tbl_patient`.`l_id` WHERE `appoinment_tbl`.`appo_id` = '$appo_id';")->fetch_assoc();
@@ -21,9 +29,9 @@
                 return false;
             }
         }
-        protected function insertTimeDB(string $start, string $end, int $log_id)
+        protected function insertTimeDB(string $start, string $end, int $log_id, int  $slot_count)
         {
-            if ($this->connection()->query("INSERT INTO `doctor_timing_tbl`(`l_id`, `start`, `end`, `status`) VALUES ('$log_id','$start','$end',1)")) {
+            if ($this->connection()->query("INSERT INTO `doctor_timing_tbl`(`l_id`, `start`, `end`,`slot_count`, `status`) VALUES ('$log_id','$start','$end','$slot_count',1)")) {
                 return true;
             } else {
                 return false;

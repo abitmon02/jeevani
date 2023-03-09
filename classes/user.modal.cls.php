@@ -67,6 +67,14 @@ class UserModalcls extends Dbh
     {
         return $this->connection()->query("SELECT * FROM `appoinment_tbl` WHERE `appoinment_tbl`.`l_id` ='$user_log_id' AND `appoinment_tbl`.`date` = '$date'")->fetch_all(MYSQLI_ASSOC);
     }
+    protected function get_time_data($time_id)
+    {
+        return $this->connection()->query("SELECT * FROM `doctor_timing_tbl` WHERE `doctor_timing_tbl`.`time_id` = '$time_id';")->fetch_assoc();
+    }
+    protected function get_curr_appo_count_data($date, $time_id)
+    {
+        return $this->connection()->query("SELECT COUNT(*) as current_count FROM `appoinment_tbl` WHERE `appoinment_tbl`.`time_id` = '$time_id' AND `appoinment_tbl`.`date` = '$date';")->fetch_assoc();
+    }
     protected function insertAppoinment(string $date, int $time_id, int $user_log_id, string $token,): bool
     {
         if ($this->connection()->query("INSERT INTO `appoinment_tbl`(`time_id`, `l_id`, `date`, `token`, `fee_status`,`prescription`, `status`) VALUES ('$time_id','$user_log_id','$date','$token',0,'',0)")) {

@@ -38,6 +38,13 @@
                         <span class="sidebar--item">Book Appointment</span>
                     </a>
                 </li>
+                
+                <li>
+                    <a href="dicease_pred.php">
+                        <span class="icon icon-2"><i class="ri-folder-add-fill"></i></span>
+                        <span class="sidebar--item">Dicease Preditction</span>
+                    </a>
+                </li>
                 <li>
                     <a href="appoinmenthistory.php">
                         <span class="icon icon-2"><i class="ri-health-book-line"></i></span>

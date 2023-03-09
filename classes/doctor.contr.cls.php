@@ -7,6 +7,23 @@ use PHPMailer\PHPMailer\Exception;
 class DoctorCls extends DoctorModalcls
 {
 
+    public function changeTimingStatusBulk($doctor_id, $status)
+    {
+        if (is_numeric($doctor_id)) {
+            if ($this->updateTimingStatusBulk($doctor_id, $status)) {
+                if ($status == 1) {
+                    $return_data = ['status' => 1, 'msg' => 'Success: All timing entry\'s Enabled.', 'code' => 0];
+                } else {
+                    $return_data = ['status' => 1, 'msg' => 'Success: All timing entry\'s Disabled', 'code' => 0];
+                }
+            } else {
+                $return_data = ['status' => 0, 'msg' => 'Sql Error.', 'code' => 0];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => 'Request denied.', 'code' => 0];
+        }
+        echo json_encode($return_data);
+    }
     protected function sendMail($email, $user_name, $link, $time)
     {
         require("../PHPMailer/PHPMailer.php");
@@ -43,7 +60,7 @@ class DoctorCls extends DoctorModalcls
         if (is_numeric($appo_id)) {
             $data = $this->getCorrespondUserDB($appo_id);
             if (!empty($data)) {
-                $link = "http://localhost/login.php";
+                $link = "http://localhost/vendor/meeting.html";
                 $time = Date('y:m:d', strtotime('+3 days'));
                 if ($this->sendMail($data['email'], $data['u_name'], $link, $time)) {
                     $return_data = ['status' => 1, 'msg' => 'Successfully send meeting link to patient'];
@@ -58,11 +75,11 @@ class DoctorCls extends DoctorModalcls
         }
         echo json_encode($return_data);
     }
-    public function createSheduler($start, $end, $log_id)
+    public function createSheduler($start, $end, $log_id, $slot_count)
     {
         if ($this->checkLogidDB($log_id)) {
             if ($this->checkTimeSheduleDB($start, $end, $log_id)) {
-                if ($this->insertTimeDB($start, $end, $log_id)) {
+                if ($this->insertTimeDB($start, $end, $log_id, $slot_count)) {
                     $return_data = ['status' => 1, 'msg' => 'Successfully created time shedule'];
                 } else {
                     $return_data = ['status' => 0, 'msg' => 'Failed to create time shedule.Db Error', 'code' => 1];

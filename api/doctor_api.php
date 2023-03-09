@@ -11,7 +11,8 @@ if ($sessObj->isLogged() == true) {
             $start = filter_var($_POST['start'], FILTER_SANITIZE_SPECIAL_CHARS);
             $end = filter_var($_POST['end'], FILTER_SANITIZE_SPECIAL_CHARS);
             $log_id = filter_var($_POST['log_id'], FILTER_SANITIZE_SPECIAL_CHARS);
-            $doctorObj->createSheduler($start, $end, $log_id);
+            $slot_count = filter_var($_POST['slot_count'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $doctorObj->createSheduler($start, $end, $log_id, $slot_count);
         } else if ($_POST['action'] == 2) {
             $time_id = filter_var($_POST['time_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $doctorObj->deleteShedule($time_id);
@@ -31,6 +32,10 @@ if ($sessObj->isLogged() == true) {
         } else if ($_POST['action'] == 6) {
             $appo_id = filter_var($_POST['appo_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $doctorObj->zoomMeetLinkGen($appo_id);
+        } else if ($_POST['action'] == 7) {
+            $doctor_id = filter_var($_POST['doctor_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $status = filter_var($_POST['type'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $doctorObj->changeTimingStatusBulk($doctor_id, $status);
         }
     }
 } else {

@@ -56,9 +56,10 @@
                 // bar chart
                 return $this->connection()->query("SELECT `tbl_product`.`product_name`,SUM(`tbl_p1_purchase`.`qty`) as total FROM `tbl_p1_purchase` INNER JOIN `tbl_product` on `tbl_p1_purchase`.`product_id` = `tbl_product`.`product_id` GROUP BY `tbl_p1_purchase`.`product_id`;")->fetch_all(MYSQLI_ASSOC);
             } else if ($type == 2) {
-                return $this->connection()->query("SELECT `tbl_doctor`.`d_name`,COUNT(`appoinment_tbl`.`appo_id`)as total FROM `tbl_doctor` INNER JOIN `appoinment_tbl` ON `tbl_doctor`.`l_id` = `appoinment_tbl`.`l_id` GROUP BY `tbl_doctor`.`d_id`;")->fetch_all(MYSQLI_ASSOC);
+                return $this->connection()->query("SELECT `tbl_doctor`.`d_name`,COUNT(`appoinment_tbl`.`appo_id`) as total FROM `appoinment_tbl` INNER JOIN `doctor_timing_tbl` ON `appoinment_tbl`.`time_id` = `doctor_timing_tbl`.`time_id` INNER JOIN `tbl_login` ON `doctor_timing_tbl`.`l_id` = `tbl_login`.`l_id` INNER JOIN `tbl_doctor` ON `tbl_login`.`l_id` = `tbl_doctor`.`l_id` GROUP BY `tbl_doctor`.`l_id`;")->fetch_all(MYSQLI_ASSOC);
             } else if ($type == 3) {
-                // line chart
+                // histogram
+                return $this->connection()->query("SELECT COUNT(*) as tot_count,`preditction_anys1_tbl`.`result_out` FROM `preditction_anys1_tbl` GROUP BY `preditction_anys1_tbl`.`result_out`;")->fetch_all(MYSQLI_ASSOC);
             }
         }
     }

@@ -133,12 +133,52 @@ if(!isset($_SESSION["email"]))
 			<!-- MAIN -->
 			<main>
 				        
-				
+	
+
+
 				<div class="table-data">
 					<div class="order">
 						<div class="head">
 							<h3>Feedback</h3>
 						</div>
+                        <?php
+ $sql = "SELECT feedback FROM tbl_feedback";
+$result = $con->query($sql);
+if ($result->num_rows > 0) {
+    // Output data of each row
+    $texts = array();
+    while($row = $result->fetch_assoc()) {
+        $texts[] = $row["feedback"];
+    }
+    $url = 'http://127.0.0.1:5000/sentiment';
+    $data = json_encode(array('texts' => $texts));
+    $options = array(
+        'http' => array(
+            'header'  => "Content-type: application/json\r\n",
+            'method'  => 'POST',
+            'content' => $data,
+        ),
+    );
+    $context  = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+    $overall_sentiment = json_decode($result, true)['sentiment'];
+$neg=100 - ($overall_sentiment * 100);
+} else {
+    echo "No feedback data found in the database.";
+}
+?>
+
+
+&nbsp;<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: <?php echo abs($overall_sentiment) * 100; ?>%; background-color:green;">
+  </div>
+</div>
+<span>&nbsp;Positive &nbsp;<?php  echo abs($overall_sentiment) * 100;?> %</span>
+&nbsp;<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: <?php echo $neg; ?>%; background-color:red;">
+  </div>
+  </div>
+  <span>&nbsp;Negative&nbsp;<?php  echo $neg;?> %</span>
                         <table id="example" class="display">
 							<thead>
 								<tr>

@@ -129,7 +129,7 @@ img {
 .sidebar {
     position: absolute;
     top: 0;
-    left: 0;
+    
     height: 100%;
     width: 300px;
     background-color: #fff;
@@ -139,6 +139,7 @@ img {
     justify-content: space-between;
     border-right: 2px solid #f1f1f1;
     transition: .3s;
+    overflow-y: scroll;
 }
 
 .sidebar.active {
@@ -241,6 +242,7 @@ a {
     padding: 0 10px;
     overflow-y: scroll;
     transition: .3s;
+    left: 324px;
 }
 
 .main--content.active {

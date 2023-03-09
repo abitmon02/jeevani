@@ -142,7 +142,9 @@ class UserCls extends UserModalcls
         if ($this->checkLogidDB($user_log_id) && $this->checkTimeSheduleDB1($time_id) && is_numeric($time_id) && is_numeric($user_log_id)) {
             $token =   'Token-' . bin2hex(random_bytes(5));
             $data = $this->checkAppoinmentExistcurrentDB($date, $user_log_id);
-            if (!empty($data)) {
+            $time_data = $this->get_time_data($time_id);
+            $cuurent_count = $this->get_curr_appo_count_data($date, $time_id)['current_count'];
+            if (!empty($data) && !empty($time_data)) {
                 $temp = array();
                 foreach ($data as $value) {
                     if ($date ==  date("Y-m-d", strtotime($value['date'])) && $value['status'] == 0) {
@@ -155,14 +157,19 @@ class UserCls extends UserModalcls
                         array_push($temp, $value['appo_id']);
                     }
                 }
-                if (empty($temp)) {
-                    if ($this->insertAppoinment($date, $time_id, $user_log_id, $token)) {
-                        $return_data = ['status' => 1, 'msg' => "Your appoinment successfull."];
-                    } else {
-                        $return_data = ['status' => 0, 'msg' => "Failed to create appoinment", 'error_code' => 3];
-                    }
+             
+                if ($time_data['slot_count'] <= $cuurent_count) {
+                    $return_data = ['status' => 0, 'msg' => "Selected time slot filled for selected date. appoinment failed", 'error_code' => 2];
                 } else {
-                    $return_data = ['status' => 0, 'msg' => "Appoinment Exist on same date", 'error_code' => 2];
+                    if (empty($temp)) {
+                        if ($this->insertAppoinment($date, $time_id, $user_log_id, $token)) {
+                            $return_data = ['status' => 1, 'msg' => "Your appoinment successfull."];
+                        } else {
+                            $return_data = ['status' => 0, 'msg' => "Failed to create appoinment", 'error_code' => 3];
+                        }
+                    } else {
+                        $return_data = ['status' => 0, 'msg' => "Appoinment Exist on same date", 'error_code' => 2];
+                    }
                 }
             } else {
                 if ($this->insertAppoinment($date, $time_id, $user_log_id, $token)) {

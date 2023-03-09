@@ -39,8 +39,8 @@ if (!isset($_SESSION["email"])) {
     <section class="main">
         <div class="sidebar">
             <ul class="sidebar--items">
-            <li>
-                    <a href="index.php" >
+                <li>
+                    <a href="index.php">
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
@@ -51,7 +51,7 @@ if (!isset($_SESSION["email"])) {
                         <span class="sidebar--item">Treatments</span>
                     </a>
                 </li>
-                  <li>
+                <li>
                     <a href="customPackages.php">
                         <span class="icon icon-5"><i class="ri-command-line"></i></span>
                         <span class="sidebar--item"> Custom Packages</span>
@@ -79,9 +79,9 @@ if (!isset($_SESSION["email"])) {
                 </li>
                 <li>
                     <a href="viewtreatment.php">
-                    <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                     <span class="sidebar--item">Packages Bookings</span>
-                   </a>
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Packages Bookings</span>
+                    </a>
                 </li>
 
                 <li>
@@ -114,7 +114,8 @@ if (!isset($_SESSION["email"])) {
                         <span class="sidebar--item">Feedbacks</span>
                     </a>
                 </li>
-            </ul>            <ul class="sidebar--bottom-items">
+            </ul>
+            <ul class="sidebar--bottom-items">
 
                 <li>
                     <a href="../logout.php">
@@ -317,6 +318,27 @@ if (!isset($_SESSION["email"])) {
                 Swal.fire('error', "Category name should be atleast 4 characters", 'error');
             }
         })
+        changeStatus = (cata_id) => {
+            if (!isNaN(cata_id)) {
+                $.ajax({
+                    type: "POST",
+                    url: "../api/manageprodcuts.php",
+                    data: {
+                        'cata_id': cata_id,
+                        'action': 6,
+                    },
+                    dataType: 'JSON',
+                    cache: false,
+                    success: function(response) {
+                        if (response.status == 1) {
+                            Swal.fire('success', response.msg, 'success');
+                        } else {
+                            Swal.fire('error', response.msg, 'error');
+                        }
+                    }
+                });
+            }
+        }
     </script>
 </body>
 
