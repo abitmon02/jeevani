@@ -1,4 +1,4 @@
-<?php
+j<?php
 include 'config.php';
 
 if(isset($_GET['email']) && isset($_GET['code']))

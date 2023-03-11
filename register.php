@@ -29,7 +29,7 @@ function sendMail($email, $v_code)
 		$mail->isHTML(true);                                  //Set email format to HTML
 		$mail->Subject = 'Email Verification From Jeevani Ayurvedics';
 		$mail->Body    = "Thanks for registering! Click the link to verify the email address
-                   <a href='http://localhost/jeevani/verify.php?email=$email&code=$v_code'>Verify</a>";
+                   <a href='http://localhost/verify.php?email=$email&code=$v_code'>Verify</a>";
 		$mail->send();
 		return true;
 	} catch (Exception $e) {
@@ -121,13 +121,20 @@ if (isset($_POST['submit'])) {
 						Enter your personal details below:
 					</p>
 					<div class="form-group">
-						<input type="text" class="form-control" name="u_name" id="full_name" placeholder="Full Name" autocomplete="off" required>
+						<!-- <input type="text" class="form-control" name="u_name" id="full_name" placeholder="Full Name" autocomplete="off" required> -->
+						<input type="text" class="form-control" name="u_name" id="full_name" placeholder="Full Name" autocomplete="off" required onchange="validateFullName()">
+							<span id="full_name_error" style="color: red;"></span>
+
 					</div>
 					<div class="form-group">
-						<input type="text" class="form-control" name="address" id="address" onblur="validate_address()" placeholder="Address" autocomplete="off" required>
-					</div>
+					
+					<!-- <input type="text" class="form-control" name="address" id="address" onblur="validate_address()" placeholder="Address" autocomplete="off" required> -->
+					<input type="text" class="form-control" name="address" id="address" placeholder="Address" autocomplete="off" required onchange="validateAddress()">
+					<span id="address-error"style="color: red;"></span>	
+				</div>
 					<div class="form-group">
-						<input type="text" class="form-control" onblur="validate_city()" name="city" id="city" placeholder="City" autocomplete="off" required>
+						<input type="text" class="form-control" onchange="validateCity()" name="city" id="city" placeholder="City" autocomplete="off" required>
+						<span id="city-error"style="color: red;"></span>	
 					</div>
 					<div class="form-group">
 						Date of Birth: &nbsp;&nbsp;&nbsp;
@@ -169,19 +176,23 @@ if (isset($_POST['submit'])) {
 					</p>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="email" class="form-control" name="email" id="email" placeholder="Email" onblur="validate_email()" autocomplete="off" required>
-							<i class="fa fa-envelope"></i> </span>
+							<input type="email" class="form-control" name="email" id="email" placeholder="Email" onchange="validateEmail()" autocomplete="off" required>
+							<i class="fa fa-envelope"></i> 
+						</span>
+						<span id="email-error"style="color: red;"></span>	
 
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="password" class="form-control" minlength="8" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" name="password" placeholder="Password" onblur="validate_password()" required>
+							<input type="password" class="form-control" minlength="8" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" name="password" placeholder="Password" onchange="validatePassword()" required>
 							<i class="fa fa-lock"></i> </span>
+							<span id="password-error"style="color: red;"></span>	
 					</div>
 					<div class="form-group">
 						<span class="input-icon">
-							<input type="password" class="form-control" minlength="8" id="password_again" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" name="password_again" placeholder="Re-type Password" onblur="validate_confirm()" required>
+							<input type="password" class="form-control" minlength="8" id="password_again" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" name="password_again" placeholder="Re-type Password" onchange="validatePassword()" required>
 							<i class="fa fa-lock"></i> </span>
+							<span id="password-error"style="color: red;"></span>
 					</div>
 
 					<div class="form-actions">
@@ -204,110 +215,139 @@ if (isset($_POST['submit'])) {
 </div>
 
 <script>
-	function validate_name() {
-		var name = document.forms["registration"]["full_name"];
-		var pattern = /^[A-Za-z]+$/;
-		if (name.value == "") {
-			var error = "Please enter full_name";
-			document.getElementById("full_name").placeholder = error;
-			document.getElementById("full_name").classList.add("custom-warning");
-			name.focus();
-			return false;
+	// Name validation
+function validateFullName() {
+  // Get the value of the full name input field
+  var fullName = document.getElementById("full_name").value.trim();
+  
+  // Check if the full name contains at least one alphabetic part
+  var regex = /^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/;
+  if (!regex.test(fullName)) {
+    document.getElementById("full_name_error").innerHTML = "Please enter a valid full name (only alphabetic characters are allowed, and the first letter of each part should be capitalized)";
+    document.getElementById("full_name").value = "";
+    document.getElementById("full_name").focus();
+  } else {
+    document.getElementById("full_name_error").innerHTML = "";
+  }
+}
 
-		}
-	}
+// Address validation
+function validateAddress() {
+  // Get the value of the address input field
+  var address = document.getElementById("address").value.trim();
 
-	function validate_address() {
-		var name = document.forms["registration"]["address"];
-		var pattern = /^[A-Za-z]+$/;
-		if (name.value == "") {
-			var error = "Please enter your address";
-			document.getElementById("address").placeholder = error;
-			document.getElementById("address").classList.add("custom-warning");
-			document.registration.address.focus();
-			return false;
-		}
-	}
-
-	function validate_city() {
-		var name = document.forms["registration"]["city"];
-		var pattern = /^[A-Za-z]+$/;
-		if (name.value == "") {
-			var error = "Please enter your city";
-			document.getElementById("city").placeholder = error;
-			document.getElementById("city").classList.add("custom-warning");
-			document.registration.city.focus();
-			return false;
-		} else if (name.value.match(pattern)) {
-			document.getElementById("city").innerHTML = "";
-			document.form.phone.focus();
-			return true;
-		} else {
-			document.getElementById("city").value = "";
-			document.getElementById("city").placeholder = "Invalid place";
-			document.registration.city.focus();
-			return false;
-		}
-	}
-
-	function ValidateEmail() {
-		var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-		if (inputText.value.match(mailformat)) {
-			alert("Valid email address!");
-			document.form1.text1.focus();
-			return true;
-		} else {
-			alert("You have entered an invalid email address!");
-			document.form1.text1.focus();
-			return false;
-		}
-	}
-
-	function validate_password() {
-		var name = document.forms["registration"]["password"];
-		var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-		if (name.value == "") {
-			var error = "Please enter your password";
-			document.getElementById("password").placeholder = error;
-			document.getElementById("password").classList.add("custom-warning");
-			document.form.password.focus();
-			return false;
-		} else if (name.value.match(pattern)) {
-			document.getElementById("password").innerHTML = "";
-			document.form.cpassword.focus();
-			return true;
-		} else {
-			document.getElementById("password").value = "";
-			document.getElementById("password").placeholder = "Invalid password";
-			document.form.password.focus();
-			return false;
-		}
-	}
-
-	function validate_confirm() {
-		var name1 = document.forms["registration"]["password_again"];
-		var name2 = document.forms["registration"]["password_again"];
-
-		if (name2.value == "") {
-			var error = "Please enter password";
-			document.getElementById("password_again").placeholder = error;
-			document.getElementById("password_again").classList.add("custom-warning");
-			document.form.cpassword.focus();
-			return false;
-		} else if (name1.value == name2.value) {
-			document.getElementById("password_again").innerHTML = "";
-			document.form.checkBox.focus();
-			return true;
-		} else {
-			document.getElementById("password_again").value = "";
-			document.getElementById("password_again").placeholder = "Password doesnot match";
-			document.form.cpassword.focus();
-			return false;
-		}
-	}
+  // Check if the address starts with an uppercase letter and contains only alphabetic characters and spaces
+  var regex = /^[A-Z][a-zA-Z\, ]*$/;
+  if (!regex.test(address)) {
+    document.getElementById("address-error").innerHTML = "Please enter a valid address (only alphabetic characters and spaces are allowed, and the first letter should be capitalized)";
+    document.getElementById("address").value = "";
+    document.getElementById("address").focus();
+  } else {
+    document.getElementById("address-error").innerHTML = "";
+  }
+}
 
 
-	bootstrapValidate('#full_name', 'alpha:You can only input alphabetic characters');
+//  validate city
+function validateCity() {
+  // Get the value of the city input field
+  var city = document.getElementById("city").value.trim();
+  
+  // Check if the city meets the minimum length requirement
+  if (city.length < 3) {
+    document.getElementById("city-error").innerHTML = "Please enter a valid city (minimum 3 characters)";
+    document.getElementById("city").focus();
+  }
+  // Check if the city starts with white space
+  else if (/^\s/.test(city)) {
+    document.getElementById("city-error").innerHTML = "Please enter a valid city (white space is not allowed at the beginning)";
+    document.getElementById("city").focus();
+  }
+  // Check if the city contains any special characters
+  else if (/[^a-zA-Z\s]/.test(city)) {
+    document.getElementById("city-error").innerHTML = "Please enter a valid city (special characters are not allowed)";
+    document.getElementById("city").focus();
+  }
+  // City is valid
+  else {
+    document.getElementById("city-error").innerHTML = "";
+  }
+}
+
+//  email validation
+function validateEmail() {
+  // Get the value of the email input field
+  var email = document.getElementById("email").value.trim();
+
+  // Check if the email is valid
+  var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regex.test(email)) {
+    document.getElementById("email-error").innerHTML = "Please enter a valid email address";
+    document.getElementById("email").focus();
+  } else {
+    document.getElementById("email-error").innerHTML = "";
+  }
+}
+
+function validatePassword() {
+  // Get the value of the password input field
+  var password = document.getElementById("password").value.trim();
+
+  // Check if the password meets the requirements
+  var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  if (!regex.test(password)) {
+    document.getElementById("password-error").innerHTML = "Please enter a valid password (minimum 8 characters with at least one uppercase letter, one lowercase letter, one number, and one special character)";
+    document.getElementById("password").focus();
+  } else {
+    document.getElementById("password-error").innerHTML = "";
+  }
+}
+
+	// function validate_password() {
+	// 	var name = document.forms["registration"]["password"];
+	// 	var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+	// 	if (name.value == "") {
+	// 		var error = "Please enter your password";
+	// 		document.getElementById("password").placeholder = error;
+	// 		document.getElementById("password").classList.add("custom-warning");
+	// 		document.form.password.focus();
+	// 		return false;
+	// 	} else if (name.value.match(pattern)) {
+	// 		document.getElementById("password").innerHTML = "";
+	// 		document.form.cpassword.focus();
+	// 		return true;
+	// 	} else {
+	// 		document.getElementById("password").value = "";
+	// 		document.getElementById("password").placeholder = "Invalid password";
+	// 		document.form.password.focus();
+	// 		return false;
+	// 	}
+	// }
+
+	// function validate_confirm() {
+	// 	var name1 = document.forms["registration"]["password_again"];
+	// 	var name2 = document.forms["registration"]["password_again"];
+
+	// 	if (name2.value == "") {
+	// 		var error = "Please enter password";
+	// 		document.getElementById("password_again").placeholder = error;
+	// 		document.getElementById("password_again").classList.add("custom-warning");
+	// 		document.form.cpassword.focus();
+	// 		return false;
+	// 	} else if (name1.value == name2.value) {
+	// 		document.getElementById("password_again").innerHTML = "";
+	// 		document.form.checkBox.focus();
+	// 		return true;
+	// 	} else {
+	// 		document.getElementById("password_again").value = "";
+	// 		document.getElementById("password_again").placeholder = "Password doesnot match";
+	// 		document.form.cpassword.focus();
+	// 		return false;
+	// 	}
+	// }
+
+
+	// bootstrapValidate('#full_name', 'alpha:You can only input alphabetic characters');
 </script>
 </body>
 

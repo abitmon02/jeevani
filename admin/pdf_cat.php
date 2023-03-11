@@ -11,10 +11,10 @@ $data = mysqli_query($con,$query);
     $pdf->AddPage();
 
    
-    $pdf->cell('10','10','sl no','1','0','C');
-    $pdf->cell('30','10','Name','1','0','C');
+    $pdf->cell('30','10','sl no','1','0','C');
+    $pdf->cell('40','10','Name','1','0','C');
      
-    $pdf->cell('40','10','Date','1','1','C');
+    $pdf->cell('90','10','Created on','1','1','C');
   
     
     $pdf->SetFont('arial','','12');
@@ -22,9 +22,9 @@ $data = mysqli_query($con,$query);
     $i=1;
     while($row = mysqli_fetch_assoc($data))   
     {
-        $pdf->cell('10','10',$i++,'1','0','C');
-        $pdf->cell('30','10',$row['cata_name'],'1','0','C');
-        $pdf->cell('40','10',$row['date'],'1','1','C');
+        $pdf->cell('30','10',$i++,'1','0','C');
+        $pdf->cell('40','10',$row['cata_name'],'1','0','C');
+        $pdf->cell('90','10',$row['date'],'1','1','C');
       
         
     } 

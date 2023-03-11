@@ -130,6 +130,13 @@ if (!isset($_SESSION["email"])) {
 
         <div class="main--content">
             <div class="overview">
+                    <form action="pdf_cat.php" method="POST">
+                                <div class="text-right">
+                                    <button type="submit" name="btn_pdf"class="btn btn-light"> </i> Download</button>
+                                </div>
+                    </form>
+
+
                 <div class="title">
 
                     <div>
@@ -330,11 +337,11 @@ if (!isset($_SESSION["email"])) {
                     dataType: 'JSON',
                     cache: false,
                     success: function(response) {
-                        if (response.status == 1) {
-                            Swal.fire('success', response.msg, 'success');
-                        } else {
-                            Swal.fire('error', response.msg, 'error');
-                        }
+                        // if (response.status == 1) {
+                        //     Swal.fire('success', response.msg, 'success');
+                        // } else {
+                        //     Swal.fire('error', response.msg, 'error');
+                        // }
                     }
                 });
             }

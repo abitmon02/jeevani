@@ -7,7 +7,7 @@ if (isset($_POST['submit'])) {
 	$email = $_POST["email"];
 	$password = md5($_POST["password"]);
 	// echo $passwod;
-	$res = $con->query("SELECT * FROM `tbl_login` WHERE `tbl_login`.`email` = '$email' AND `tbl_login`.`password` = '$password' AND `tbl_login`.`status` = 0;");
+	$res = $con->query("SELECT * FROM `tbl_login` WHERE `tbl_login`.`email` = '$email' AND `tbl_login`.`password` = '$password' ");
 	// echo $passwors;
 
 	if (mysqli_num_rows($res) > 0) {
@@ -17,6 +17,7 @@ if (isset($_POST['submit'])) {
 			$verified = $data['verified'];
 			$type = $data['a_id'];
 			$log_id = $data['l_id'];
+			$status = $data['status'];
 		}
 		$_SESSION['isLogged'] = TRUE;
 		$_SESSION['type'] = $type;
@@ -27,7 +28,8 @@ if (isset($_POST['submit'])) {
 			'type' => $type,
 			'password' => $password
 		];
-		if ($verified == '1') {
+		if ($verified == '1'&& $status == '0') 
+		{
 			if ($_SESSION['type'] == '3') {
 				$_SESSION['message'] = "Welcome";
 				header("location:user/index.php");
@@ -41,10 +43,18 @@ if (isset($_POST['submit'])) {
 				header("location:admin/index.php");
 				exit(0);
 			}
-		} else {
+		} 
+		elseif ($verified == '1' && $status == '1') {
+			// The email is verified but the status is 0, so show an error message
+			echo "<script> alert('You are blocked please contact admin'); </script>";
+			
+		  } 
+		else {
+			// The email is not verified, so show an error message
 			echo "<script> alert('Please verify the email'); </script>";
-		}
-	} else {
+		  }
+	} 
+	else {
 
 		echo "<script> alert('Incorrect Password'); </script>";
 	}

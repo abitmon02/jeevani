@@ -464,13 +464,13 @@ if (!isset($_SESSION["email"])) {
                     },
                     dataType: 'JSON',
                     cache: false,
-                    success: function(response) {
-                        if (response.status == 1) {
-                            Swal.fire('success', response.msg, 'success');
-                        } else {
-                            Swal.fire('error', response.msg, 'error');
-                        }
-                    }
+                    // success: function(response) {
+                    //     if (response.status == 1) {
+                    //         Swal.fire('success', response.msg, 'success');
+                    //     } else {
+                    //         Swal.fire('error', response.msg, 'error');
+                    //     }
+                    // }
                 });
             }
         }

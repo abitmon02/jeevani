@@ -107,7 +107,8 @@ if (isset($_POST)) {
         $newStock = filter_var($_POST['newStock'], FILTER_DEFAULT);
         $product_id = filter_var($_POST['product_id'], FILTER_DEFAULT);
         $product_data = $con->query("SELECT * FROM `tbl_product` WHERE `tbl_product`.`product_id` = '$product_id'")->fetch_assoc();
-        if (!empty($product_data) && $product_data['stock'] < $newStock) {
+        if (!empty($product_data) ) {
+            // if (!empty($product_data) && $product_data['stock'] < $newStock) {
             if ($con->query("UPDATE `tbl_product` SET `stock`='$newStock' WHERE `tbl_product`.`product_id` = '$product_id';")) {
                 $return_data = ['status' => 1, 'msg' => "Product stock updated successfully"];
             } else {
