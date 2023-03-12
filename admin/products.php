@@ -130,6 +130,12 @@ if (!isset($_SESSION["email"])) {
 
         <div class="main--content">
             <div class="overview">
+            <form action="pdf_product.php" method="POST">
+                                <div class="text-right">
+                                    <button type="submit" name="btn_pdf"class="btn btn-light"> </i> Download</button>
+                                </div>
+                    </form>
+
                 <div class="title">
 
                     <div>

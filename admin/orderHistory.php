@@ -73,7 +73,7 @@ if (!isset($_SESSION["email"])) {
                 </li>
 
                 <li>
-                    <a href="#" id="active--link">
+                    <a href="viewdoctors.php" >
                         <span class="icon icon-4"><i class="ri-user-2-line"></i></span>
                         <span class="sidebar--item">Doctors List</span>
                     </a>
@@ -110,7 +110,7 @@ if (!isset($_SESSION["email"])) {
                     </a>
                 </li>
                 <li>
-                    <a href="orderHistory.php">
+                    <a href="#"id="active--link">
                         <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
                         <span class="sidebar--item">Mange orders and History</span>
                     </a>
@@ -144,7 +144,7 @@ if (!isset($_SESSION["email"])) {
                     <div class="head">
                         <h3>ORDER MANAGE AND History</h3>
 
-                        <form action="docdet_pdf.php" class="doctor--card" method="POST">
+                        <form action="pdf_order.php" class="doctor--card" method="POST">
                             <div class="img--box--cover">
                                 <div class="img--box">
                                     <button type="submit" name="btn_pdf" class="btn"><i class="fa fa-download "></i> Download</button>

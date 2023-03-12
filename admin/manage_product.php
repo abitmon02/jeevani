@@ -144,10 +144,17 @@ if (isset($_POST["submit"]))
 		
 		<!-- CONTENT -->
 		<section id="content">
+            
 			<!-- MAIN -->
 			<main>
+                
             <div class="table-data">
-					<div class="order">
+                
+					<div class="order"> <form action="pdf_treatment.php" method="POST">
+                                <div class="text-right">
+                                    <button type="submit" name="btn_pdf"class="btn btn-light"> </i> Download</button>
+                                </div>
+                    </form>
 						<div class="head">
 							<h3></h3>	
 						</div>

@@ -474,14 +474,16 @@ a {
 	display: flex;
 	flex-wrap: wrap;
 	grid-gap: 24px;
-	margin-top: -632px;
+	/* margin-top: -632px; */
+    margin-top: -596px;
     margin-bottom: 140px;
 	width: 95%;
 	color: var(--dark);
     height: 625px;
     overflow-x: scroll;
     overflow-y: scroll;
-    
+    /* neew */
+    margin-left: 19px; 
 }
 #content main .table-data > div {
 	border-radius: 20px;
@@ -773,10 +775,10 @@ body {
 
 /* CONTENT */
 #content {
-	position: relative;
-	width: calc(100% - 280px);
-	left: 310px;
-	transition: .3s ease;
+    position: relative;
+    width: calc(100% - 280px);
+    left: 310px;
+    transition: .3s ease;
     height: 630px;
     
 }
