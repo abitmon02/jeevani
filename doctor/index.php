@@ -42,13 +42,15 @@ if ($sessObj->isLogged() == true) {
                         <div class="card--data">
                             <div class="card--content">
                                 <h5 class="card--title">Attented Appointments</h5>
-                                <!-- <h1>
-                                    <//?php
-                                    $sql = "SELECT * from tbl_doctor where status=0";
-                                    $result = mysqli_query($con, $sql);
-                                    echo mysqli_num_rows($result);
+                                <h1>
+                                    <?php
+                                    $sql = "SELECT * from tbl_patient where status=0";
+                                    $timing_data = $dbObj->connFnc()->query("SELECT `appoinment_tbl`.`fee_status`,`appoinment_tbl`.`appo_id`,`appoinment_tbl`.`date`,`appoinment_tbl`.`token`,`appoinment_tbl`.`status`,`tbl_patient`.`u_name`,`appoinment_tbl`.`symptom`,`tbl_patient`.`city`,`tbl_patient`.`gender`,`tbl_patient`.`bloodgrp`,`doctor_timing_tbl`.`start`,`doctor_timing_tbl`.`end` FROM `appoinment_tbl` INNER JOIN `tbl_patient` ON `appoinment_tbl`.`l_id` = `tbl_patient`.`l_id` INNER JOIN `doctor_timing_tbl` on `appoinment_tbl`.`time_id` = `doctor_timing_tbl`.`time_id` LEFT JOIN `tbl_login` ON `doctor_timing_tbl`.`l_id` = `tbl_login`.`l_id` WHERE `tbl_login`.`l_id` = '" . $user_data['log_id'] . "' AND `tbl_login`.`a_id` = 2 AND `appoinment_tbl`.`status` = 3 ");
+                        
+                                    // $result = mysqli_query($con, $sql);
+                                    echo mysqli_num_rows($timing_data);
                                     ?>
-                                </h1> -->
+                                </h1>
                             </div>
                             <i class="ri-user-line card--icon--lg"></i>
                         </div>
@@ -74,7 +76,7 @@ if ($sessObj->isLogged() == true) {
 
                     </div>
                 </div>
-    </div>
+        </div>
     <!-- content end -->
 <?php
     require 'footer.php';

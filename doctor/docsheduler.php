@@ -55,11 +55,12 @@ if ($sessObj->isLogged() == true) {
                 <table id="exampl" class="table cell-border " style="width:100%">
                     <thead class="TableHead">
                         <tr>
-                            <th>Time id</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th><center>Time id</th>
+                            <th><center>Start</th>
+                            <th><center>End</th>
+                            <th><center>Slot</th>
+                            <th><center>Status</th>
+                            <th><center>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,7 +74,7 @@ if ($sessObj->isLogged() == true) {
                                     <td><?= $value['start'] ?></td>
 
                                     <td><?= $value['end'] ?></td>
-
+                                    <td><?= $value['slot_count'] ?></td>
                                     <td>
                                         <div class="toggle">
                                             <input type="checkbox" onchange="changeStatus(<?= $value['time_id'] ?>)" <?= $value['status'] == 1 ? 'checked' : '' ?>>

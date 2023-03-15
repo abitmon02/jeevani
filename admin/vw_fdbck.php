@@ -213,7 +213,7 @@ if ($result->num_rows > 0) {
     <script>
         var ctx = document.getElementById('sentiment-chart').getContext('2d');
         var chart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: ['Positive', 'Negative', 'Neutral'],
                 datasets: [{
