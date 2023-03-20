@@ -120,13 +120,14 @@
                                <table>
                                    <thead>
                                        <tr>
-                                           <th>ID</th>
+                                           <th>slno</th>
                                            <th>E-mail</th>
                                             <th>Status</th>
                                        </tr>
                                    </thead>
                                    <tbody>
                                    <?php 
+                                   $i=1;
                                            $con = mysqli_connect("localhost","root","","jeevani");
        
                                            if(isset($_POST['search']))
@@ -141,7 +142,7 @@
                                                    {
                                                        ?>
                                                        <tr>
-                                                           <td><?= $items['l_id']; ?></td>
+                                                           <td><p><?php echo $i++; ?></p></td>
                                                            <td><?= $items['email']; ?></td>
                                                            <td><?= $items['status']; ?></td>
                                                        </tr>

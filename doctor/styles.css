@@ -54,6 +54,35 @@ body {
     border: none;
     text-indent: 15px;
     width: 85%;
+}  
+  .search--notification--profile {
+    padding: 0 20px;
+    margin-left: auto;
+}
+.notification--profile {
+    margin-left: auto;
+}
+.search--notification--profile {
+    width: fit-content;
+}
+.search--notification--profile {
+    padding: 0 10px;
+}
+.header .search--notification--profile .notification--profile a:hover 
+{
+    background-color: rgba(0, 0, 0, 0.184);
+    padding: 5px;
+    border-radius: 3px;
+}
+.search--notification--profile {
+    padding: 0 20px;
+    margin-left: auto;
+}
+.search--notification--profile {
+    width: fit-content;
+}
+.search--notification--profile {
+    padding: 0 10px;
 }
 
 .search button {

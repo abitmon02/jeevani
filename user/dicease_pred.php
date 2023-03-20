@@ -112,7 +112,7 @@ if ($sessObj->isLogged() == true) {
   <div class="overview">
     <div class="row m-2">
       <div class="col-lg-12">
-        <h2 style="color: #9f8e64;margin-top: 10px;">Dicease Preditction</h2>
+        <h2 style="color: #9f8e64;margin-top: 10px;">Disease Prediction</h2>
         <div class="row form-group mt-3">
           <div class="form-group col-md-3 space-between">
             <select name="symtomp1" class="form-control" id="symtomp1">
@@ -185,14 +185,7 @@ if ($sessObj->isLogged() == true) {
             </select>
           </div>
 
-          <div class="form-group col-md-3 space-between">
-            <select name="type_inp" class="form-control" id="type_inp">
-              <option value="0">Please Select a Method</option>
-              <option value="1">DecisionTree</option>
-              <option value="2">randomforest</option>
-              <option value="3">NaiveBayes</option>
-            </select>
-          </div>
+          
 
         </div>
 
@@ -240,11 +233,12 @@ if ($sessObj->isLogged() == true) {
   $("#addTimingBtn").click(() => {
     symp1 = document.getElementById("symtomp1").value;
     symp2 = $("#symtomp2").val();
+    // console.log(symp1);
     symp3 = $("#symtomp3").val();
     symp4 = $("#symtomp4").val();
     symp5 = $("#symtomp5").val();
     type_inp = $("#type_inp").val();
-    if (type_inp >= 1) {
+    if (symp1 !=0 && symp2 !=0) {
       $.ajax({
         type: "POST",
         url: "../api/external_api.php",
@@ -256,7 +250,8 @@ if ($sessObj->isLogged() == true) {
             "symp4": symp4,
             "symp5": symp5
           },
-          "type": type_inp,
+          // "type": type_inp,
+          "type": 1,
           'action': 1,
         },
         dataType: 'JSON',
@@ -268,14 +263,14 @@ if ($sessObj->isLogged() == true) {
           $('#loading').hide();
           $("#finalSbtBtn").removeAttr('disabled', 'disabled');
           if (response.status == 1) {
-            swal("success", "PREDICTED SYMPTOM : \"" + (response.data).toUpperCase() + "\"", "success");
+            swal("", "PREDICTED SYMPTOM : \"" + (response.data).toUpperCase() + "\"", "success");
           } else {
             swal("error", response.data, "error");
           }
         }
       });
     } else {
-      swal("error", "Plaease select prediction method", "info");
+      swal("error", "Plaease select Atleast 2 symptoms", "info");
     }
 
   })

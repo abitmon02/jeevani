@@ -7,8 +7,15 @@ if ($sessObj->isLogged() == true) {
     $user_data = $sessObj->getSessionData();
     require 'header.php';
 ?>
+   <!-- <button  id="pdfButton" ><b>Print</b></button> -->
+
+   <div class="text-right">
+                                    <button id="pdfButton" name="btn_pdf"class="btn"><i class="fa fa-download "></i> Download</button>
+                                </div>
+
+
     <!-- Page Content -->
-    <div class="overview">
+    <div class="overview" id="generatePDF">
         <div class="row m-2">
             <div class="col-lg-12">
                 <h2 style="color: #9f8e64;margin-top: 10px;">Appoinment History</h2>
@@ -46,7 +53,7 @@ if ($sessObj->isLogged() == true) {
                                         <?= $value['fee_status'] == 1 ? 'Fee Paid' : 'Not Paid' ?>
                                     </td>
                                     <td><?= $value['symptom'] ?></td>
-                                    <td><?= date("Y-m-d", strtotime($value['date'])) ?></td>
+                                    <td><?= date("d-m-Y", strtotime($value['date'])) ?></td>
                                     <td><?= $value['start'] . "-" . $value['end'] ?></td>
 
                                     <td>
@@ -232,3 +239,16 @@ if ($sessObj->isLogged() == true) {
         alert(msg2);
     }
 </script>
+
+<script>
+      var button = document.getElementById("pdfButton");
+      var makepdf = document.getElementById("generatePDF");
+      button.addEventListener("click", function () {
+         var mywindow = window.open("", "PRINT", "height=600,width=600");
+         mywindow.document.write(makepdf.innerHTML);
+         mywindow.document.close();
+         mywindow.focus();
+         mywindow.print();
+         return true;
+      });
+   </script>

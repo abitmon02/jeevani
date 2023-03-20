@@ -21,7 +21,18 @@
             <i class="ri-menu-line icon icon-0 menu"></i>
             <h2>JEE<span>VANI</span></h2>
         </div>
-
+        <div class="search--notification--profile">
+            <div class="notification--profile">
+              
+                
+                        <div class="alert alert-primary" role="alert">
+                   &nbsp;<br> Welcome   <?= $user_data['email'] ?>
+                </div>
+                       
+                    </div>
+               
+            </div>
+         
     </section>
     <section class="main">
         <div class="sidebar">

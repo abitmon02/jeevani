@@ -30,7 +30,7 @@ if (!isset($_SESSION["email"])) {
             <i class="ri-menu-line icon icon-0 menu"></i>
             <h2>Jee<span>vani</span></h2>
         </div>
-        <span>
+        <!-- <span>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-7" style=" display: flex; justify-content: flex-start; padding-left:20px;">
@@ -38,10 +38,10 @@ if (!isset($_SESSION["email"])) {
                             <div class="search" style="margin-left: 230px;">
                                 <form action="search.php" method="POST">
                                     <div class="input-group mb-3">
-                                        <input style="float:right;width: 300px;padding:20px;height:10px;margin-bottom:-10px;background-color:0001" type="text" name="search" required value="<?php if (isset($_GET['search'])) {
+                                        <input style="float:right;width: 300px;padding:20px;height:10px;margin-bottom:-10px;background-color:0001" type="text" name="search" required value="<//?php if (isset($_GET['search'])) {
                                                                                                                                                                                                     echo $_GET['search'];
                                                                                                                                                                                                 } ?>" class="form-control" placeholder="Search Users">
-                                        <!-- <button type="submit" class="btn btn-primary" style="border-radius:12px;padding:8px; background-color: #d0e0c1;">Search</button> -->
+                                        <button type="submit" class="btn btn-primary" style="border-radius:12px;padding:8px; background-color: #d0e0c1;">Search</button>
 
                                         <button type="submit" style="float:right;margin-top :-20px;margin-right:10px;"><i class="ri-search-2-line"></i></button>
                                         <button type="button" id="toggle">start speaking</button>
@@ -52,7 +52,7 @@ if (!isset($_SESSION["email"])) {
                     </div>
                 </div>
             </div>
-        </span>
+        </span> -->
     </section>
     <section class="main">
         <div class="sidebar">

@@ -7,8 +7,12 @@ if ($sessObj->isLogged() == true) {
     $user_data = $sessObj->getSessionData();
     require 'header.php';
 ?>
+ <div class="text-right">
+                                    <button id="pdfButton" name="btn_pdf"class="btn"><i class="fa fa-download "></i> Download</button>
+                                </div>
+
     <!-- Page Content -->
-    <div class="overview">
+    <div class="overview"id="generatePDF">
         <div class="row m-2">
             <div class="col-lg-12">
                 <h2 style="color: #9f8e64;margin-top: 10px;">Treatment book History</h2>
@@ -57,9 +61,9 @@ if ($sessObj->isLogged() == true) {
                                             <span class="badge badge-danger">No discounts applied</span>
                                         <?php } ?>
                                     </td>
-                                    <td><?= date("Y-m-d", strtotime($value['appo_date'])) ?></td>
+                                    <td><?= date("d-m-Y", strtotime($value['appo_date'])) ?></td>
                                     <td><?= $value['num_days'] ?></td>
-                                    <td><?= date("Y-m-d", strtotime($value['paid_date'])) ?></td>
+                                    <td><?= date("d-m-Y", strtotime($value['paid_date'])) ?></td>
                                     <td><?= $value['r_pay_id'] ?> </td>
                                     <td><?= $value['amount'] ?></td>
                                     <td><span class="label text-light bg-success" style="padding: 10px 10px;border-radius: 10px">Paid</span></td>
@@ -234,3 +238,15 @@ if ($sessObj->isLogged() == true) {
         alert(msg2);
     }
 </script>
+<script>
+      var button = document.getElementById("pdfButton");
+      var makepdf = document.getElementById("generatePDF");
+      button.addEventListener("click", function () {
+         var mywindow = window.open("", "PRINT", "height=600,width=600");
+         mywindow.document.write(makepdf.innerHTML);
+         mywindow.document.close();
+         mywindow.focus();
+         mywindow.print();
+         return true;
+      });
+   </script>

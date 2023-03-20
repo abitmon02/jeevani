@@ -130,8 +130,10 @@ if(!isset($_SESSION["email"]))
             </div>
   
     </section>
+    
 	<!-- CONTENT -->
 		<section id="content">
+            
 			<!-- MAIN -->
 			<main>
 				        
@@ -139,7 +141,12 @@ if(!isset($_SESSION["email"]))
 
 
 				<div class="table-data">
-					<div class="order">
+					<div class="order"> <form action="feedback_pdf.php" class="doctor--card" method="POST">
+                            <div class="img--box--cover">
+                                <div class="text-right">
+                                    <button type="submit" name="btn_pdf"class="btn"><i class="fa fa-download "></i> Download</button>
+                                </div>
+                        </form>
 						<div class="head">
 							<h3>Hospital Feedback</h3>
 						

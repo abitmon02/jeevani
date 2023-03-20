@@ -150,7 +150,8 @@ if (isset($_POST["submit"]))
                 
             <div class="table-data">
                 
-					<div class="order"> <form action="pdf_treatment.php" method="POST">
+					<div class="order">
+                         <form action="pdf_treatment.php" method="POST">
                                 <div class="text-right">
                                     <button type="submit" name="btn_pdf"class="btn btn-light"> </i> Download</button>
                                 </div>

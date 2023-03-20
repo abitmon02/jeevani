@@ -39,6 +39,7 @@ body {
     padding: 0 40px;
 }
 
+
 .search {
     background-color: #f1f4f8;
     border-radius: 50px;
@@ -116,6 +117,29 @@ img {
     height: 100%;
     object-fit: cover;
 }
+.header .search--notification--profile .notification--profile .bell:hover{
+    background-color: rgba(0, 0, 0, 0.184);
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.header .search--notification--profile .notification--profile a:hover 
+{
+    background-color: rgba(0, 0, 0, 0.184);
+    padding: 5px;
+    border-radius: 3px;
+}
+.search--notification--profile {
+    padding: 0 20px;
+    margin-left: auto;
+}
+.search--notification--profile {
+    width: fit-content;
+}
+.search--notification--profile {
+    padding: 0 10px;
+}
+
 
 .main {
     position: relative;
