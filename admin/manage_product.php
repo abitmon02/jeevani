@@ -168,7 +168,9 @@ if (isset($_POST["submit"]))
 									<th>Day</th>
 									<th>Amount</th>
 									<th>Edit</th>
+                                    
 									<th>&nbsp; &nbsp;  &nbsp; Status</th>
+                                    <th>Remove</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -193,6 +195,10 @@ if (isset($_POST["submit"]))
                                         }if($res['p_status']==1){
                                         echo '<p><a input type="text" class="btn btn-md btn-success" href="pactive.php?p_id='.$res['p_id'].'&status=0">ACTIVATE</a></p>';
                                         } ?></td>
+
+<td><?php echo '<p><a input type="text"  class="btn btn-md btn-success" href="remove.php?d_id='.$res['p_id'].'">Remove</a></p>';?></td>  
+
+
 
                                      </tr>
 								<?php

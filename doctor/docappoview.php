@@ -12,6 +12,11 @@ if ($sessObj->isLogged() == true) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <div class="overview">
+    <form action="pdf_appo.php" method="POST">
+                                <div class="text-right">
+                                    <button type="submit" name="btn_pdf"class="btn btn-light"> </i> Download</button>
+                                </div>
+                    </form>
         <div class="row mt-5">
             <div class="col-md-12">
                 <table id="exampl" class="table cell-border " style="width:100%">
@@ -37,7 +42,7 @@ if ($sessObj->isLogged() == true) {
                             foreach ($timing_data as $value) { ?>
                                 <tr class="firstRow">
                                     <td><?= $i ?></td>
-                                    <td><?= date("Y-m-d", strtotime($value['date']))  ?></td>
+                                    <td><?= date("d-m-Y", strtotime($value['date']))  ?></td>
                                     <td><?= $value['start'] . '-' . $value['end'] ?></td>
                                     <td><?= $value['u_name'] ?></td>
                                     <td><?= $value['symptom'] ?></td>

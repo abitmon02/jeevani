@@ -13,9 +13,12 @@ $sq="select * from tbl_login where email='$var'";
 $data=(mysqli_query($con,$sq));
 if($row=mysqli_fetch_assoc($data))
 {
-$regid=$row['l_id'];
-$result=mysqli_query($con,"DELETE FROM `tbl_c_packages` WHERE `p_id`='$id' AND `u_id`='$regid'");
 
-header("location:pack.php");
+$result=mysqli_query($con,"DELETE FROM `tbl_packages` WHERE `p_id`='$id'");
+echo "<script>  
+                alert('Product Removed');
+                    window.location.href='manage_product.php';
+                </script>";
+
 }
 ?>

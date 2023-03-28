@@ -60,7 +60,7 @@ class DoctorCls extends DoctorModalcls
         if (is_numeric($appo_id)) {
             $data = $this->getCorrespondUserDB($appo_id);
             if (!empty($data)) {
-                $link = "http://localhost/vendor/meeting.html";
+                $link = "http://localhost/vendor/zoom/meeting.html";
                 $time = Date('y:m:d', strtotime('+3 days'));
                 if ($this->sendMail($data['email'], $data['u_name'], $link, $time)) {
                     $return_data = ['status' => 1, 'msg' => 'Successfully send meeting link to patient'];

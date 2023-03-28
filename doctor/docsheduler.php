@@ -10,6 +10,11 @@ if ($sessObj->isLogged() == true) {
     <!-- content -->
 
     <div class="overview">
+    <form action="pdf_schedule.php" method="POST">
+                                <div class="text-right">
+                                    <button type="submit" name="btn_pdf"class="btn btn-light"> </i> Download</button>
+                                </div>
+                    </form>
         <div class="row mt-5">
             <h2 style="color: #9f8e64;">Manage time shedule</h2><br><br>
             <div class="col-md-12">
