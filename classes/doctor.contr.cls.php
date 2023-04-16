@@ -6,7 +6,45 @@ use PHPMailer\PHPMailer\Exception;
 
 class DoctorCls extends DoctorModalcls
 {
-
+    public function updateDrProfile($doctor_id, $d_name, $email, $address, $specialized, $cfee)
+    {
+        if ($this->updateDrProfileDB($doctor_id, $d_name, $email, $address, $specialized, $cfee)) {
+            $return_data = ['status' => 1, 'msg' => 'Successfully updated profile'];
+        } else {
+            $return_data = ['status' => 0, 'msg' => 'Sorry, Failed to update profile. something happen from our end.'];
+        }
+        echo json_encode($return_data);
+    }
+    public function doctorLeaveCancel($leave_id)
+    {
+        if (is_numeric($leave_id) && $leave_id != 0) {
+            if ($this->doctorLeaveCancelDB($leave_id)) {
+                $return_data = ['status' => 1, 'msg' => 'Successfully cancelled leave.'];
+            } else {
+                $return_data = ['status' => 0, 'msg' => 'Sorry, Failed to cancell leave. something happen from our end.'];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => 'Request denied. NO leave records found!', 'code' => 0];
+        }
+        echo json_encode($return_data);
+    }
+    public function doctorLeaveApply($doctor_id, $reason, $leave_type, $fdate, $tdate)
+    {
+        if (is_numeric($doctor_id) && $doctor_id != 0 && $this->checkDoctorId($doctor_id)) {
+            if ($this->checkLeaveExistOnDateDB($doctor_id, $fdate, $tdate)) {
+                if ($this->insertLeaveDataDB($doctor_id, $reason, $leave_type, $fdate, $tdate)) {
+                    $return_data = ['status' => 1, 'msg' => 'Successfully applied leave.'];
+                } else {
+                    $return_data = ['status' => 0, 'msg' => 'Sorry, Failed to apply leave. something happen from our end.'];
+                }
+            } else {
+                $return_data = ['status' => 0, 'msg' => 'sorry. we found your existing leave on the choosed days.', 'code' => 0];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => 'Request denied. NO doctor records found!', 'code' => 0];
+        }
+        echo json_encode($return_data);
+    }
     public function changeTimingStatusBulk($doctor_id, $status)
     {
         if (is_numeric($doctor_id)) {

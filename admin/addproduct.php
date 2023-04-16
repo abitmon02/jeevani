@@ -14,8 +14,9 @@ if (isset($_POST["submit"])) {
     mysqli_query($con, "INSERT INTO `tbl_packages`(`p_name`, `p_image`, `p_amount`,`p_status`) 
 	VALUES ('$name','$image','$amount',0)");
     // header('location:addproduct.php');
+    
     echo "<script>  
-                alert('Package  added');
+    alert('Product added successfully');
                     window.location.href='addproduct.php';
                 </script>";
 }
@@ -39,9 +40,9 @@ if (isset($_POST["submit"])) {
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Admin</title>
-   
+
 
 </head>
 
@@ -57,8 +58,8 @@ if (isset($_POST["submit"])) {
     <section class="main">
         <div class="sidebar">
             <ul class="sidebar--items">
-            <li>
-                    <a href="index.php" >
+                <li>
+                    <a href="index.php">
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
@@ -69,7 +70,7 @@ if (isset($_POST["submit"])) {
                         <span class="sidebar--item">Treatments</span>
                     </a>
                 </li>
-                  <li>
+                <li>
                     <a href="customPackages.php">
                         <span class="icon icon-5"><i class="ri-command-line"></i></span>
                         <span class="sidebar--item"> Custom Packages</span>
@@ -97,9 +98,9 @@ if (isset($_POST["submit"])) {
                 </li>
                 <li>
                     <a href="viewtreatment.php">
-                    <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                     <span class="sidebar--item">Packages Bookings</span>
-                   </a>
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Packages Bookings</span>
+                    </a>
                 </li>
 
                 <li>
@@ -127,6 +128,12 @@ if (isset($_POST["submit"])) {
                     </a>
                 </li>
                 <li>
+                    <a href="orderHistory.php">
+                        <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
+                        <span class="sidebar--item">Mange orders and History</span>
+                    </a>
+                </li>
+                <li>
                     <a href="vw_fdbck.php">
                         <span class="icon icon-6"><i class="ri-feedback-fill"></i></span>
                         <span class="sidebar--item">Feedbacks</span>
@@ -144,37 +151,37 @@ if (isset($_POST["submit"])) {
             </ul>
         </div>
         <div class="main--content">
-			<!-- MAIN -->
+            <!-- MAIN -->
             <div class="overview">
-        <div class="row mt-5">
-            <div class="col-md-12">
-            <table>
-                 
-                    <h2 style="color: #9f8e64;">ADD PACKAGE</h2>
-                    <input type="submit"class="btn btn-md btn-success"   style="float:right;" onclick="window.location.href = 'manage_product.php';" value="Manage Product">
-                    <span style="color: red; margin-left:55px; font-size:12px"></span>
-                    <form method="POST" action="#" onsubmit="return validate();" enctype="multipart/form-data">
-                    <div class="form-group col-12 mt-2">    
-                    <label class="form-label text-dark">Package Name:</label>
-                        <input type="text" id="name"class="form-control" name="name" placeholder="Add treatment name">
-                        <span style="color: red; margin-left:50px; font-size:12px"></span><br>
-                        <label  class="form-label text-dark">Image:</label><br>
-                        <input type="file" id="image" class="form-control"name="image" size="200KB" accept="image/gif,image/jpg,image/JPG, image/jpeg, image/x-ms-bmp, image/x-png">
-                        <br>
+                <div class="row mt-5">
+                    <div class="col-md-12">
+                        <table>
 
-                        <label  class="form-label text-dark">Amount:</label>
-                        <input type="number" id="amount"class="form-control" name="amount" min="0" placeholder="Enter Package Cost ">
-                        <span style="color: red; margin-left:55px; font-size:12px"></span><br>
-                        <input type="submit" id="mysubmit"class="btn btn-md btn-success"  name="submit" value="Submit">
-                        <span style="color: red; margin-left:55px; font-size:12px"></span>
-</div>
-                    </form>
-                </div>
-            </table>
+                            <h2 style="color: #9f8e64;">ADD PACKAGE</h2>
+                            <input type="submit" class="btn btn-md btn-success" style="float:right;" onclick="window.location.href = 'manage_product.php';" value="Manage Product">
+                            <span style="color: red; margin-left:55px; font-size:12px"></span>
+                            <form method="POST" action="#" onsubmit="return validate();" enctype="multipart/form-data">
+                                <div class="form-group col-12 mt-2">
+                                    <label class="form-label text-dark">Package Name:</label>
+                                    <input type="text" id="name" class="form-control" name="name" placeholder="Add treatment name">
+                                    <span style="color: red; margin-left:50px; font-size:12px"></span><br>
+                                    <label class="form-label text-dark">Image:</label><br>
+                                    <input type="file" id="image" class="form-control" name="image" size="200KB" accept="image/gif,image/jpg,image/JPG, image/jpeg, image/x-ms-bmp, image/x-png">
+                                    <br>
+
+                                    <label class="form-label text-dark">Amount:</label>
+                                    <input type="number" id="amount" class="form-control" name="amount" min="0" placeholder="Enter Package Cost ">
+                                    <span style="color: red; margin-left:55px; font-size:12px"></span><br>
+                                    <input type="submit" id="mysubmit" class="btn btn-md btn-success" name="submit" value="Submit">
+                                    <span style="color: red; margin-left:55px; font-size:12px"></span>
+                                </div>
+                            </form>
+                    </div>
+                    </table>
 
 
 
-        </main>
+                    </main>
     </section>
     <script src="js/script.js"></script>
 </body>
@@ -182,11 +189,20 @@ if (isset($_POST["submit"])) {
 </html>
 
 <script type="text/javascript">
+    function swal(tittle, text, icon) {
+        Swal.fire({
+            title: tittle,
+            text: text,
+            icon: icon,
+        });
+    }
+
     function validate() {
 
         if (document.getElementById('name').value.length == 0 ||
             document.getElementById('day').value.length == 0 ||
             document.getElementById('amount').value.length == 0) {
+            swal("error", "please fill all fields", 'error');
             return false;
         }
 
@@ -228,17 +244,11 @@ if (isset($_POST["submit"])) {
 
 
     amounts.onkeyup = function() {
-        const regexn = /^[A-Za-z0-9]{1,8}$/;
+        const regexn = /^[0-9]{1,7}$/;
         if (regexn.test(amounts.value)) {
-
             document.getElementById('mysubmit').disabled = false;
-
-
         } else {
-
             document.getElementById('mysubmit').disabled = true;
-
-
         }
     }
 </script>

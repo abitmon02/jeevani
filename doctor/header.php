@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="docotr_style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
     <title>Dashboard</title>
 </head>
 
@@ -24,15 +26,15 @@
         </div>
         <div class="search--notification--profile">
             <div class="notification--profile">
-              
-                
-                        <div class="alert alert-primary" role="alert">
-                   &nbsp;<br>   Dr.  <?= $user_data['email'] ?>
+
+
+                <div class="alert alert-primary" role="alert">
+                    &nbsp;<br> Dr. <?= $user_data['email'] ?>
                 </div>
-                       
-                    </div>
-               
+
             </div>
+
+        </div>
     </section>
     <section class="main">
         <div class="sidebar">
@@ -56,9 +58,15 @@
                     </a>
                 </li> -->
                 <li>
+                    <a href="doctodaysappo.php">
+                        <span class="icon icon-2"><i class="ri-health-book-fill"></i></span>
+                        <span class="sidebar--item">Manage Today's Appoinment </span>
+                    </a>
+                </li>
+                <li>
                     <a href="docappoview.php">
                         <span class="icon icon-2"><i class="ri-health-book-fill"></i></span>
-                        <span class="sidebar--item">Manage Appoinment </span>
+                        <span class="sidebar--item">Manage upcoming Appoinment </span>
                     </a>
                 </li>
 

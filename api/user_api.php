@@ -12,7 +12,6 @@ if ($sessObj->isLogged() == true) {
             $date = filter_var($_POST['date'], FILTER_SANITIZE_SPECIAL_CHARS);
             $time_id = filter_var($_POST['time_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $userlog_id = filter_var($_POST['userlog_id'], FILTER_SANITIZE_SPECIAL_CHARS);
-
             $userObj->createAppoinment($date, $time_id, $userlog_id);
         } else if ($_POST['action'] == 2) {
             $userlog_id = filter_var($_POST['userlog_id'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -74,6 +73,18 @@ if ($sessObj->isLogged() == true) {
         } else if ($_POST['action'] == 14) {
             $pay_id = filter_var($_POST['pay_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $userObj->cancelUserPurchase($pay_id);
+        } else if ($_POST['action'] == 15) {
+            $keyword = filter_var($_POST['keyword'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $userObj->searchProducts($keyword);
+        } else if ($_POST['action'] == 16) {
+            $data = filter_var_array($_POST, FILTER_SANITIZE_SPECIAL_CHARS);
+            $userObj->updateUserProfile($data);
+        } else if ($_POST['action'] == 17) {
+            $appo_id = filter_var($_POST['appo_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $response = filter_var($_POST['response'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $rating = filter_var($_POST['rating'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $user_log_id = $sessObj->getSessionData()['log_id'];
+            $userObj->insertUserDoctorFeedback($appo_id, $response, $rating, $user_log_id);
         }
     }
 } else {

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('config.php');
+include_once('config.php');
 
 $error = "Invalid Email or Password";
 if (isset($_POST['submit'])) {
@@ -103,8 +103,8 @@ font-weight:bold;
 				<input type="password" placeholder="Enter Password" class='input-field' name="password" required>
 				<br>
 				
-					<center><div class="g-recaptcha" data-sitekey="6LdIVdEjAAAAAIYI1z9zk8WwkkwJK7clzhjsVu75"></div>
-					<span class="error_form" id="captcha_message"></span>
+					<!-- <center><div class="g-recaptcha" data-sitekey="6LdIVdEjAAAAAIYI1z9zk8WwkkwJK7clzhjsVu75"></div> -->
+					<!-- 	<span class="error_form" id="captcha_message"></span> -->
 				<p style="font-size:15px;float:right;margin-bottom:-10px;"><a href="forgot_password.php">Forgot password ?</a>
 				<p>
 					<center> <button id='submit' type='submit' class='submit-btn' style="margin-top:55px;" name="submit">Login</button></center>

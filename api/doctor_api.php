@@ -36,6 +36,24 @@ if ($sessObj->isLogged() == true) {
             $doctor_id = filter_var($_POST['doctor_id'], FILTER_SANITIZE_SPECIAL_CHARS);
             $status = filter_var($_POST['type'], FILTER_SANITIZE_SPECIAL_CHARS);
             $doctorObj->changeTimingStatusBulk($doctor_id, $status);
+        } else if ($_POST['action'] == 8) {
+            $doctor_id = filter_var($_POST['doctor_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $reason = filter_var($_POST['reason'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $fdate = filter_var($_POST['fdate'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $tdate = filter_var($_POST['tdate'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $leave_type = filter_var($_POST['leave_type'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $doctorObj->doctorLeaveApply($doctor_id, $reason, $leave_type, $fdate, $tdate);
+        } else if ($_POST['action'] == 9) {
+            $leave_id = filter_var($_POST['leave_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $doctorObj->doctorLeaveCancel($leave_id);
+        } else if ($_POST['action'] == 10) {
+            $doctor_id = filter_var($_POST['doctor_id'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $d_name = filter_var($_POST['d_name'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $email = filter_var($_POST['email'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $address = filter_var($_POST['address'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $specialized = filter_var($_POST['specialized'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $cfee = filter_var($_POST['cfee'], FILTER_SANITIZE_SPECIAL_CHARS);
+            $doctorObj->updateDrProfile($doctor_id, $d_name, $email, $address, $specialized,$cfee);
         }
     }
 } else {

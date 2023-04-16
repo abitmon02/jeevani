@@ -14,6 +14,20 @@ if ($sessObj->isLogged() == true) {
     <div class="overview">
         <div class="row mt-5">
             <div class="col-md-12">
+                <style>
+                    #exampl_length label {
+                        position: initial;
+                    }
+
+                    #exampl_filter label {
+                        position: initial;
+                        color: black;
+                    }
+
+                    #exampl_filter label input {
+                        color: black;
+                    }
+                </style>
                 <table id="exampl" class="table cell-border " style="width:100%">
                     <h2 style="color: #9f8e64;">List of Leaves</h2><br>
                     <thead class="TableHead">
@@ -29,7 +43,7 @@ if ($sessObj->isLogged() == true) {
                     <tbody>
                         <?php
                         $timing_data = $dbObj->connFnc()->query("SELECT * FROM `tbl_leave` WHERE `tbl_leave`.`l_id` = '" . $user_data['log_id'] . "';")->fetch_all(MYSQLI_ASSOC);
-                        
+
                         if (!empty($timing_data)) {
                             $i = 1;
                             foreach ($timing_data as $value) { ?>
@@ -41,28 +55,23 @@ if ($sessObj->isLogged() == true) {
                                     <td><?= $value['reason'] ?></td>
                                     <td>
                                         <?php
-                                        if ($value['status'] == 'Pending') { ?>
+                                        if ($value['status'] == '0') { ?>
                                             <span class="badge badge-pill badge-secondary">Pending</span>
+                                            <button onclick="cancelLeave(<?= $value['lv_id'] ?>)" class="btn btn-danger">X</button>
                                         <?php
-                                        } else if ($value['status'] == 'Approved') { ?>
+                                        } else if ($value['status'] == '1') { ?>
                                             <span class="badge badge-pill badge-success">Approved</span>
-                                        <?php } else if ($value['status'] == 'Rejected') { ?>
+                                        <?php } else if ($value['status'] == '2') { ?>
                                             <span class="badge badge-pill badge-danger">Rejected</span>
+                                        <?php } else if ($value['status'] == '3') { ?>
+                                            <span class="badge badge-pill badge-danger">cancelled by you</span>
                                         <?php }
                                         ?>
                                     </td>
-                                   
-                                </tr>
-                            <?php $i++;
-                            }
-                        } else {
-                            ?>
-                            <tr class="firstRow">
-                                <td>
-                                    No Leaves yet !!!</td>
 
-                            </tr>
-                        <?php
+                                </tr>
+                        <?php $i++;
+                            }
                         }
                         ?>
                     </tbody>
@@ -93,15 +102,22 @@ if ($sessObj->isLogged() == true) {
             </div>
         </div>
     </div>
+
+    <?php
+    require 'footer.php';
+    ?>
     <script type="text/javascript">
-        function deleteappo(appo_id) {
+        $(document).ready(() => {
+            $('#exampl').DataTable();
+        })
+
+        function cancelLeave(leave_id) {
             $.ajax({
                 type: "POST",
                 url: "../api/doctor_api.php",
                 data: {
-                    "appo_id": appo_id,
-                    "userlog_id": <?= isset($user_data['log_id']) ? $user_data['log_id'] : '' ?>,
-                    'action': 4,
+                    "leave_id": leave_id,
+                    'action': 9,
                 },
                 dataType: 'JSON',
                 cache: false,
@@ -118,50 +134,17 @@ if ($sessObj->isLogged() == true) {
             });
         }
 
-        function openModal(appo_id) {
-            $("#modalAppID").val(appo_id);
-            $("#exampleModal").modal('show');
-        }
 
-        function updateAppo() {
-            appo_id = $("#modalAppID").val();
-            $prescription = $("#inpPres").val();
-            if ($prescription.length < 3 || $prescription > 1000) {
-                swal("error", "Prescription must be minimum 3 charatcer and mximum 1000 character", 'error');
-            } else if (Number.isInteger(appo_id)) {
-                swal("error", "please select a valid appoinment", 'error');
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: "../api/doctor_api.php",
-                    data: {
-                        "appo_id": appo_id,
-                        "presc": $prescription,
-                        "userlog_id": <?= isset($user_data['log_id']) ? $user_data['log_id'] : '' ?>,
-                        'action': 5,
-                    },
-                    dataType: 'JSON',
-                    cache: false,
-                    success: function(response) {
-                        if (response.status == 1) {
-                            swal("success", response.msg, 'success');
-                            setTimeout(() => {
-                                location.reload();
-                            }, 1000);
-                        } else {
-                            swal("error", response.msg, 'error');
-                        }
-                    }
-                });
-            }
-        }
-
-        function swal(msg1, msg2, msg3) {
-            alert(msg2);
+        function swal(tittle, msg2, action) {
+            Swal.fire({
+                title: tittle,
+                text: msg2,
+                icon: action,
+                confirmButtonText: 'ok'
+            })
         }
     </script>
 <?php
-    require 'footer.php';
 } else {
     header("Location:../user-login.php");
 }

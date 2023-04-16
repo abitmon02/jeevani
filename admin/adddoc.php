@@ -197,6 +197,12 @@ $duplicate=mysqli_query($con, "SELECT * from tbl_login WHERE email='$email'");
                     </a>
                 </li>
                 <li>
+                    <a href="orderHistory.php">
+                        <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
+                        <span class="sidebar--item">Mange orders and History</span>
+                    </a>
+                </li>
+                <li>
                     <a href="vw_fdbck.php">
                         <span class="icon icon-6"><i class="ri-feedback-fill"></i></span>
                         <span class="sidebar--item">Feedbacks</span>

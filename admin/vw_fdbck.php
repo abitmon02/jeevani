@@ -112,6 +112,12 @@ if(!isset($_SESSION["email"]))
                     </a>
                 </li>
                 <li>
+                    <a href="orderHistory.php">
+                        <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
+                        <span class="sidebar--item">Mange orders and History</span>
+                    </a>
+                </li>
+                <li>
                     <a href="#" id="active--link">
                         <span class="icon icon-6"><i class="ri-feedback-fill"></i></span>
                         <span class="sidebar--item">Feedbacks</span>

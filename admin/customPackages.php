@@ -21,7 +21,6 @@ if (!isset($_SESSION["email"])) {
     <title>Admin</title>
 
     <style>
-       
         .dropdown {
             position: relative;
             font-size: 14px;
@@ -110,8 +109,8 @@ if (!isset($_SESSION["email"])) {
     <section class="main">
         <div class="sidebar">
             <ul class="sidebar--items">
-            <li>
-                    <a href="index.php" >
+                <li>
+                    <a href="index.php">
                         <span class="icon icon-1"><i class="ri-layout-grid-line"></i></span>
                         <span class="sidebar--item">Admin Dashboard</span>
                     </a>
@@ -122,7 +121,7 @@ if (!isset($_SESSION["email"])) {
                         <span class="sidebar--item">Treatments</span>
                     </a>
                 </li>
-                  <li>
+                <li>
                     <a href="#" id="active--link">
                         <span class="icon icon-5"><i class="ri-command-line"></i></span>
                         <span class="sidebar--item"> Custom Packages</span>
@@ -150,9 +149,9 @@ if (!isset($_SESSION["email"])) {
                 </li>
                 <li>
                     <a href="viewtreatment.php">
-                    <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
-                     <span class="sidebar--item">Packages Bookings</span>
-                   </a>
+                        <span class="icon icon-2"><i class="ri-pie-chart-box-line"></i></span>
+                        <span class="sidebar--item">Packages Bookings</span>
+                    </a>
                 </li>
 
                 <li>
@@ -180,6 +179,12 @@ if (!isset($_SESSION["email"])) {
                     </a>
                 </li>
                 <li>
+                    <a href="orderHistory.php">
+                        <span class="icon icon-4"><i class="ri-shopping-basket-2-line"></i></span>
+                        <span class="sidebar--item">Mange orders and History</span>
+                    </a>
+                </li>
+                <li>
                     <a href="vw_fdbck.php">
                         <span class="icon icon-6"><i class="ri-feedback-fill"></i></span>
                         <span class="sidebar--item">Feedbacks</span>
@@ -196,7 +201,7 @@ if (!isset($_SESSION["email"])) {
                 </li>
             </ul>
         </div>
-    
+
     </section>
 
 
@@ -438,7 +443,7 @@ if (!isset($_SESSION["email"])) {
                                     </div>
                                     <div class="card-header" style="text-align: center;align-self: center;">
                                         <h4 class="text-center">
-                                            <span id="blue">Discount  <?= $key['discount'] ?>%</span>
+                                            <span id="blue">Discount <?= $key['discount'] ?>%</span>
                                         </h4>
                                     </div>
                                     <ul class="list">
@@ -450,7 +455,7 @@ if (!isset($_SESSION["email"])) {
 
                                             ?>
 
-                                                <li class="item1"><?= $j . '.' . $key1['p_name'] . ' - RS' . $key1['p_amount'].' 1 day' ?></li>
+                                                <li class="item1"><?= $j . '.' . $key1['p_name'] . ' - RS' . $key1['p_amount'] . ' 1 day' ?></li>
                                                 <?php
                                                 ?>
 
@@ -575,7 +580,7 @@ if (!isset($_SESSION["email"])) {
             }).map(function(c) {
                 return c.value;
             });
-            if (values.length != 0) {
+            if (values.length != 0 && !isNaN(days_inp) && days_inp > 0) {
                 $.ajax({
                     type: "POST",
                     url: "../api/admin_api.php",
@@ -589,19 +594,25 @@ if (!isset($_SESSION["email"])) {
                     cache: false,
                     success: function(response) {
                         if (response.status == 1) {
-                            swal("error", response.msg, 'error');
+                            swal("success", response.msg, 'success');
                         } else {
                             swal("error", response.msg, 'error');
                         }
                     }
                 });
+            } else {
+                swal("error", 'Please make sure to select at least one package, enter valid number of days and dicount', 'error');
             }
 
 
         }
 
-        function swal(title, msg, error) {
-            alert(msg);
+        function swal(tittle, text, icon) {
+            Swal.fire({
+                title: tittle,
+                text: text,
+                icon: icon,
+            });
         }
 
         function removeCustomPackage(id) {

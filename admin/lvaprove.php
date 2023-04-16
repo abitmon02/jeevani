@@ -2,7 +2,7 @@
 include('../config.php');
 $y=$_GET['aa'];
 
-$sql="update tbl_leave  set status='Approved' where lv_id='$y'";
+$sql="update tbl_leave  set status='1' where lv_id='$y'";
  
 mysqli_query($con,$sql);
  

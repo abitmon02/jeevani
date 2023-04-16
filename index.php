@@ -9,7 +9,7 @@ include('config.php');
 <script type="text/javascript">
     (function(d, m){
         var kommunicateSettings = 
-            {"appId":"14b4a70cb09d9bbd743c444e706129e42","popupWidget":true,"automaticChatOpenOnNavigation":true};
+            {"appId":"cd7cc32f7436aadaa09f22349510de2f","popupWidget":true,"automaticChatOpenOnNavigation":true};
         var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
         s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
         var h = document.getElementsByTagName("head")[0]; h.appendChild(s);

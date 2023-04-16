@@ -1,6 +1,11 @@
 <?php
 class UserModalcls extends Dbh
 {
+
+    protected function searchProductsDb($keyword)
+    {
+        return $this->connection()->query('SELECT * FROM `tbl_product` WHERE `tbl_product`.`product_name` LIKE "%' . $keyword . '%" OR `tbl_product`.`description` LIKE "%' . $keyword . '%";')->fetch_all(MYSQLI_ASSOC);
+    }
     protected function cancelUserPurchaseDB($pay_id)
     {
         if ($this->connection()->query("UPDATE `tbl_p_purchase` SET `status` = 4 WHERE `tbl_p_purchase`.`pay_id` = '$pay_id';")) {
@@ -63,9 +68,34 @@ class UserModalcls extends Dbh
             return false;
         }
     }
-    protected function checkAppoinmentExistcurrentDB(string $date, int $user_log_id)
+    protected function checkAppoinmentExistcurrentDB(string $date, int $time_id, int $user_log_id): bool
     {
-        return $this->connection()->query("SELECT * FROM `appoinment_tbl` WHERE `appoinment_tbl`.`l_id` ='$user_log_id' AND `appoinment_tbl`.`date` = '$date'")->fetch_all(MYSQLI_ASSOC);
+        if (empty($this->connection()->query("SELECT * FROM `appoinment_tbl` WHERE `appoinment_tbl`.`l_id` ='$user_log_id' AND `appoinment_tbl`.`date` = '$date' AND `appoinment_tbl`.`status` = 0 AND `appoinment_tbl`.`time_id` = '$time_id'")->fetch_all(MYSQLI_ASSOC))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected function checkDoctorSlotCount(int $time_id, string $date)
+    {
+        $slot_count = $this->connection()->query("SELECT `doctor_timing_tbl`.`slot_count` as slot_count FROM `doctor_timing_tbl` WHERE `doctor_timing_tbl`.`time_id` = '$time_id' ")->fetch_assoc()['slot_count'];
+        $curr_count =  $this->connection()->query("SELECT count(*) as curr_count FROM `appoinment_tbl` WHERE `appoinment_tbl`.`time_id` = '$time_id' AND `appoinment_tbl`.`date` ='$date' AND `appoinment_tbl`.`status` = 0")->fetch_assoc()['curr_count'];
+        // echo $slot_count, $curr_count;
+        if ($curr_count < $slot_count) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected function checkDoctorLeaveStatus(int $time_id, string $date): bool
+    {
+        if (empty($this->connection()->query("SELECT * FROM `tbl_leave` WHERE '$date' BETWEEN `tbl_leave`.`fdate` AND `tbl_leave`.`tdate` AND `tbl_leave`.`l_id` = (SELECT `doctor_timing_tbl`.`l_id` from `doctor_timing_tbl` WHERE `doctor_timing_tbl`.`time_id` ='$time_id') AND `tbl_leave`.`status` = 1;")->fetch_all())) {
+            return true;
+        } else {
+            return false;
+        }
     }
     protected function get_time_data($time_id)
     {
@@ -175,5 +205,51 @@ class UserModalcls extends Dbh
     protected function getStockData($productId)
     {
         return $this->connection()->query("SELECT `tbl_product`.`stock` FROM `tbl_product` WHERE `tbl_product`.`product_id` = '$productId'")->fetch_assoc();
+    }
+    protected function updateUserProfileDB($data)
+    {
+        if ($this->connection()->query("UPDATE `tbl_patient` SET `u_name`='" . $data['userName'] . "',`address`='" . $data['address'] . "',`city`='" . $data['city'] . "',`dob`='" . $data['dob_inp'] . "',`gender`='" . $data['gender'] . "',`bloodgrp`='" . $data['bloodgrp'] . "' WHERE `l_id`='" . $data['user_id'] . "'")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected function checkAppoIdDB($appo_id)
+    {
+        if (!empty($this->connection()->query("SELECT * FROM `appoinment_tbl` WHERE `appoinment_tbl`.`appo_id` = '$appo_id'")->fetch_assoc())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected function insertUserDoctorFeedbackDB($appo_id, $response, $rating, $user_id)
+    {
+        if ($this->connection()->query("INSERT INTO `serv_feedback_tbl`(`appo_id`,`user_id`, `response`, `rating`, `date`) VALUES ('$appo_id','$user_id','$response','$rating',now())")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function updateUserDoctorFeedbackDB($appo_id, $response, $rating, $user_id)
+    {
+        if ($this->connection()->query("UPDATE `serv_feedback_tbl` SET `response`='$response',`rating`='$rating' WHERE `serv_feedback_tbl`.`appo_id` = '$appo_id' AND `serv_feedback_tbl`.`user_id` = '$user_id'")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function checkFeedbackExistDB($appo_id, $user_id)
+    {
+        if (empty($this->connection()->query("SELECT * FROM `serv_feedback_tbl` WHERE `serv_feedback_tbl`.`appo_id` = '$appo_id' AND `serv_feedback_tbl`.`user_id` = '$user_id'")->fetch_all())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected function getAppoDataDB($time_id)
+    {
+        return $this->connection()->query("SELECT TIME_FORMAT(`doctor_timing_tbl`.`end`,'%h:%I') as time_end FROM `doctor_timing_tbl` WHERE  `doctor_timing_tbl`.`time_id` = '$time_id'")->fetch_assoc()['time_end'];
     }
 }

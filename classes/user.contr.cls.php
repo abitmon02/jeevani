@@ -8,7 +8,54 @@ use Razorpay\Api\Errors\SignatureVerificationError;
 
 class UserCls extends UserModalcls
 {
-
+    public function insertUserDoctorFeedback($appo_id, $response, $rating, $user_log_id)
+    {
+        if (!empty($appo_id) && $this->checkAppoIdDB($appo_id) && !empty($user_log_id)) {
+            if ($this->checkFeedbackExistDB($appo_id, $user_log_id)) {
+                if ($this->insertUserDoctorFeedbackDB($appo_id, $response, $rating, $user_log_id)) {
+                    $return_data = ['status' => 1, 'msg' => "Feedback submitted successfully", 'error_code' => 1];
+                } else {
+                    $return_data = ['status' => 0, 'msg' => 'Failed to submit your feedback. plese retry', 'code' => 0];
+                }
+            } else {
+                if ($this->updateUserDoctorFeedbackDB($appo_id, $response, $rating, $user_log_id)) {
+                    $return_data = ['status' => 1, 'msg' => "Feedback already submitted, feedback updated successfully", 'error_code' => 1];
+                } else {
+                    $return_data = ['status' => 0, 'msg' => 'Failed to submit your feedback. plese retry', 'code' => 0];
+                }
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => 'No records found', 'code' => 0];
+        }
+        echo json_encode($return_data);
+    }
+    public function updateUserProfile($data)
+    {
+        if (!empty($data['user_id'] && is_numeric($data['user_id']))) {
+            if ($this->updateUserProfileDB($data)) {
+                $return_data = ['status' => 1, 'msg' => "Sucess: Profile updated successfully", 'code' => 001];
+            } else {
+                $return_data = ['status' => 0, 'msg' => 'Error : Failed to update profile, something happen', 'code' => 000];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => 'Error : unauthorized request', 'code' => 000];
+        }
+        echo json_encode($return_data);
+    }
+    public function searchProducts(string $keyword)
+    {
+        if (strlen($keyword) > 0) {
+            $data = $this->searchProductsDb($keyword);
+            if (!empty($data)) {
+                $return_data = ['status' => 1, 'data' => $data, 'code' => 001];
+            } else {
+                $return_data = ['status' => 0, 'msg' => 'No products found', 'code' => 000];
+            }
+        } else {
+            $return_data = ['status' => 0, 'msg' => 'No products found', 'code' => 0];
+        }
+        echo json_encode($return_data);
+    }
     public function cancelUserPurchase($pay_id)
     {
         if (is_numeric($pay_id) && $pay_id != NULL) {
@@ -139,47 +186,38 @@ class UserCls extends UserModalcls
     }
     public function createAppoinment($date, $time_id, $user_log_id)
     {
-        if ($this->checkLogidDB($user_log_id) && $this->checkTimeSheduleDB1($time_id) && is_numeric($time_id) && is_numeric($user_log_id)) {
-            $token =   'Token-' . bin2hex(random_bytes(5));
-            $data = $this->checkAppoinmentExistcurrentDB($date, $user_log_id);
-            $time_data = $this->get_time_data($time_id);
-            $cuurent_count = $this->get_curr_appo_count_data($date, $time_id)['current_count'];
-            if (!empty($data) && !empty($time_data)) {
-                $temp = array();
-                foreach ($data as $value) {
-                    if ($date ==  date("Y-m-d", strtotime($value['date'])) && $value['status'] == 0) {
-                        array_push($temp, $value['appo_id']);
-                    }
-                    if ($date ==  date("Y-m-d", strtotime($value['date'])) && $value['status'] == 2) {
-                        array_push($temp, $value['appo_id']);
-                    }
-                    if ($date ==  date("Y-m-d", strtotime($value['date'])) && $value['status'] == 3) {
-                        array_push($temp, $value['appo_id']);
-                    }
-                }
-             
-                if ($time_data['slot_count'] <= $cuurent_count) {
-                    $return_data = ['status' => 0, 'msg' => "Selected time slot filled for selected date. appoinment failed", 'error_code' => 2];
-                } else {
-                    if (empty($temp)) {
-                        if ($this->insertAppoinment($date, $time_id, $user_log_id, $token)) {
-                            $return_data = ['status' => 1, 'msg' => "Your appoinment successfull."];
+        if ($this->checkLogidDB($user_log_id) && $this->checkTimeidDB($time_id) && is_numeric($time_id) && is_numeric($user_log_id)) {
+            // $token =   'Token-' . bin2hex(random_bytes(5));
+            $token1 =   'Token-' . bin2hex(random_bytes(5));
+            $token = hexdec(substr($token1, -2));
+            #1. check user appoinment exist or not for the doctor
+            if ($this->checkAppoinmentExistcurrentDB($date, $time_id, $user_log_id)) {
+                #2. check the selected doctor leave on the particular date.
+                if ($this->checkDoctorLeaveStatus($time_id, $date)) {
+                    #3. check the doctor visitor count
+                    if ($this->checkDoctorSlotCount($time_id, $date)) {
+                        $appo_end_time = $this->getAppoDataDB($time_id);
+                        if (findDifferenceOfTwoDates($date, date('Y-m-d')) == 0 && compareTimeStrings(date('H:i'), $appo_end_time) != -1) {
+                            // Returns -1 if $time1 is less than $time2, 1 if $time1 is greater than $time2, and 0 if they are equal
+                            $return_data = ['status' => 0, 'msg' => 'Sorry! selected visiting time over for today\'s date'];
                         } else {
-                            $return_data = ['status' => 0, 'msg' => "Failed to create appoinment", 'error_code' => 3];
+                            if ($this->insertAppoinment($date, $time_id, $user_log_id, $token)) {
+                                $return_data = ['status' => 1, 'msg' => "Your appoinment successfull."];
+                            } else {
+                                $return_data = ['status' => 0, 'msg' => "Failed to create appoinment", 'error_code' => 3];
+                            }
                         }
                     } else {
-                        $return_data = ['status' => 0, 'msg' => "Appoinment Exist on same date", 'error_code' => 2];
+                        $return_data = ['status' => 0, 'msg' => "Selected time slot filled for selected date. appoinment failed", 'error_code' => 2];
                     }
+                } else {
+                    $return_data = ['status' => 0, 'msg' => "Selected doctor is on leave for the date.", 'error_code' => 2.2];
                 }
             } else {
-                if ($this->insertAppoinment($date, $time_id, $user_log_id, $token)) {
-                    $return_data = ['status' => 1, 'msg' => "Your appoinment successfull."];
-                } else {
-                    $return_data = ['status' => 0, 'msg' => "Failed to create appoinment", 'error_code' => 1];
-                }
+                $return_data = ['status' => 0, 'msg' => "Appoinment Exist on same date for the doctor!", 'error_code' => 2.1];
             }
         } else {
-            $return_data = ['status' => 0, 'msg' => 'Request denied.', 'code' => 0];
+            $return_data = ['status' => 0, 'msg' => 'Request denied. Something happen from our side. please retry', 'code' => 0];
         }
         echo json_encode($return_data);
     }
@@ -487,5 +525,57 @@ class UserCls extends UserModalcls
             $return_data = ['status' => 0, 'msg' => 'Request denied.', 'code' => 0];
         }
         echo json_encode($return_data);
+    }
+}
+
+function findDifferenceOfTwoDates($date1, $date2)
+{
+    // Check if the dates are valid
+    if (!is_string($date1) || !is_string($date2)) {
+        error_log('Invalid date format. Dates must be strings.');
+        return false;
+    }
+
+    // Convert the dates to timestamps
+    $date1 = strtotime($date1);
+    $date2 = strtotime($date2);
+
+    // Calculate the difference in seconds
+    $difference = abs($date1 - $date2);
+
+    // Convert the difference to days
+    $differenceInDays = floor($difference / (60 * 60 * 24));
+
+    return $differenceInDays;
+}
+/**
+ * Compares two time strings
+ *
+ * @param string $time1 The first time string
+ * @param string $time2 The second time string
+ *
+ * @return int Returns -1 if $time1 is less than $time2, 1 if $time1 is greater than $time2, and 0 if they are equal
+ *
+ * @throws \InvalidArgumentException if either of the time strings is not a valid time string
+ */
+function compareTimeStrings($time1, $time2)
+{
+    if (!preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $time1) || !preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $time2)) {
+        throw new \InvalidArgumentException('Time strings must be in the format HH:MM');
+    }
+
+    $time1Parts = explode(':', $time1);
+    $time2Parts = explode(':', $time2);
+
+    if ($time1Parts[0] < $time2Parts[0]) {
+        return -1;
+    } elseif ($time1Parts[0] > $time2Parts[0]) {
+        return 1;
+    } elseif ($time1Parts[1] < $time2Parts[1]) {
+        return -1;
+    } elseif ($time1Parts[1] > $time2Parts[1]) {
+        return 1;
+    } else {
+        return 0;
     }
 }

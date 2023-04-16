@@ -1,9 +1,53 @@
     <?php
     class DoctorModalcls extends Dbh
     {
+        protected function updateDrProfileDB($doctor_id, $d_name, $email, $address, $specialized, $cfee)
+        {
+            if ($this->connection()->query("UPDATE tbl_doctor set d_name='$d_name',d_address='$address',spec='$specialized',d_fees='$cfee' where `l_id`='$doctor_id'")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        protected function doctorLeaveCancelDB($leave_id)
+        {
+            if ($this->connection()->query("UPDATE `tbl_leave` SET `status`='3' WHERE `tbl_leave`.`lv_id` = '$leave_id'")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        protected function insertLeaveDataDB($doctor_id, $reason, $leave_type, $fdate, $tdate): bool
+        {
+            if ($this->connection()->query("INSERT INTO `tbl_leave`(`l_id`,`type`,`fdate`,`tdate`,`reason`) VALUES ('$doctor_id','$leave_type','$fdate','$tdate','$reason')")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        protected function checkLeaveExistOnDateDB($doctor_id, $fdate, $tdate): bool
+        {
+            if (empty($this->connection()->query("SELECT * FROM `tbl_leave` WHERE `tbl_leave`.`status` in (0,1) AND `tbl_leave`.`l_id` = '$doctor_id' AND '$fdate' BETWEEN `tbl_leave`.`fdate` AND `tbl_leave`.`tdate`;")->fetch_assoc())) {
+                if (empty($this->connection()->query("SELECT * FROM `tbl_leave` WHERE `tbl_leave`.`status` in (0,1) AND `tbl_leave`.`l_id` = '$doctor_id' AND '$tdate' BETWEEN `tbl_leave`.`fdate` AND `tbl_leave`.`tdate`;")->fetch_assoc())) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
         protected function updateTimingStatusBulk($doctor_id, $status)
         {
             if ($this->connection()->query("UPDATE `doctor_timing_tbl` SET `status`='$status' WHERE `doctor_timing_tbl`.`l_id` = '$doctor_id'")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        protected function checkDoctorId($doctor_id)
+        {
+            if (!empty($this->connection()->query("SELECT * FROM `tbl_login` WHERE `tbl_login`.`l_id` = '$doctor_id' AND `tbl_login`.`a_id` = '2'")->fetch_assoc())) {
                 return true;
             } else {
                 return false;

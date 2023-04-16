@@ -9,7 +9,9 @@ if ($sessObj->isLogged() == true) {
     require 'header.php';
 
 ?>
-    <!-- content -->
+    <!-- content -->  <link rel="stylesheet" href="../admin/speech-recognition/style.css">
+ 
+     
     <style>
         @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
         @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700);
@@ -172,9 +174,67 @@ if ($sessObj->isLogged() == true) {
         .snip1418.hover .add-to-wishlist i {
             background-color: #2980b9;
         }
+
+        input#search {
+            color: inherit;
+            padding: 12px 10px;
+            width: 60vw;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            border: none;
+            outline: none;
+            background-color: antiquewhite;
+        }
+
+        .drop {
+            background: #fff;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            height: 0;
+            overflow: hidden;
+            box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+            transition: .4s height;
+            z-index: 1;
+            position: absolute;
+            width: 60vw;
+        }
+
+        .drop li {
+            font-size: 13px;
+            padding: 10px 10px;
+            list-style: none;
+            border-top: 1px solid #ddd;
+        }
+
+        .drop img {
+            width: 10%;
+            height: 20%;
+        }
+
+        .match {
+            font-weight: 600;
+            color: green;
+        }
+
+        @media only screen and (min-width: 600px) {
+            input#search {
+                width: 40vw;
+            }
+
+            .drop {
+                width: 40vw;
+            }
+        }
     </style>
 
     <div class="overview">
+
+        <div class="col-sm-6">
+            <input id="search" type="text" placeholder="Type some text">
+            <ul class="drop" id="drop"></ul>
+            <button type="button" id="toggle">start speaking</button>
+
+        </div>
         <div class="row mt-5">
             <div class="content mt-3">
                 <button id="invokeModalBtn" style="display: none;" type="button" data-toggle="modal" data-target="#purchaseModel">Launch modal</button>
@@ -244,7 +304,65 @@ if ($sessObj->isLogged() == true) {
     header("Location:../user-login.php");
 }
 ?>
+<script>
+    // copy this script and paste into the page you want
+    const containerEl = document.querySelector('.container')
+    const formEl = document.querySelector('#search')
+    const dropEl = document.querySelector('.drop')
 
+    const formHandler = (e) => {
+        const userInput = e.target.value.toLowerCase()
+
+        if (userInput.length === 0) {
+            dropEl.style.height = 0
+            return dropEl.innerHTML = ''
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "../api/user_api.php",
+            data: {
+                'keyword': userInput,
+                'action': 15
+            },
+            dataType: 'JSON',
+            cache: false,
+
+            success: function(response) {
+                if (response.status == 1) {
+                    $('#drop').empty()
+                    response.data.forEach(item => {
+
+                        $('#drop').append('<li><a href="#" onclick="openProduct(\'' + item.product_id + '\');return false"><span><b class="mr-3">' + item.product_name + '</b></span></a></li>');
+
+                        if (dropEl.children[0] === undefined) {
+                            return dropEl.style.height = 0
+                        }
+
+                        let totalChildrenHeight = dropEl.children[0].offsetHeight * response.data.length
+                        dropEl.style.height = totalChildrenHeight + 'px'
+                    })
+
+                } else {
+                    $('#drop').empty()
+                    $('#drop').append('<li><b>No results found!</b></li>');
+                    dropEl.style.height = '40px'
+
+                }
+            }
+        });
+
+
+
+
+    }
+
+    formEl.addEventListener('input', formHandler)
+
+    function openProduct(product_id) {
+        location.replace('single_product_page.php?p_code=' + product_id);
+    }
+</script>
 <script>
     function invokeCartFnc() {
         qty = $("#purchaseQtyInp").val();
@@ -297,4 +415,5 @@ if ($sessObj->isLogged() == true) {
             icon: icon,
         });
     }
-</script>
+</script> 
+  <script src="../admin/speech-recognition/script.js"></script>

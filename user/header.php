@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <title>Dashboard</title>
 </head>
 
@@ -21,18 +22,20 @@
             <i class="ri-menu-line icon icon-0 menu"></i>
             <h2>JEE<span>VANI</span></h2>
         </div>
+       
+        
         <div class="search--notification--profile">
             <div class="notification--profile">
-              
-                
-                        <div class="alert alert-primary" role="alert">
-                   &nbsp;<br> Welcome   <?= $user_data['email'] ?>
+
+
+                <div class="alert alert-primary" role="alert">
+                    &nbsp;<br> Welcome <?= $user_data['email'] ?>
                 </div>
-                       
-                    </div>
-               
+
             </div>
-         
+
+        </div>
+
     </section>
     <section class="main">
         <div class="sidebar">
@@ -49,7 +52,7 @@
                         <span class="sidebar--item">Book Appointment</span>
                     </a>
                 </li>
-                
+
                 <li>
                     <a href="dicease_pred.php">
                         <span class="icon icon-2"><i class="ri-folder-add-fill"></i></span>
@@ -121,4 +124,5 @@
                 </li>
             </ul>
         </div>
+        
         <div class="main--content">

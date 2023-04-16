@@ -42,7 +42,9 @@ if ($sessObj->isLogged() == true) {
 
                     <div class="form-group row d-flex space-between ml-2" style="flex-direction: row;justify-content: space-evenly;align-items: baseline;">
                         <label for="exampleInputEmail1" class="form-label text-dark">Choose Date:</label>
-                        <input class="text-dark" class="form-control" style="margin-left: 5px;" type="date" name="date" id="date" min="<?php echo date("Y-m-d"); ?>">
+                        <!-- <input class="text-dark" class="form-control" style="margin-left: 5px;" type="date" name="date" id="date" min="<//?php echo date("Y-m-d"); ?>"> -->
+                        <input class="text-dark" type="date" name="date" id="date" min="<?= date('Y-m-d'); ?>" max="<?= date('Y-m-d', strtotime(date('Y-m-d') . ' + 7 days')) ?>">
+
                         <input type="hidden" class="form-control" id='user_id' value="<?= $user_data['log_id'] ?>">
                     </div>
 
@@ -61,6 +63,7 @@ if ($sessObj->isLogged() == true) {
                         <tr>
                             <th>Sl.No</th>
                             <th>doctor</th>
+                            <th>token</th>
                             <th>Fee</th>
                             <th>Fee status</th>
                             <th>symptom</th>
@@ -79,6 +82,7 @@ if ($sessObj->isLogged() == true) {
                                 <tr class="firstRow">
                                     <td><?= $i ?></td>
                                     <td><?= 'Dr.' . $value['d_name'] . ',' . $value['spec'] ?></td>
+                                    <td><?= $value['token'] ?></td>
                                     <td><?= $value['d_fees'] ?></td>
                                     <td>
                                         <?= $value['fee_status'] == 1 ? 'Fee Paid' : 'Not Paid' ?>
@@ -147,6 +151,14 @@ if ($sessObj->isLogged() == true) {
 }
 ?>
 <script type="text/javascript">
+      function swal(tittle, text, icon) {
+        Swal.fire({
+            title: tittle,
+            text: text,
+            icon: icon,
+        });
+    }
+
     $("#addTimingBtn").click(() => {
         doclog_id = $("#doctor").val();
         time_id = $("#timing").val();

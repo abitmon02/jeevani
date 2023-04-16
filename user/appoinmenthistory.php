@@ -7,11 +7,11 @@ if ($sessObj->isLogged() == true) {
     $user_data = $sessObj->getSessionData();
     require 'header.php';
 ?>
-   <!-- <button  id="pdfButton" ><b>Print</b></button> -->
+    <!-- <button  id="pdfButton" ><b>Print</b></button> -->
 
-   <div class="text-right">
-                                    <button id="pdfButton" name="btn_pdf"class="btn"><i class="fa fa-download "></i> Download</button>
-                                </div>
+    <div class="text-right">
+        <button id="pdfButton" name="btn_pdf" class="btn"><i class="fa fa-download "></i> Download</button>
+    </div>
 
 
     <!-- Page Content -->
@@ -69,26 +69,31 @@ if ($sessObj->isLogged() == true) {
                                         } else if ($value['status'] == 5) {
                                             echo "Appoinment Cancelled by doctor";
                                         }
-                                        ?>
+                                        ?><br>
+                                        <a href="doctor_history.php?appo_id=<?= $value['appo_id'] ?>">Doctor History</a>
                                     </td>
-                                    <!-- <td>
-                                        <//?php
+                                    <td>
+                                        <?php
                                         if ($value['status'] == 0) { ?>
                                             <button onclick="deleteappo(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-danger">X</button>
-                                            <button onclick="payappo(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-success">Pay</button>
-                                        <//?php }
+                                            <!-- <button onclick="payappo(<//?= $value['appo_id'] ?>)" class="btn btn-sm btn-success">Pay</button> -->
+                                        <?php }
                                         ?>
-                                        <//?php
+
+                                        <?php
                                         if ($value['status'] == 3 && $value['fee_status'] == 0) { ?>
                                             <button onclick="payappo(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-success">Pay</button>
-                                        <//?php }
+                                        <?php }
                                         ?>
-                                        <//?php
+                                        <?php
                                         if ($value['status'] == 3 && $value['fee_status'] == 1) { ?>
                                             <a href="prescribe.php?appo_id=<?= $value['appo_id'] ?>" class="btn btn-sm btn-success">Download Prescribe</a>
-                                        <//?php }
-                                        ?>
-                                    </td> -->
+                                        <?php }
+                                        if ($value['status'] == 3) {
+                                        ?> <button onclick="invokeFeedback(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-warning">Feedback</button><?php
+                                                                                                                                                    }
+                                                                                                                                                        ?>
+                                    </td>
                                 </tr>
                             <?php $i++;
                             }
@@ -96,7 +101,7 @@ if ($sessObj->isLogged() == true) {
                             ?>
                             <tr class="firstRow">
                                 <td>
-                                    No Appointments  yet!!!</td>
+                                    No Appointments yet!!!</td>
 
                             </tr>
                         <?php
@@ -107,6 +112,109 @@ if ($sessObj->isLogged() == true) {
             </div>
         </div>
     </div>
+    <button id="openModalBtn" type="button" style="display: none;" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+    <style>
+        /* #full-stars-example-two { */
+
+        /* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */
+        .rating-group {
+            display: inline-flex;
+        }
+
+        /* make hover effect work properly in IE */
+        .rating__icon {
+            pointer-events: none;
+        }
+
+        /* hide radio inputs */
+        .rating__input {
+            position: absolute !important;
+            left: -9999px !important;
+        }
+
+        /* hide 'none' input from screenreaders */
+        .rating__input--none {
+            display: none
+        }
+
+        /* set icon padding and size */
+        .rating__label {
+            cursor: pointer;
+            padding: 0 0.1em;
+            font-size: 2rem;
+        }
+
+        /* set default star color */
+        .rating__icon--star {
+            color: orange;
+        }
+
+        /* if any input is checked, make its following siblings grey */
+        .rating__input:checked~.rating__label .rating__icon--star {
+            color: #ddd;
+        }
+
+        /* make all stars orange on rating group hover */
+        .rating-group:hover .rating__label .rating__icon--star {
+            color: orange;
+        }
+
+        /* make hovered input's following siblings grey on hover */
+        .rating__input:hover~.rating__label .rating__icon--star {
+            color: #ddd;
+        }
+
+        /* } */
+    </style>
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title">Please Enter Feedbackdata</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <input type="hidden" id="appoinment_id_hidden">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Response</label>
+                            <textarea class="form-control" id="response_inp" rows="3"></textarea>
+                        </div>
+
+                        <div id="full-stars-example-two">
+                            <div class="rating-group">
+                                <input disabled checked class="rating__input rating__input--none" name="rating3" id="rating3-none" value="0" type="radio">
+                                <label title="1 star" class="rating__label" for="rating3-1"><i class="rating__icon rating__icon--star ri-star-fill"></i></label>
+                                <input class="rating__input" name="rating3" id="rating3-1" value="1" type="radio">
+                                <label title="2 stars" class="rating__label" for="rating3-2"><i class="rating__icon rating__icon--star ri-star-fill"></i></label>
+                                <input class="rating__input" name="rating3" id="rating3-2" value="2" type="radio">
+                                <label title="3 stars" class="rating__label" for="rating3-3"><i class="rating__icon rating__icon--star ri-star-fill"></i></label>
+                                <input class="rating__input" name="rating3" id="rating3-3" value="3" type="radio">
+                                <label title="4 stars" class="rating__label" for="rating3-4"><i class="rating__icon rating__icon--star ri-star-fill"></i></label>
+                                <input class="rating__input" name="rating3" id="rating3-4" value="4" type="radio">
+                                <label title="5 stars" class="rating__label" for="rating3-5"><i class="rating__icon rating__icon--star ri-star-fill"></i></label>
+                                <input class="rating__input" name="rating3" id="rating3-5" value="5" type="radio">
+                            </div>
+                            <p class="desc" style="font-family: sans-serif; font-size:0.9rem">
+                                Must select a star value for doctor rating</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="finalSbtBtn" type="button" onclick="invokeFeedbackSubmit()" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 
 <?php
     require 'footer.php';
@@ -115,6 +223,49 @@ if ($sessObj->isLogged() == true) {
 }
 ?>
 <script type="text/javascript">
+    function invokeFeedbackSubmit() {
+        appo_id = document.getElementById("appoinment_id_hidden").value;
+        response = document.getElementById("response_inp").value;
+        rating = $('input[name="rating3"]:checked').val();
+        console.log(rating)
+        if (typeof rating != 'number' && isNaN(rating)) {
+            swal('info', 'Please rate doctor!', 'info');
+        } else if (response.length < 10) {
+            swal('info', 'response length should be atleat 10 character', 'info');
+        } else if (rating <= 0 || rating == null) {
+            swal('info', 'Please rate us at least 1 star', 'info');
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "../api/user_api.php",
+                data: {
+                    'appo_id': appo_id,
+                    'response': response,
+                    'rating': rating,
+                    'action': 17,
+                },
+                dataType: 'JSON',
+                cache: false,
+                success: function(response) {
+                    if (response.status == 1) {
+                        swal("success", response.msg, 'success');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        swal("error", response.msg, 'error');
+                    }
+                }
+            });
+        }
+    }
+
+
+    function invokeFeedback(appo_id) {
+        document.getElementById("appoinment_id_hidden").value = appo_id;
+        $("#openModalBtn").click();
+    }
+
     $("#addTimingBtn").click(() => {
         doclog_id = $("#doctor").val();
         time_id = $("#timing").val();
@@ -235,20 +386,25 @@ if ($sessObj->isLogged() == true) {
         });
     }
 
-    function swal(msg1, msg2, msg3) {
-        alert(msg2);
+    function swal(tittle, msg2, action) {
+        Swal.fire({
+            title: tittle,
+            text: msg2,
+            icon: action,
+            confirmButtonText: 'ok'
+        })
     }
 </script>
 
 <script>
-      var button = document.getElementById("pdfButton");
-      var makepdf = document.getElementById("generatePDF");
-      button.addEventListener("click", function () {
-         var mywindow = window.open("", "PRINT", "height=600,width=600");
-         mywindow.document.write(makepdf.innerHTML);
-         mywindow.document.close();
-         mywindow.focus();
-         mywindow.print();
-         return true;
-      });
-   </script>
+    var button = document.getElementById("pdfButton");
+    var makepdf = document.getElementById("generatePDF");
+    button.addEventListener("click", function() {
+        var mywindow = window.open("", "PRINT", "height=600,width=600");
+        mywindow.document.write(makepdf.innerHTML);
+        mywindow.document.close();
+        mywindow.focus();
+        mywindow.print();
+        return true;
+    });
+</script>

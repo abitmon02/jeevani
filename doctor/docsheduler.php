@@ -187,6 +187,8 @@ if ($sessObj->isLogged() == true) {
                 swal("error", "Please select end time", 'error');
             } else if ($start > $end) {
                 swal("error", "start time cant be greater than end time", 'error');
+            }else if ($start == $end) {
+                swal("error", "start time and end time cant be same", 'error');
             } else if ($start < '07:00') {
                 swal("error", "start time oonly betwee 7am to 8pm allowed", 'error');
             } else if ($end > '20:00') {
