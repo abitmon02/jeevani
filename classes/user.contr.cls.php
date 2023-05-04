@@ -188,6 +188,7 @@ class UserCls extends UserModalcls
     {
         if ($this->checkLogidDB($user_log_id) && $this->checkTimeidDB($time_id) && is_numeric($time_id) && is_numeric($user_log_id)) {
             // $token =   'Token-' . bin2hex(random_bytes(5));
+            date_default_timezone_set("Asia/Kolkata");
             $token1 =   'Token-' . bin2hex(random_bytes(5));
             $token = hexdec(substr($token1, -2));
             #1. check user appoinment exist or not for the doctor
@@ -197,6 +198,8 @@ class UserCls extends UserModalcls
                     #3. check the doctor visitor count
                     if ($this->checkDoctorSlotCount($time_id, $date)) {
                         $appo_end_time = $this->getAppoDataDB($time_id);
+                        $time=explode(':',$appo_end_time);
+                        $appo_end_time=$time[0].":".$time[1];
                         if (findDifferenceOfTwoDates($date, date('Y-m-d')) == 0 && compareTimeStrings(date('H:i'), $appo_end_time) != -1) {
                             // Returns -1 if $time1 is less than $time2, 1 if $time1 is greater than $time2, and 0 if they are equal
                             $return_data = ['status' => 0, 'msg' => 'Sorry! selected visiting time over for today\'s date'];

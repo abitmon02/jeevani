@@ -91,7 +91,7 @@ include('config.php');
           <li><a href="">HOME</a></li>
           <li><a class="navv-link" href="#about">ABOUT</a></li>
 
-          <li><a class="navv-link" href="vpackages.php">TREATMENTS</a></li>
+          <!-- <li><a class="navv-link" href="vpackages.php">TREATMENTS</a></li> -->
           <li><a class="navv-link" href="#dept">DEPARTMENTS</a></li>
           <li><a class="navv-link" href="#about">CONTACT</a></li>
         </ul>

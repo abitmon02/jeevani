@@ -483,9 +483,19 @@ if ($sessObj->isLogged() == true) {
         }
     }
 
-    function swal($msg1, $msg2, $msg3) {
-        alert($msg2);
+    // function swal($msg1, $msg2, $msg3) {
+    //     alert($msg2);
+    // }
+
+    function swal(tittle, msg, icon) {
+        Swal.fire({
+            
+            text: msg,
+            icon: icon,
+            confirmButtonText: 'close'
+        })
     }
+
 </script>
 <style>
     .card-img-top {
@@ -610,8 +620,9 @@ if ($sessObj->isLogged() == true) {
                 dataType: 'JSON',
                 cache: false,
                 success: function(response) {
+                   
                     if (response.status == 1) {
-                        swal("success", response.msg, 'error');
+                        swal("success", response.msg, 'success');
                         setTimeout(() => {
                             location.href = "packages.php";
                         }, 1000);

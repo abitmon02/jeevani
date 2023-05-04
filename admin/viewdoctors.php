@@ -156,7 +156,7 @@ if (!isset($_SESSION["email"])) {
                         <tr>
                             <th>sl no.</th>
                             <th>Name</th>
-                            <th>total-appoinments</th>
+                            <th>total-appointments</th>
                             <th>total feedback</th>
                             <th>rating</th>
                             <th>Address</th>

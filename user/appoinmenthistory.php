@@ -18,7 +18,7 @@ if ($sessObj->isLogged() == true) {
     <div class="overview" id="generatePDF">
         <div class="row m-2">
             <div class="col-lg-12">
-                <h2 style="color: #9f8e64;margin-top: 10px;">Appoinment History</h2>
+                <h2 style="color: #9f8e64;margin-top: 10px;">Appointment History</h2>
 
             </div>
         </div>
@@ -33,7 +33,7 @@ if ($sessObj->isLogged() == true) {
                             <th>Fee status</th>
                             <th>symptom</th>
                             <th>date</th>
-                            <th>Appoinment Timing</th>
+                            <th>Appointment Timing</th>
                             <th>Status</th>
                             <!-- <th>Action</th> -->
                         </tr>
@@ -75,14 +75,14 @@ if ($sessObj->isLogged() == true) {
                                     <td>
                                         <?php
                                         if ($value['status'] == 0) { ?>
-                                            <button onclick="deleteappo(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-danger">X</button>
+                                            <!-- <button onclick="deleteappo(<//?= $value['appo_id'] ?>)" class="btn btn-sm btn-danger">X</button> -->
                                             <!-- <button onclick="payappo(<//?= $value['appo_id'] ?>)" class="btn btn-sm btn-success">Pay</button> -->
                                         <?php }
                                         ?>
 
                                         <?php
                                         if ($value['status'] == 3 && $value['fee_status'] == 0) { ?>
-                                            <button onclick="payappo(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-success">Pay</button>
+                                            <!-- <button onclick="payappo(<//?= $value['appo_id'] ?>)" class="btn btn-sm btn-success">Pay</button> -->
                                         <?php }
                                         ?>
                                         <?php

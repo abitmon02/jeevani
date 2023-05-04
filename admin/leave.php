@@ -196,7 +196,23 @@ if(!isset($_SESSION["email"]))
                                 <td><?php echo  $tdate ; ?></td>
                                 <td><?php echo  $reson ; ?></td>
 
-                                <td><?php echo  $status ; ?></td>
+                             
+                                <td>
+                                <?php
+                                        if ($status == '0') { ?>
+                                         
+                                        <?php
+                                        } else if ($status== '1') { ?>
+                                            <span class="badge badge-pill badge-success">Approved</span>
+                                        <?php } else if ($status == '2') { ?>
+                                            <span class="badge badge-pill badge-danger">Rejected</span>
+                                        <?php } else if ($status == '3') { ?>
+                                            <span class="badge badge-pill badge-danger">cancelled by you</span>
+                                        <?php }
+                                        ?>
+                                    </td>
+
+
                                 <!-- <td><a href="dinactive.php?aa=<//?php echo $res['l_id'];?>"><input type="button" value="Inactive"> -->
                                        
 							</tr>

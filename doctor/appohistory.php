@@ -34,7 +34,7 @@ if ($sessObj->isLogged() == true) {
                     }
                 </style>
                 <table id="exampl" class="table cell-border " style="width:100%">
-                    <h2 style="color: #9f8e64;">Appoinments history</h2><br>
+                    <h2 style="color: #9f8e64;">Appointments history</h2><br>
                     <thead class="TableHead">
                         <tr>
                             <th>Sl No.</th>

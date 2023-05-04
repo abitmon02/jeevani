@@ -9,9 +9,10 @@ if ($sessObj->isLogged() == true) {
     require 'header.php';
 
 ?>
-    <!-- content -->  <link rel="stylesheet" href="../admin/speech-recognition/style.css">
- 
-     
+    <!-- content -->
+    <link rel="stylesheet" href="../admin/speech-recognition/style.css">
+
+
     <style>
         @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
         @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700);
@@ -247,7 +248,19 @@ if ($sessObj->isLogged() == true) {
                     ?>
                             <figure class="snip1418"><img src="../images/products/<?= $val['image'] ?>" alt="<?= $val['image'] ?>" />
                                 <!-- <div class="add-to-cart"> <i class="ion-android-add"></i><span>Buy Now</span></div> -->
-                                <div class="add-to-wishlist"> <i class="ion-android-add"></i><span>Add to cart</span></div>
+
+                                <?php
+                                if ($val['stock'] == '0') { ?>
+                                   
+                                <?php
+                                } else { ?>
+
+                                    <div class="add-to-wishlist"> <i class="ion-android-add"></i><span>Add to cart</span></div>
+
+                                <?php }
+                                ?>
+
+
                                 <figcaption>
                                     <h3><?= $val['product_name'] ?></h3>
                                     <p><?= $val['description'] ?></p>
@@ -257,7 +270,26 @@ if ($sessObj->isLogged() == true) {
                                         ₹<?= $val['price'] ?>
                                         &nbsp;&nbsp;
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <?= "STOCK :" . $val['stock'] ?>
+                                        <!-- <//?= "STOCK :" . $val['stock'] ?> -->
+
+
+
+
+
+                                        <?php
+                                        if ($val['stock'] == '0') { ?>
+                                            <span class="badge bg-danger">Out of Stock</span>
+                                        <?php
+                                        } else { ?>
+
+                                            <?= "STOCK :" . $val['stock'] ?>
+                                        <?php }
+                                        ?>
+
+
+
+
+
                                     </div>
 
                                 </figcaption><a onclick="invokePurchaseBtn(<?= $val['product_id'] ?>)"></a></a>
@@ -415,5 +447,5 @@ if ($sessObj->isLogged() == true) {
             icon: icon,
         });
     }
-</script> 
-  <script src="../admin/speech-recognition/script.js"></script>
+</script>
+<script src="../admin/speech-recognition/script.js"></script>

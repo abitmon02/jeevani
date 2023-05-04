@@ -34,7 +34,7 @@ if ($sessObj->isLogged() == true) {
                     }
                 </style>
                 <table id="exampl" class="table cell-border " style="width:100%">
-                    <h2 style="color: #9f8e64;">List of upcoming Appoinments</h2><br>
+                    <h2 style="color: #9f8e64;">List of upcoming Appointments</h2><br>
                     <thead class="TableHead">
                         <tr>
                             <th>Sl No.</th>
@@ -69,15 +69,15 @@ if ($sessObj->isLogged() == true) {
                                     <td>
                                         <?php
                                         if ($value['status'] == 0) {
-                                            echo "Appoinment Booked";
+                                            echo "Appointment Booked";
                                         } else if ($value['status'] == 3 && $value['fee_status'] == 0) {
                                             echo "Please Pay to Download prescription";
                                         } else if ($value['status'] == 3 && $value['fee_status'] == 1) {
                                             echo "Download prescription";
                                         } else if ($value['status'] == 4) {
-                                            echo "Appoinment Cancelled by user";
+                                            echo "Appointment Cancelled by user";
                                         } else if ($value['status'] == 5) {
-                                            echo "Appoinment Cancelled by doctor";
+                                            echo "Appointment Cancelled by doctor";
                                         }
                                         ?>
                                     </td>
@@ -85,7 +85,7 @@ if ($sessObj->isLogged() == true) {
                                         <?php
                                         if ($value['status'] == 0 || $value['status'] == 2) { ?>
                                             <button onclick="deleteappo(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-danger">X</button>
-                                            <button onclick="zoomLinkGen(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-warning">Zoom Link</button>
+                                            <!-- <button onclick="zoomLinkGen(<//?= $value['appo_id'] ?>)" class="btn btn-sm btn-warning">Zoom Link</button> -->
                                             <!-- <button onclick="openModal(<//?= $value['appo_id'] ?>)" class="btn btn-sm btn-success">Complete</button> -->
                                         <?php }
                                         ?>

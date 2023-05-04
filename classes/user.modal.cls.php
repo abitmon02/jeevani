@@ -250,6 +250,6 @@ class UserModalcls extends Dbh
     }
     protected function getAppoDataDB($time_id)
     {
-        return $this->connection()->query("SELECT TIME_FORMAT(`doctor_timing_tbl`.`end`,'%h:%I') as time_end FROM `doctor_timing_tbl` WHERE  `doctor_timing_tbl`.`time_id` = '$time_id'")->fetch_assoc()['time_end'];
+        return $this->connection()->query("SELECT `doctor_timing_tbl`.`end` as time_end FROM `doctor_timing_tbl` WHERE  `doctor_timing_tbl`.`time_id` = '$time_id'")->fetch_assoc()['time_end'];
     }
 }

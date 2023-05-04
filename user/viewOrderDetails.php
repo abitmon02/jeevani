@@ -127,7 +127,7 @@ if ($sessObj->isLogged() == true) {
                   color: #4a4a4a;
                 ">
                               <div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-center bee-fixedwidth"
-                                src="http://localhost/jeevani/images/logo.png"
+                                src="http://localhost/images/logo.png"
                                 style="max-width:158px;" /></div>
                                     <p style="font-weight: bold; margin-top: 15px">
                                         GST TIN : XXX XXX XXX

@@ -60,20 +60,20 @@
                 <li>
                     <a href="doctodaysappo.php">
                         <span class="icon icon-2"><i class="ri-health-book-fill"></i></span>
-                        <span class="sidebar--item">Manage Today's Appoinment </span>
+                        <span class="sidebar--item">Manage Today's Appointment </span>
                     </a>
                 </li>
                 <li>
                     <a href="docappoview.php">
                         <span class="icon icon-2"><i class="ri-health-book-fill"></i></span>
-                        <span class="sidebar--item">Manage upcoming Appoinment </span>
+                        <span class="sidebar--item">Manage upcoming Appointment </span>
                     </a>
                 </li>
 
                 <li>
                     <a href="appohistory.php">
                         <span class="icon icon-2"><i class="ri-health-book-line"></i></span>
-                        <span class="sidebar--item">Appoinment History</span>
+                        <span class="sidebar--item">Appointment History</span>
                     </a>
                 </li>
                 <li>

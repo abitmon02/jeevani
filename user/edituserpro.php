@@ -154,7 +154,7 @@ if ($sessObj->isLogged() == true) {
             swal("error", "Please enter a valid blood group", 'error');
         } else if (gender == '' || gender == null) {
             swal("error", "Please select a gender", 'error');
-        } else if (dob_inp == "" || dob_inp == null) {
+        } else if (dob_inp == " " || dob_inp == null) {
             swal("error", "Please enter a valid date of birth", 'error');
         } else {
             $.ajax({

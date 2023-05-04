@@ -228,7 +228,7 @@ if ($sessObj->isLogged() == true && isset($_GET['id'])) {
                 cache: false,
                 success: function(response) {
                     if (response.status == 1) {
-                        swal("error", response.msg, 'error');
+                        swal("success", response.msg, 'success');
                         setTimeout(() => {
                             location.href = "packages.php";
                         }, 1000);
@@ -240,8 +240,13 @@ if ($sessObj->isLogged() == true && isset($_GET['id'])) {
         }
     })
 
-    function swal(error, msg, error1) {
-        alert(error + ":" + msg);
+    function swal(tittle, msg, icon) {
+        Swal.fire({
+            title: tittle,
+            text: msg,
+            icon: icon,
+            confirmButtonText: 'close'
+        })
     }
     $("#close_modal_btn").click(() => {
         $('#exampleModal').modal('hide')

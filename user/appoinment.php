@@ -16,7 +16,7 @@ if ($sessObj->isLogged() == true) {
     <div class="overview">
         <div class="row m-2">
             <div class="col-lg-12">
-                <h2 style="color: #9f8e64;margin-top: 10px;">Book appoinment</h2>
+                <h2 style="color: #9f8e64;margin-top: 10px;">Book Appointment</h2>
                 <div class="row form-group mt-3">
                     <div class="form-group col-md-3 space-between">
                         <select name="doctor" class="form-control" id="doctor" onchange="fetchDoctorTime($(this).val())">
@@ -68,7 +68,7 @@ if ($sessObj->isLogged() == true) {
                             <th>Fee status</th>
                             <th>symptom</th>
                             <th>date</th>
-                            <th>Appoinment Timing</th>
+                            <th>Appointment Timing</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -276,8 +276,13 @@ if ($sessObj->isLogged() == true) {
         });
     }
 
-    function swal(msg1, msg2, msg3) {
-        alert(msg2);
+    function swal(tittle, msg, icon) {
+        Swal.fire({
+            
+            text: msg,
+            icon: icon,
+            confirmButtonText: 'close'
+        })
     }
 </script>
 <script>

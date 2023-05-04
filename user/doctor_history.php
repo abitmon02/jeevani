@@ -32,7 +32,7 @@ if ($sessObj->isLogged() == true) {
                 <h6>Doctor Name : Dr.<?= $doctor_data['d_name'] ?></h6>
                 <h6>Specialized in : <?= $doctor_data['spec'] ?></h6>
                 <h6>Address : <?= $doctor_data['d_address'] ?></h6>
-                <h6>Total Appoinments : <?= $count ?></h6>
+                <h6>Total Appointments : <?= $count ?></h6>
                 <h6> Dr Fees : <?= $doctor_data['d_fees'] ?>
 
                     <table id="exampl" class="table cell-border mt-2" style="width:100%">
@@ -40,7 +40,7 @@ if ($sessObj->isLogged() == true) {
                             <tr>
                                 <th>Sl.No</th>
                                 <th>date</th>
-                                <th>Appoinment Timing</th>
+                                <th>Appointment Timing</th>
                                 <th>Fee status</th>
                                 <th>symptom</th>
                                 <th>Status</th>
@@ -69,15 +69,15 @@ if ($sessObj->isLogged() == true) {
                                         <td>
                                             <?php
                                             if ($value['status'] == 0) {
-                                                echo "Appoinment Booked";
+                                                echo "Appointment Booked";
                                             } else if ($value['status'] == 3 && $value['fee_status'] == 0) {
                                                 echo "Please Pay to Download prescription";
                                             } else if ($value['status'] == 3 && $value['fee_status'] == 1) {
                                                 echo "Download prescription";
                                             } else if ($value['status'] == 4) {
-                                                echo "Appoinment Cancelled by user";
+                                                echo "Appointment Cancelled by user";
                                             } else if ($value['status'] == 5) {
-                                                echo "Appoinment Cancelled by doctor";
+                                                echo "Appointment Cancelled by doctor";
                                             }
                                             ?>
 
@@ -85,7 +85,7 @@ if ($sessObj->isLogged() == true) {
                                         <td>
                                             <?php
                                             if ($value['status'] == 0) { ?>
-                                                <button onclick="deleteappo(<?= $value['appo_id'] ?>)" class="btn btn-sm btn-danger">X</button>
+                                                <!-- <button onclick="deleteappo(<//?= $value['appo_id'] ?>)" class="btn btn-sm btn-danger">X</button> -->
                                                 <!-- <button onclick="payappo(<//?= $value['appo_id'] ?>)" class="btn btn-sm btn-success">Pay</button> -->
                                             <?php }
                                             ?>
